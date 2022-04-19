@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "R/1ZGL1/tT23bybIrKJsjNtJwTGSXE+rT3xb6MOWkn9HdpqkxSyPxdrfM65K61PKINaZ5LudHXvPOn1IN4420Q==",
+  "dgSpecHash": "2PXFf4n7y7ISvhEGLvqudarWXbxUNzcP9CMjavQl1ya8ZiSGH7n+za1NXtDrmq0qJw5YT8iShdlgak6xsnEfOQ==",
   "success": true,
-  "projectFilePath": "C:\\TrabalhosPraticos\\CD\\API_REST_Escalonamento\\FeedyVetv0.1\\WebAPI\\Escalonamento.csproj",
+  "projectFilePath": "C:\\TrabalhosPraticos\\CD\\API_REST_Escalonamento\\Escalonamento\\WebAPI\\Escalonamento.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Asus\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\3.1.24\\microsoft.aspnetcore.jsonpatch.3.1.24.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\3.1.24\\microsoft.aspnetcore.mvc.newtonsoftjson.3.1.24.nupkg.sha512",

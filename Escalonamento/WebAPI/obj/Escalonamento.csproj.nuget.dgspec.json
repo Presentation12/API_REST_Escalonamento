@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\TrabalhosPraticos\\CD\\API_REST_Escalonamento\\FeedyVetv0.1\\WebAPI\\Escalonamento.csproj": {}
+    "C:\\TrabalhosPraticos\\CD\\API_REST_Escalonamento\\Escalonamento\\WebAPI\\Escalonamento.csproj": {}
   },
   "projects": {
-    "C:\\TrabalhosPraticos\\CD\\API_REST_Escalonamento\\FeedyVetv0.1\\WebAPI\\Escalonamento.csproj": {
+    "C:\\TrabalhosPraticos\\CD\\API_REST_Escalonamento\\Escalonamento\\WebAPI\\Escalonamento.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\TrabalhosPraticos\\CD\\API_REST_Escalonamento\\FeedyVetv0.1\\WebAPI\\Escalonamento.csproj",
+        "projectUniqueName": "C:\\TrabalhosPraticos\\CD\\API_REST_Escalonamento\\Escalonamento\\WebAPI\\Escalonamento.csproj",
         "projectName": "Escalonamento",
-        "projectPath": "C:\\TrabalhosPraticos\\CD\\API_REST_Escalonamento\\FeedyVetv0.1\\WebAPI\\Escalonamento.csproj",
+        "projectPath": "C:\\TrabalhosPraticos\\CD\\API_REST_Escalonamento\\Escalonamento\\WebAPI\\Escalonamento.csproj",
         "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-        "outputPath": "C:\\TrabalhosPraticos\\CD\\API_REST_Escalonamento\\FeedyVetv0.1\\WebAPI\\obj\\",
+        "outputPath": "C:\\TrabalhosPraticos\\CD\\API_REST_Escalonamento\\Escalonamento\\WebAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
