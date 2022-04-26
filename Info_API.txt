@@ -1,0 +1,8 @@
+Roles:
+	- Admin (Funcionalidades de Funcionário + Gestão de Funcionários)
+	- Funcionário (Gestão de Simulações)
+
+Funcionalidades por agora:
+	- Autenticação
+	- Simulações (parecido ao trabalho do João)
+	- Gestão de funcionários
