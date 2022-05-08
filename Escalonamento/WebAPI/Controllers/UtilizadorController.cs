@@ -24,23 +24,62 @@ namespace Escalonamento.Controllers
             _env = env;
         }
 
+        #region GET
+
+
+        /// <summary>
+        /// Método que devolve a lista inteira de utilizadores
+        /// </summary>
+        /// <returns> Utilizadores na base de dados </returns>
         [HttpGet]
         public IEnumerable<Utilizador> Get()
         {
-            using (var context = new EscalonamentoContext())
+            try
             {
-                return context.Utilizador.ToList();
+                using (var context = new EscalonamentoContext())
+                {
+                    return context.Utilizador.ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
             }
         }
 
-        // GET api/<UtilizadorController>/5
+
+        /// <summary>
+        /// Método que devolve a um utilizador específico
+        /// </summary>
+        /// <param name="id"> ID do utilizador </param>
+        /// <returns> Utilizador em específico </returns>
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Utilizador Get(int id)
         {
-            return "value";
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    return context.Utilizador.Where(u => u.IdUser == id).FirstOrDefault();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
-        // POST api/<UtilizadorController>
+        #endregion
+
+        #region POST
+
+        /// <summary>
+        /// Método que adiciona um novo utilizador na base de dados
+        /// </summary>
+        /// <param name="uti"> Informação do utilizador </param>
+        /// <returns> Resultado do método </returns>
         [HttpPost]
         public JsonResult Post(Utilizador uti)
         {
@@ -69,16 +108,71 @@ namespace Escalonamento.Controllers
             }
         }
 
-        // PUT api/<UtilizadorController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        #endregion
+
+        #region PATCH
+
+        /// <summary>
+        /// Método que atualiza a informação de um utilizador
+        /// </summary>
+        /// <param name="id"> ID do utilizador alvo </param>
+        /// <param name="value"> Informação nova do utilizador </param>
+        [HttpPatch("{id}")]
+        public JsonResult Patch(int id, [FromBody] Utilizador uti)
         {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    Utilizador utilizador = context.Utilizador.Where(u => u.IdUser == id).FirstOrDefault();
+
+                    utilizador.Mail = uti.Mail is null ? utilizador.Mail : uti.Mail;
+                    utilizador.PassHash = uti.PassHash is null ? utilizador.PassHash : uti.PassHash;
+                    utilizador.PassSalt = uti.PassSalt is null ? utilizador.PassSalt : uti.PassHash;
+                    utilizador.Aut = uti.Aut is null ? utilizador.Aut : uti.Aut;
+
+                    context.SaveChanges();
+
+                    return new JsonResult("Utilizador alterado com sucesso!");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new JsonResult("Erro");
+            }
         }
 
-        // DELETE api/<UtilizadorController>/5
+        #endregion
+
+        #region DELETE
+
+        /// <summary>
+        /// Método que remove um utilizador da base de dados
+        /// </summary>
+        /// <param name="id"> ID do utilizador </param>
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public JsonResult Delete(int id)
         {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    Utilizador utilizador = context.Utilizador.Where(u => u.IdUser == id).FirstOrDefault();
+
+                    context.Utilizador.Remove(utilizador);
+
+                    context.SaveChanges();
+                    return new JsonResult("Utilizador removido com sucesso!");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new JsonResult("Erro");
+            }
         }
+
+        #endregion
     }
 }
