@@ -15,7 +15,6 @@ namespace Escalonamento.Controllers
     {
         #region GET
 
-
         /// <summary>
         /// Método que devolve a lista de jobs
         /// </summary>
