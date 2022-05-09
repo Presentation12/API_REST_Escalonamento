@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Escalonamento.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,36 +13,150 @@ namespace Escalonamento.Controllers
     [ApiController]
     public class MaquinaController : ControllerBase
     {
-        // GET: api/<MaquinaController>
+        #region GET
+
+
+        /// <summary>
+        /// Método que devolve a lista inteira das maquinas
+        /// </summary>
+        /// <returns> Maquinas na base de dados </returns>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Maquina> Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    return context.Maquina.ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
-        // GET api/<MaquinaController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+
+        /// <summary>
+        /// Método que devolve uma maquina passada por id
+        /// </summary>
+        /// <param name="id_maquina"> ID da maquina </param>
+        /// <returns> Máquina </returns>
+        [HttpGet("{id_maquina}")]
+        public Maquina Get(int id_maquina)
         {
-            return "value";
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    return context.Maquina.Where(m => m.IdMaq == id_maquina).FirstOrDefault();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
-        // POST api/<MaquinaController>
+        #endregion
+
+        #region POST
+
+        /// <summary>
+        /// Método que adiciona uma nova maquina na base de dados
+        /// </summary>
+        /// <param name="maq"> Informação da maquina </param>
+        /// <returns> Resultado do método </returns>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public JsonResult Post(Maquina maq)
         {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    Maquina maquina = new Maquina();
+
+                    maquina.IdMaq = maq.IdMaq;
+                    maquina.Estado = maq.Estado;
+
+                    context.Maquina.Add(maquina);
+                    context.SaveChanges();
+
+                    return new JsonResult("Maquina adicionada com sucesso!");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new JsonResult("Erro");
+            }
         }
 
-        // PUT api/<MaquinaController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        #endregion
+
+        #region PATCH
+
+        /// <summary>
+        /// Método que atualiza a informação de uma certa máquina
+        /// </summary>
+        /// <param name="id_maquina"> ID da máquina </param>
+        /// <param name="maq"> Informação da máquina </param>
+        /// <returns> Estado do método </returns>
+        [HttpPatch("{id_maquina}")]
+        public JsonResult Patch(int id_maquina, [FromBody] Maquina maq)
         {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    Maquina maquina = context.Maquina.Where(m => m.IdMaq == id_maquina).FirstOrDefault();
+
+                    maquina.Estado = maq.Estado is null ? maquina.Estado : maq.Estado;
+
+                    context.SaveChanges();
+                    return new JsonResult("Máquina alterada com sucesso!");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new JsonResult("Erro");
+            }
         }
 
-        // DELETE api/<MaquinaController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        #endregion
+
+        #region DELETE
+
+        /// <summary>
+        /// Método que remove uma maquina da base de dados
+        /// </summary>
+        /// <param name="id_maquina"> ID da maquina </param>
+        /// <returns> Resultado do método </returns>
+        [HttpDelete("{id_maquina}")]
+        public JsonResult Delete(int id_maquina)
         {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    Maquina maquina = context.Maquina.Where(m => m.IdMaq == id_maquina).FirstOrDefault();
+
+                    context.Maquina.Remove(maquina);
+
+                    context.SaveChanges();
+                    return new JsonResult("Maquina removida com sucesso!");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new JsonResult("Erro");
+            }
         }
+
+        #endregion
     }
 }

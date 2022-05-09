@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Escalonamento.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,36 +13,118 @@ namespace Escalonamento.Controllers
     [ApiController]
     public class OperacaoController : ControllerBase
     {
-        // GET: api/<OperacaoController>
+        #region GET
+
+
+        /// <summary>
+        /// Método que devolve a lista inteira das operações
+        /// </summary>
+        /// <returns> Operações na base de dados </returns>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Operacao> Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    return context.Operacao.ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
-        // GET api/<OperacaoController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+
+        /// <summary>
+        /// Método que devolve uma operação passada por id
+        /// </summary>
+        /// <param name="id_operacao"> ID da operação </param>
+        /// <returns> Operação </returns>
+        [HttpGet("{id_operacao}")]
+        public Operacao Get(int id_operacao)
         {
-            return "value";
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    return context.Operacao.Where(o => o.IdOp == id_operacao).FirstOrDefault();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
-        // POST api/<OperacaoController>
+        #endregion
+
+        #region POST
+
+        /// <summary>
+        /// Método que adiciona uma nova operação na base de dados
+        /// </summary>
+        /// <param name="op"> Informação da operação </param>
+        /// <returns> Resultado do método </returns>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public JsonResult Post(Operacao op)
         {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    Operacao operacao = new Operacao();
+
+                    operacao.IdOp = op.IdOp;
+                    operacao.IdMaq = op.IdMaq;
+
+                    context.Operacao.Add(operacao);
+                    context.SaveChanges();
+
+                    return new JsonResult("Operação adicionada com sucesso!");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new JsonResult("Erro");
+            }
         }
 
-        // PUT api/<OperacaoController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        #endregion
+
+        #region DELETE
+
+        /// <summary>
+        /// Método que remove uma operação da base de dados
+        /// </summary>
+        /// <param name="id_operacao"> ID da operação </param>
+        /// <returns> Resultado do método </returns>
+        [HttpDelete("{id_operacao}")]
+        public JsonResult Delete(int id_operacao)
         {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    Operacao operacao = context.Operacao.Where(o => o.IdOp == id_operacao).FirstOrDefault();
+
+                    context.Operacao.Remove(operacao);
+
+                    context.SaveChanges();
+                    return new JsonResult("Operacao removida com sucesso!");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new JsonResult("Erro");
+            }
         }
 
-        // DELETE api/<OperacaoController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        #endregion
     }
 }
