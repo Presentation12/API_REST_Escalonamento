@@ -13,7 +13,6 @@ namespace Escalonamento.Controllers
     [ApiController]
     public class SimulacaoController : ControllerBase
     {
-
         #region GET
 
         /// <summary>
@@ -59,7 +58,7 @@ namespace Escalonamento.Controllers
         }
 
         #endregion
-
+        
         #region POST
 
         /// <summary>

@@ -15,15 +15,6 @@ namespace Escalonamento.Controllers
     [ApiController]
     public class UtilizadorController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-        private readonly IWebHostEnvironment _env;
-
-        public UtilizadorController(IConfiguration configuration, IWebHostEnvironment env)
-        {
-            _configuration = configuration;
-            _env = env;
-        }
-
         #region GET
 
 
