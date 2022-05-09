@@ -95,41 +95,6 @@ namespace Escalonamento.Controllers
 
         #endregion
 
-        //Provavelmente teremos de remover
-        #region PATCH
-
-        /// <summary>
-        /// Método que atualiza a informação de uma ligação entre job e simulação
-        /// </summary>
-        /// <param name="idsim"> ID da simulação </param>
-        /// <param name="idjob"> ID do job </param>
-        /// <param name="sj"> Informação da ligação SimJob </param>
-        /// <returns> Estado do método </returns>
-        [HttpPatch("{idsim}_{idjob}")]
-        public JsonResult Patch(int idsim, int idjob, [FromBody] SimJob sj)
-        {
-            try
-            {
-                using (var context = new EscalonamentoContext())
-                {
-                    SimJob simJob = context.SimJob.Where(sjob => sjob.IdSim == idsim && sjob.IdJob == idjob).FirstOrDefault();
-
-                    if(sj.IdJob != 0) simJob.IdJobNavigation = context.Job.Where(j => j.IdJob == sj.IdJob).FirstOrDefault();
-                    if (sj.IdSim != 0) simJob.IdSimNavigation = context.Simulacao.Where(s => s.IdSim == sj.IdSim).FirstOrDefault();
-
-                    context.SaveChanges();
-                    return new JsonResult("SimJob alterado com sucesso!");
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return new JsonResult("Erro");
-            }
-        }
-
-        #endregion
-
         #region DELETE
 
         /// <summary>

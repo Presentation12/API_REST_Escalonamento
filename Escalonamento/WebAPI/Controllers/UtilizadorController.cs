@@ -94,6 +94,7 @@ namespace Escalonamento.Controllers
                     utilizador.PassHash = uti.PassHash;
                     utilizador.PassSalt = uti.PassSalt;
                     utilizador.Aut = uti.Aut;
+                    utilizador.Estado = uti.Estado;
 
                     context.Utilizador.Add(utilizador);
                     context.SaveChanges();
@@ -130,6 +131,7 @@ namespace Escalonamento.Controllers
                     utilizador.PassHash = uti.PassHash is null ? utilizador.PassHash : uti.PassHash;
                     utilizador.PassSalt = uti.PassSalt is null ? utilizador.PassSalt : uti.PassHash;
                     utilizador.Aut = uti.Aut is null ? utilizador.Aut : uti.Aut;
+                    utilizador.Estado = uti.Estado is null ? utilizador.Estado : uti.Estado;
 
                     context.SaveChanges();
 
