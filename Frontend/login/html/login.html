@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="../css/login.css" />
+  <link rel="shortcut icon" href="../scr/icon.svg" />
+  <title>Login e Registo</title>
+</head>
+
+<body>
+  <main>
+    <a class="links" id="paralogin"></a>
+    <a class="links" id="pararegisto"></a>
+
+    <div class="content">
+
+      <!--LOGIN-->
+      <div id="login" class="log">
+        <form action="../../pagina/html/simulacoes.html">
+
+            <h1>Login</h1>
+
+          <div class="inputs">
+            <input required="required" type="text" placeholder="Username" />
+          </div>
+
+          <div class="pass">
+            <input id="pass" required="required" type="password" placeholder="Palavra-passe">
+            <span type="image" onclick="mostraPass()"><img class="eye" src="../../src/eye.png">
+          </div>
+
+          <p>
+              <input type="submit" value="Entrar" />
+          </p>
+
+          <div class="footer">
+            <div class="link">
+              Ainda não se registou?
+              <a href="#pararegisto">Registar</a>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!--REGISTO-->
+      <div id="registo" class="reg">
+        <form>
+
+          <h1>Registo</h1>
+
+          <div class="inputs">
+            <input required="required" type="text" placeholder="Username" />
+            <input required="required" type="email" placeholder="E-mail" />
+            <input required="required" type="password" placeholder="Palavra-passe" />
+          </div>
+
+          <p>
+            <input type="submit" value="Registar" />
+          </p>
+
+          <footer class="link">
+            Já está registado?
+            <a href="#paralogin">Login</a>
+          </footer>
+
+        </form>
+      </div>
+    </div>
+
+    <div class="content">
+      <img src="../../src/side.jpg" class="image">
+    </div>
+
+  </main>
+  <script src="../js/login.js"></script>
+</body>
+
+</html>
