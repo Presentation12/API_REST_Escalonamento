@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Escalonamento.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,36 +13,119 @@ namespace Escalonamento.Controllers
     [ApiController]
     public class JobOpController : ControllerBase
     {
-        // GET: api/<JobOpController>
+        #region GET
+
+        /// <summary>
+        /// Método que retorna todas as ligações entre um job e uma operação
+        /// </summary>
+        /// <returns> Lista de JobsOps </returns>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<JobOp> Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                using (var context = new EscalonamentoContext()) 
+                { 
+                    return context.JobOp.ToList(); 
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
-        // GET api/<JobOpController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        /// <summary>
+        /// Método que retorna uma certa ligação entre um job e uma operação
+        /// </summary>
+        /// <param name="idop"> ID da operação </param>
+        /// <param name="idjob"> ID do job </param>
+        /// <returns></returns>
+        [HttpGet("{idop}_{idjob}")]
+        public JobOp Get(int idop, int idjob)
         {
-            return "value";
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    return context.JobOp.Where(jo => jo.IdOp == idop && jo.IdJob == idjob).FirstOrDefault();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
-        // POST api/<JobOpController>
+        #endregion
+
+        #region POST
+
+        /// <summary>
+        /// Método que adiciona uma nova ligação entre job e operação
+        /// </summary>
+        /// <param name="jo"> Informação do JobOp </param>
+        /// <returns> Estado do Método </returns>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public JsonResult Post([FromBody] JobOp jo)
         {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    JobOp jobOp = new JobOp();
+                    
+                    jobOp.Duracao = jo.Duracao;
+                    jobOp.IdJobNavigation = context.Job.Where(j => j.IdJob == jo.IdJob).FirstOrDefault();
+                    jobOp.IdOpNavigation = context.Operacao.Where(o => o.IdOp == jo.IdOp).FirstOrDefault();
+
+                    context.JobOp.Add(jobOp);
+
+                    context.SaveChanges();
+                    return new JsonResult("JobOp adicionado com sucesso!");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new JsonResult("Erro");
+            }
         }
 
-        // PUT api/<JobOpController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        #endregion
+
+        #region DELETE
+
+        /// <summary>
+        /// Método que remove uma ligação entre job e operação da base de dados
+        /// </summary>
+        /// <param name="idop"> ID da operação </param>
+        /// <param name="idjob"> ID do job </param>
+        /// <returns> Estado do método </returns>
+        [HttpDelete("{idop}_{idjob}")]
+        public JsonResult Delete(int idop, int idjob)
         {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    JobOp jobOp = context.JobOp.Where(jo => jo.IdJob == idjob && jo.IdJob == idjob).FirstOrDefault();
+
+                    context.JobOp.Remove(jobOp);
+
+                    context.SaveChanges();
+                    return new JsonResult("JobOp removido com sucesso!");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new JsonResult("Erro");
+            }
         }
 
-        // DELETE api/<JobOpController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        #endregion
     }
 }
