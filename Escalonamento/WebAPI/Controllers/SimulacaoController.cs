@@ -111,7 +111,6 @@ namespace Escalonamento.Controllers
                 {
                     Simulacao simulacao = context.Simulacao.Where(s => s.IdSim == id).FirstOrDefault();
 
-                    simulacao.IdSim = sim.IdSim == 0 ? simulacao.IdSim : sim.IdSim;
                     simulacao.Estado = sim.Estado is null ? simulacao.Estado : sim.Estado;
                     if(sim.IdUser != 0) simulacao.IdUserNavigation = context.Utilizador.Where(u => u.IdUser == sim.IdUser).FirstOrDefault();
 
