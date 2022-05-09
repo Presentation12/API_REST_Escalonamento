@@ -17,6 +17,7 @@ namespace Escalonamento.Models
         public bool? Aut { get; set; }
         public string PassSalt { get; set; }
         public string PassHash { get; set; }
+        public string Estado { get; set; }
 
         public virtual ICollection<Simulacao> Simulacaos { get; set; }
     }

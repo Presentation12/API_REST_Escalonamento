@@ -13,7 +13,7 @@ namespace Escalonamento.Models
         }
 
         public int IdMaq { get; set; }
-        public bool? Estado { get; set; }
+        public string Estado { get; set; }
 
         public virtual ICollection<Operacao> Operacaos { get; set; }
     }

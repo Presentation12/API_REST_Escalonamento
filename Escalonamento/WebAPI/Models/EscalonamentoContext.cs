@@ -27,11 +27,10 @@ namespace Escalonamento.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //"Esconder" OnConfiguring
             if (!optionsBuilder.IsConfigured)
             {
                 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=tcp:escalonamento.database.windows.net,1433;Initial Catalog=Escalonamento;Persist Security Info=False;User ID=escalonamento;Password=Quimgordo69;Encrypt=True;TrustServerCertificate=False;Connection Timeout=15;");
+                optionsBuilder.UseSqlServer("Server=tcp:escalonamento.database.windows.net,1433;Initial Catalog=Escalonamento;Persist Security Info=False;User ID=escalonamento;Password=Quimgordo69;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=20;");
             }
         }
 
@@ -84,7 +83,10 @@ namespace Escalonamento.Models
 
                 entity.Property(e => e.IdMaq).HasColumnName("id_maq");
 
-                entity.Property(e => e.Estado).HasColumnName("estado");
+                entity.Property(e => e.Estado)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("estado");
             });
 
             modelBuilder.Entity<Operacao>(entity =>
@@ -137,7 +139,10 @@ namespace Escalonamento.Models
 
                 entity.Property(e => e.IdSim).HasColumnName("id_sim");
 
-                entity.Property(e => e.Estado).HasColumnName("estado");
+                entity.Property(e => e.Estado)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("estado");
 
                 entity.Property(e => e.IdUser).HasColumnName("id_user");
 
@@ -160,6 +165,11 @@ namespace Escalonamento.Models
                 entity.Property(e => e.IdUser).HasColumnName("id_user");
 
                 entity.Property(e => e.Aut).HasColumnName("aut");
+
+                entity.Property(e => e.Estado)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("estado");
 
                 entity.Property(e => e.Mail)
                     .IsRequired()

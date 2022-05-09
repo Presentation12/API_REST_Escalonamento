@@ -13,7 +13,7 @@ namespace Escalonamento.Models
         }
 
         public int IdSim { get; set; }
-        public bool? Estado { get; set; }
+        public string Estado { get; set; }
         public int? IdUser { get; set; }
 
         public virtual Utilizador IdUserNavigation { get; set; }
