@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <link rel="stylesheet" href="../css/inicial.css">
+    <link rel="stylesheet" href="../css/sim.css">
+    <title>Página inicial</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <div class="section">
+
+        <div class="top_navbar">
+            <a>Nome User</a>
+            <div class="dropdown" style="float:right;">
+                <img src="../../src/menu.png" class="menu">
+                <div class="dropdown-content">
+                    <a href="inicial.html">Simulações</a>
+                    <a href="../../login/html/login.html">Sair</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="conteiner">
+            <h1>Selecione a simulação</h1>
+
+            <select id="op">
+                <option>---</option>
+                <option>Simulação 1</option>
+            </select>
+
+            <div>
+                <a href="#" id="ref">
+                    <input type="submit" value="Avançar" onclick="selectSim()">
+                </a>
+                <input type="submit" value="Nova">
+            </div>
+
+        </div>
+
+    </div>
+    <script src="../js/pagina.js"></script>
+</body>
+
+</html>

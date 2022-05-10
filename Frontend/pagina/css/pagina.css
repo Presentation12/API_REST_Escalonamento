@@ -1,0 +1,60 @@
+.conteiner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin-top: 90px;
+    margin-bottom: 90px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+input[type="submit"] {
+margin-top: 20px;
+margin-bottom: 50px;
+}
+
+.table{
+    width: 90%;
+    border: 1px solid;
+    table-layout: fixed;
+    text-align: left;
+}
+
+thead
+{
+    background-color: rgb(255, 166, 0);
+    color: black;
+}
+
+thead th
+{
+    padding-left: 10px;
+}
+
+td
+{
+ background-color: #f7cd75;
+ height: 25px;
+ padding-left: 10px;
+}
+
+td:first-child
+{
+font-weight: bold;
+}
+
+.time
+{
+    width: 90%;
+    border: 1px solid;
+    table-layout: fixed;
+    text-align: right;
+}
+
+tbody tr th{
+    font-weight: normal;
+    color: rgb(255, 166, 0);
+}
