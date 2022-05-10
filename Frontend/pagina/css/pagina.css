@@ -11,22 +11,28 @@
     flex-direction: column;
 }
 
-input[type="submit"] {
+.submits {
 margin-top: 20px;
 margin-bottom: 50px;
 }
 
 .table{
     width: 90%;
+    border-collapse: collapse;
     border: 1px solid;
     table-layout: fixed;
     text-align: left;
+    margin-top: 35px;
 }
 
 thead
 {
-    background-color: rgb(255, 166, 0);
     color: black;
+}
+
+thead tr
+{
+    background-color: rgb(255, 166, 0);
 }
 
 thead th
@@ -36,9 +42,17 @@ thead th
 
 td
 {
- background-color: #f7cd75;
  height: 25px;
  padding-left: 10px;
+}
+
+tr{
+    background-color: #f7cd75;
+}
+
+tr:nth-child(even)
+{
+    background-color: rgb(241, 171, 80);
 }
 
 td:first-child
@@ -57,4 +71,5 @@ font-weight: bold;
 tbody tr th{
     font-weight: normal;
     color: rgb(255, 166, 0);
+    background-color:black;
 }

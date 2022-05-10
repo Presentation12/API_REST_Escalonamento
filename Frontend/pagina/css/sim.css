@@ -71,11 +71,11 @@ select {
     width: 200px;
     height: 30px;
     border-radius: 15px;
-    margin: 25px;
+    margin: 10px;
     font-size: 17px;
 }
 
-input[type="submit"] {
+input[type="submit"], input[type="button"] {
     width: 110px;
     height: 30px;
     cursor: pointer;
@@ -87,9 +87,21 @@ input[type="submit"] {
     border-radius: 20px;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover, input[type="button"]:hover {
     background: rgb(255, 166, 0);
     color: black;
+}
+
+input[id="rem"]
+{
+    margin-top: 20px;
+}
+
+input[id="rem"]:hover
+{
+    background-color: red;
+    color:white;
+    border-color: red;
 }
 
 
@@ -106,7 +118,84 @@ input[type="submit"]:hover {
     transform: rotate(30deg);
 }
 
-h1
+h1,h2,p
 {
     color:rgb(255, 196, 0);
 }
+
+.detalhes
+{
+    margin-top: 10px;
+}
+
+h3
+{
+    color: #f7cd75;
+}
+
+.alerta
+{
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom:0;
+    left:0;
+    right: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.box
+{
+    height: 300px;
+    width: 300px;
+    background-color: black;
+    border:2px solid rgb(255, 196, 0);
+    border-radius: 15px;
+    position: absolute;
+}
+
+.box form
+{
+    height: 100%;
+    width: 100%;
+    display: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.opacity
+{
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 50%;
+}
+input[type="number"] {
+
+    width: 200px;
+    height: 30px;
+    margin-top: 10px;
+    padding: 7px;
+    border: 1px solid rgb(255, 166, 0);
+    background-color: black;
+    color: rgb(255, 166, 0);
+    border-radius: 15px;
+  
+  }
+
+  .add
+  {
+      margin-top: 15px;
+  }
+
+  .simulacao
+  {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin-bottom: 50px;
+  }

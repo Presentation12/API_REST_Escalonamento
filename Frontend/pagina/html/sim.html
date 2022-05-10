@@ -50,55 +50,98 @@
                     </tr>
                 </tbody>
             </table>
-            
-            <div>
-                <input type="submit" value="Novo Job">
-                <input type="submit" value="Nova Operação">
+            <div class="submits">
+                <input type="submit" value="Novo Job" id="btnJob">
+                <input type="submit" value="Nova Operação" id="btnOp">
+                <input type="submit" value="Simular" id="btnSim">
             </div>
 
-            <table class="table">
-                <tbody class="bodytable">
-                    <tr class="lineTable">
-                        <td>Máquina 1</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="lineTable">
-                        <td>Máquina 2</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="lineTable">
-                        <td>Máquina 3</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="lineTable">
-                        <td>Máquina 4</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="time">
-                <tbody>
-                    <tr>
-                        <th>
-                            0
-                        </th>
-                        <th>
-                            1
-                        </th>
-                        <th>
-                            2
-                        </th>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="simulacao" id="simulacao">
+                <table class="table">
+                    <tbody class="bodytable">
+                        <tr class="lineTable">
+                            <td>Máquina 1</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="lineTable">
+                            <td>Máquina 2</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="lineTable">
+                            <td>Máquina 3</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="lineTable">
+                            <td>Máquina 4</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="time">
+                    <tbody>
+                        <tr>
+                            <th>
+                                0
+                            </th>
+                            <th>
+                                1
+                            </th>
+                            <th>
+                                2
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="submit" value="Fechar" id="btnCancelar">
+            </div>
+
+            <h2>Detalhes</h2>
+            <div class="detalhes">
+                <h3>Número de Trabalhos: X</h3>
+                <h3>Número de Operações: Y</h3>
+                <h3>Número de Máquinas: Z</h3>
+            </div>
+
+            <div>
+                <input type="submit" value="Remover" id="rem">
+            </div>
         </div>
 
     </div>
-    <script src="../js/login.js"></script>
+
+    <div class="alerta" id="novaOp">
+        <div class="opacity">
+        </div>
+        <div class="box">
+            <form action="">
+                <p>Job</p>
+                <select required>
+                    <option>---</option>
+                    <option>Job 1</option>
+                    <option>Job 2</option>
+                    <option>Job 3</option>
+                    <option>Job 4</option>
+                </select>
+                <p>Máquinas</p>
+                <select>
+                    <option>---</option>
+                    <option>Máquina 1</option>
+                </select>
+                <p>Duração</p>
+                <input type="number" placeholder="unidades de tempo" required>
+                <div>
+                    <input type="submit" value="Adicionar" class="add">
+                    <input type="button" value="Cancelar" id="cancel">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/pagina.js"></script>
 </body>
 
 </html>
