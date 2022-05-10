@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Escalonamento.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,6 +20,12 @@ namespace Escalonamento.Controllers
     {
         #region GET
 
+        private readonly IConfiguration _configuration;
+
+        public UtilizadorController(IConfiguration configuration)
+        {
+            _configuration = configuration; 
+        }
 
         /// <summary>
         /// Método que devolve a lista inteira de utilizadores
@@ -59,6 +68,83 @@ namespace Escalonamento.Controllers
             {
                 Console.WriteLine(e);
                 return null;
+            }
+        }
+
+        public static bool VerifyAccount(Utilizador utilizador)
+        {
+            using (var context = new EscalonamentoContext())
+            {
+                Utilizador user = context.Utilizador.FirstOrDefault(aux => aux.Mail == utilizador.Mail);
+
+                if (utilizador == null)
+                {
+                    throw new ArgumentException("Cliente não existe!", "account");
+                }
+                else
+                {
+                    if (!HashSaltPW.VerifyPasswordHash(user.PassHash, Convert.FromBase64String(user.PassHash), Convert.FromBase64String(user.PassSalt)))
+                    {
+                        throw new ArgumentException("Password Errada.", "account");
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        private string CreateToken(Utilizador utilizador)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, utilizador.Mail),
+                new Claim(ClaimTypes.Role, "Utilizador")
+            };
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return jwt;
+        }
+
+        /// <summary>
+        /// Login do utilizador
+        /// </summary>
+        /// <param name="account"> Utilizador </param>
+        /// <returns> Estado do método </returns>
+        [Route("Login")]
+        [HttpGet]
+        public IActionResult Login(Utilizador utilizador)
+        {
+            using (var context = new EscalonamentoContext())
+            {
+                try
+                {
+                    Utilizador user = context.Utilizador.FirstOrDefault(aux => aux.Mail == utilizador.Mail);
+
+                    VerifyAccount(utilizador);
+
+                    string token = CreateToken(utilizador);
+                    return new JsonResult(token);
+                }
+                catch (ArgumentException ae)
+                {
+                    Console.WriteLine(ae);
+                    return new JsonResult(ae.Message);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    return new JsonResult(e);
+                }
             }
         }
 
