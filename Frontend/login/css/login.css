@@ -4,7 +4,7 @@ html {
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: linear-gradient(to top left, #223545 0%, #8bc9ff 100%);
+  background-image: linear-gradient(to top, rgb(255, 166, 0) 0%, rgb(113, 222, 255) 100%);
   font-family: Poppins-Regular, sans-serif;
 }
 
@@ -16,13 +16,13 @@ main {
 
 h1
 {
-    color:#223545;
+    color:rgb(255, 166, 0);
 }
 
 .content {
   height: 600px;
   width: 450px;
-  background-color: rgba(255, 255, 255);
+  background-color: black;
 
   flex-direction: row;
   align-items: center;
@@ -33,11 +33,11 @@ h1
 .reg {
   height: 600px;
   width: 450px;
-  background-color: rgba(255, 255, 255);
+  background-color: black;
 }
 
 .log {
-  background-color: rgba(255, 255, 255);
+  background-color: black;
 }
 
 .image {
@@ -82,7 +82,9 @@ input:not([type="checkbox"]) {
   width: 250px;
   margin-top: 10px;
   padding: 7px;
-  border: 1px solid #8bc9ff;
+  border: 1px solid rgb(255, 166, 0);
+  background-color: black;
+  color: rgb(255, 166, 0);
   border-radius: 10px;
 
   -webkit-transition: all 0.2s linear;
@@ -92,9 +94,9 @@ input:not([type="checkbox"]) {
 input[type="submit"] {
   width: 90px;
   cursor: pointer;
-  background: #fff;
-  color: #8bc9ff;
-  border-color: #8bc9ff;
+  background: black;
+  color: rgb(255, 166, 0);
+  border-color: rgb(255, 166, 0);
   font-size: 13px;
   font-weight: bold;
   border-radius: 20px;
@@ -103,9 +105,8 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-  background-color: #8bc9ff;
-  color: #fff;
-  border-color: #fff;
+  background-color: rgb(255, 166, 0);
+  color: black;
 }
 
 a {
@@ -115,7 +116,7 @@ a {
 }
 
 a:hover {
-  color: #8bc9ff;
+  color: rgb(255, 166, 0);
 }
 
 .footer {
@@ -125,8 +126,8 @@ a:hover {
 .link {
   height: 40px;
   width: 450px;
-  background-color: #8bc9ff;
-  color: #ffffff;
+  background-color: rgb(255, 166, 0);
+  color: black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -135,7 +136,7 @@ a:hover {
 .link a {
   font-weight: bold;
 
-  color: #ffffff;
+  color: black;
   margin-left: 10px;
   padding: 5px;
 
@@ -148,8 +149,8 @@ a:hover {
 }
 
 .link a:hover {
-  color: #8bc9ff;
-  background: #fff;
+  color: rgb(255, 166, 0);
+  background: black;
 }
 
 #registo,
@@ -161,7 +162,7 @@ a:hover {
   align-items: center;
   width: inherit;
 
-  background: #ffffff;
+  background: black;
 
   border-radius: 5px;
 
