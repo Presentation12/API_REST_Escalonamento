@@ -2,13 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Escalonamento.Models;
 using Microsoft.Extensions.Configuration;
+using System.Data;
+using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
+using Escalonamento.Models;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,7 +21,6 @@ namespace Escalonamento.Controllers
     [ApiController]
     public class UtilizadorController : ControllerBase
     {
-        #region GET
 
         private readonly IConfiguration _configuration;
 
@@ -26,6 +28,103 @@ namespace Escalonamento.Controllers
         {
             _configuration = configuration; 
         }
+
+        #region AUXILIARY METHODS
+
+        /// <summary>
+        /// Método que verifica se a conta inserida existe
+        /// </summary>
+        /// <param name="utilizador"> Utilizador </param>
+        /// <returns> Resultado da verificação </returns>
+        public static bool VerifyAccount(Utilizador utilizador)
+        {
+            using (var context = new EscalonamentoContext())
+            {
+                Utilizador user = context.Utilizador.FirstOrDefault(aux => aux.Mail == utilizador.Mail);
+
+                if (user == null)
+                {
+                    throw new ArgumentException("Cliente não existe!", "account");
+                }
+                else
+                {
+                    if (!HashSaltPW.VerifyPasswordHash(utilizador.PassHash, Convert.FromBase64String(user.PassHash), Convert.FromBase64String(user.PassSalt)))
+                    {
+                        throw new ArgumentException("Password Errada.", "account");
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Método para gerar token de sessão para o utilizador em causa
+        /// </summary>
+        /// <param name="utilizador"> Utilizador </param>
+        /// <returns> Token JWT Bearer </returns>
+        private string CreateToken(Utilizador utilizador)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, utilizador.Mail),
+                new Claim(ClaimTypes.Role, "Utilizador")
+            };
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return jwt;
+        }
+
+        /// <summary>
+        /// Método que esconde a palavra pass do utilizador
+        /// </summary>
+        /// <param name="utilizador"> Utilizador </param>
+        public void HidePassWord(Utilizador utilizador)
+        {
+            try
+            {
+                utilizador.PassHash = "Hidden";
+                utilizador.PassSalt = "Hidden";
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        /// <summary>
+        /// Método que esconde as palavras pass dos utilizadores todos
+        /// </summary>
+        /// <param name="utilizadores"> Lista de Utilizadores </param>
+        public void HidePassWord(List<Utilizador> utilizadores)
+        {
+            try
+            {
+                foreach (Utilizador utilizador in utilizadores)
+                {
+                    utilizador.PassHash = "Hidden";
+                    utilizador.PassSalt = "Hidden";
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        #endregion
+
+        #region GET
 
         /// <summary>
         /// Método que devolve a lista inteira de utilizadores
@@ -38,7 +137,10 @@ namespace Escalonamento.Controllers
             {
                 using (var context = new EscalonamentoContext())
                 {
-                    return context.Utilizador.ToList();
+                    List<Utilizador> utilizadores = context.Utilizador.ToList();
+                   // HidePassWord(utilizadores);
+
+                    return utilizadores;
                 }
             }
             catch (Exception e)
@@ -61,7 +163,10 @@ namespace Escalonamento.Controllers
             {
                 using (var context = new EscalonamentoContext())
                 {
-                    return context.Utilizador.Where(u => u.IdUser == id).FirstOrDefault();
+                    Utilizador user = context.Utilizador.Where(u => u.IdUser == id).FirstOrDefault();
+                    //HidePassWord(user);
+
+                    return user;
                 }
             }
             catch (Exception e)
@@ -69,50 +174,6 @@ namespace Escalonamento.Controllers
                 Console.WriteLine(e);
                 return null;
             }
-        }
-
-        public static bool VerifyAccount(Utilizador utilizador)
-        {
-            using (var context = new EscalonamentoContext())
-            {
-                Utilizador user = context.Utilizador.FirstOrDefault(aux => aux.Mail == utilizador.Mail);
-
-                if (utilizador == null)
-                {
-                    throw new ArgumentException("Cliente não existe!", "account");
-                }
-                else
-                {
-                    if (!HashSaltPW.VerifyPasswordHash(user.PassHash, Convert.FromBase64String(user.PassHash), Convert.FromBase64String(user.PassSalt)))
-                    {
-                        throw new ArgumentException("Password Errada.", "account");
-                    }
-                }
-
-                return true;
-            }
-        }
-
-        private string CreateToken(Utilizador utilizador)
-        {
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Email, utilizador.Mail),
-                new Claim(ClaimTypes.Role, "Utilizador")
-            };
-
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddDays(1),
-                signingCredentials: creds);
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return jwt;
         }
 
         /// <summary>
@@ -208,10 +269,10 @@ namespace Escalonamento.Controllers
                     Utilizador utilizador = context.Utilizador.Where(u => u.IdUser == id).FirstOrDefault();
 
                     utilizador.Mail = uti.Mail is null ? utilizador.Mail : uti.Mail;
-                    utilizador.PassHash = uti.PassHash is null ? utilizador.PassHash : uti.PassHash;
-                    utilizador.PassSalt = uti.PassSalt is null ? utilizador.PassSalt : uti.PassHash;
                     utilizador.Aut = uti.Aut is null ? utilizador.Aut : uti.Aut;
                     utilizador.Estado = uti.Estado is null ? utilizador.Estado : uti.Estado;
+
+                    //Mudar mail no token do user
 
                     context.SaveChanges();
 
@@ -222,6 +283,45 @@ namespace Escalonamento.Controllers
             {
                 Console.WriteLine(e);
                 return new JsonResult("Erro");
+            }
+        }
+
+        /// <summary>
+        /// Método de recuperação/update da palavra pass do utilizador
+        /// </summary>
+        /// <param name="utilizador"> Utilizador </param>
+        /// <returns> Estado do método </returns>
+        [Route("recoverpassword")]
+        [HttpPatch, Authorize(Roles = "Utilizador")]
+        public IActionResult RecoverPassword(Utilizador utilizador)
+        {
+            using (var context = new EscalonamentoContext())
+            {
+                try
+                {
+                    string mailUtilizador = User.FindFirstValue(ClaimTypes.Email);
+
+                    Utilizador user = context.Utilizador.Where(c => c.Mail == utilizador.Mail && c.Estado == "Ativo").FirstOrDefault();
+
+                    if (user == null) return new JsonResult("Email nao encontrado");
+
+                    if (mailUtilizador != user.Mail)
+                    {
+                        return Forbid();
+                    }
+
+                    HashSaltPW.CreatePasswordHash(utilizador.PassHash, out byte[] passwordHash, out byte[] passwordSalt);
+                    user.PassHash = Convert.ToBase64String(passwordHash);
+                    user.PassSalt = Convert.ToBase64String(passwordSalt);
+
+                    context.SaveChanges();
+                    return new JsonResult("Password atualizada com sucesso");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    return new JsonResult("Error");
+                }
             }
         }
 
