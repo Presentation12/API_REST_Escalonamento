@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "/o+HY9UH8N6qgrtoNk6grw8HId5L18KeL20roPH77Ze4gm8K6QDfx8RgctsI4KXijvcSPwFiuQSpcWz+2b5A2Q==",
+  "dgSpecHash": "nIK7GQxKPaRYyemhTWPG1QkXDWJRE51UPFTsO2DCc7X7CM76n2Z61WD8IEibzHSWZwZrT+oQWZbp08Uz3BMxqw==",
   "success": true,
   "projectFilePath": "C:\\TrabalhosPraticos\\CD\\API_REST_Escalonamento\\Escalonamento\\WebAPI\\Escalonamento.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Asus\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\Asus\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.25\\microsoft.aspnetcore.authentication.jwtbearer.3.1.25.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\3.1.24\\microsoft.aspnetcore.jsonpatch.3.1.24.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\3.1.24\\microsoft.aspnetcore.mvc.newtonsoftjson.3.1.24.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

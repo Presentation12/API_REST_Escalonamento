@@ -168,8 +168,11 @@ namespace Escalonamento.Controllers
 
                     utilizador.IdUser = uti.IdUser;
                     utilizador.Mail = uti.Mail;
-                    utilizador.PassHash = uti.PassHash;
-                    utilizador.PassSalt = uti.PassSalt;
+
+                    HashSaltPW.CreatePasswordHash(uti.PassHash, out byte[] passwordHash, out byte[] passwordSalt);
+                    utilizador.PassHash = Convert.ToBase64String(passwordHash);
+                    utilizador.PassSalt = Convert.ToBase64String(passwordSalt);
+
                     utilizador.Aut = uti.Aut;
                     utilizador.Estado = uti.Estado;
 
