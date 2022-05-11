@@ -15,7 +15,6 @@ namespace Escalonamento.Controllers
     {
         #region GET
 
-
         /// <summary>
         /// Método que devolve a lista inteira das maquinas
         /// </summary>
@@ -36,7 +35,6 @@ namespace Escalonamento.Controllers
                 return null;
             }
         }
-
 
         /// <summary>
         /// Método que devolve uma maquina passada por id
@@ -70,7 +68,7 @@ namespace Escalonamento.Controllers
         /// <param name="maq"> Informação da maquina </param>
         /// <returns> Resultado do método </returns>
         [HttpPost]
-        public JsonResult Post(Maquina maq)
+        public IActionResult Post(Maquina maq)
         {
             try
             {
@@ -84,13 +82,13 @@ namespace Escalonamento.Controllers
                     context.Maquina.Add(maquina);
                     context.SaveChanges();
 
-                    return new JsonResult("Maquina adicionada com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 
@@ -105,7 +103,7 @@ namespace Escalonamento.Controllers
         /// <param name="maq"> Informação da máquina </param>
         /// <returns> Estado do método </returns>
         [HttpPatch("{id_maquina}")]
-        public JsonResult Patch(int id_maquina, [FromBody] Maquina maq)
+        public IActionResult Patch(int id_maquina, [FromBody] Maquina maq)
         {
             try
             {
@@ -116,13 +114,13 @@ namespace Escalonamento.Controllers
                     maquina.Estado = maq.Estado is null ? maquina.Estado : maq.Estado;
 
                     context.SaveChanges();
-                    return new JsonResult("Máquina alterada com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 
@@ -136,7 +134,7 @@ namespace Escalonamento.Controllers
         /// <param name="id_maquina"> ID da maquina </param>
         /// <returns> Resultado do método </returns>
         [HttpDelete("{id_maquina}")]
-        public JsonResult Delete(int id_maquina)
+        public IActionResult Delete(int id_maquina)
         {
             try
             {
@@ -147,13 +145,13 @@ namespace Escalonamento.Controllers
                     context.Maquina.Remove(maquina);
 
                     context.SaveChanges();
-                    return new JsonResult("Maquina removida com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 

@@ -69,7 +69,7 @@ namespace Escalonamento.Controllers
         /// <param name="jo"> Informação do JobOp </param>
         /// <returns> Estado do Método </returns>
         [HttpPost]
-        public JsonResult Post([FromBody] JobOp jo)
+        public IActionResult Post([FromBody] JobOp jo)
         {
             try
             {
@@ -84,13 +84,13 @@ namespace Escalonamento.Controllers
                     context.JobOp.Add(jobOp);
 
                     context.SaveChanges();
-                    return new JsonResult("JobOp adicionado com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 
@@ -105,7 +105,7 @@ namespace Escalonamento.Controllers
         /// <param name="idjob"> ID do job </param>
         /// <returns> Estado do método </returns>
         [HttpDelete("{idop}_{idjob}")]
-        public JsonResult Delete(int idop, int idjob)
+        public IActionResult Delete(int idop, int idjob)
         {
             try
             {
@@ -116,13 +116,13 @@ namespace Escalonamento.Controllers
                     context.JobOp.Remove(jobOp);
 
                     context.SaveChanges();
-                    return new JsonResult("JobOp removido com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 

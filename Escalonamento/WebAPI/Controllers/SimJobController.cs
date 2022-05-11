@@ -69,7 +69,7 @@ namespace Escalonamento.Controllers
         /// <param name="sj"> Informação do SimJob </param>
         /// <returns> Estado do Método </returns>
         [HttpPost]
-        public JsonResult Post([FromBody] SimJob sj)
+        public IActionResult Post([FromBody] SimJob sj)
         {
             try
             {
@@ -83,13 +83,13 @@ namespace Escalonamento.Controllers
                     context.SimJob.Add(simJob);
 
                     context.SaveChanges();
-                    return new JsonResult("SimJob adicionado com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 
@@ -104,7 +104,7 @@ namespace Escalonamento.Controllers
         /// <param name="idjob"> ID do job </param>
         /// <returns> Estado do método </returns>
         [HttpDelete("{idsim}_{idjob}")]
-        public JsonResult Delete(int idsim, int idjob)
+        public IActionResult Delete(int idsim, int idjob)
         {
             try
             {
@@ -115,13 +115,13 @@ namespace Escalonamento.Controllers
                     context.SimJob.Remove(simJob);
 
                     context.SaveChanges();
-                    return new JsonResult("SimJob removido com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 

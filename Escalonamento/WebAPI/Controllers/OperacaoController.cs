@@ -15,7 +15,6 @@ namespace Escalonamento.Controllers
     {
         #region GET
 
-
         /// <summary>
         /// Método que devolve a lista inteira das operações
         /// </summary>
@@ -36,7 +35,6 @@ namespace Escalonamento.Controllers
                 return null;
             }
         }
-
 
         /// <summary>
         /// Método que devolve uma operação passada por id
@@ -70,7 +68,7 @@ namespace Escalonamento.Controllers
         /// <param name="op"> Informação da operação </param>
         /// <returns> Resultado do método </returns>
         [HttpPost]
-        public JsonResult Post(Operacao op)
+        public IActionResult Post(Operacao op)
         {
             try
             {
@@ -84,13 +82,13 @@ namespace Escalonamento.Controllers
                     context.Operacao.Add(operacao);
                     context.SaveChanges();
 
-                    return new JsonResult("Operação adicionada com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 
@@ -104,7 +102,7 @@ namespace Escalonamento.Controllers
         /// <param name="id_operacao"> ID da operação </param>
         /// <returns> Resultado do método </returns>
         [HttpDelete("{id_operacao}")]
-        public JsonResult Delete(int id_operacao)
+        public IActionResult Delete(int id_operacao)
         {
             try
             {
@@ -115,13 +113,13 @@ namespace Escalonamento.Controllers
                     context.Operacao.Remove(operacao);
 
                     context.SaveChanges();
-                    return new JsonResult("Operacao removida com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 

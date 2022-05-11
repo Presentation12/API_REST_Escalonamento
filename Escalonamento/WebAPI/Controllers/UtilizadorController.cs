@@ -204,7 +204,7 @@ namespace Escalonamento.Controllers
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    return new JsonResult(e);
+                    return BadRequest();
                 }
             }
         }
@@ -219,7 +219,7 @@ namespace Escalonamento.Controllers
         /// <param name="uti"> Informação do utilizador </param>
         /// <returns> Resultado do método </returns>
         [HttpPost]
-        public JsonResult Post(Utilizador uti)
+        public IActionResult Post(Utilizador uti)
         {
             try
             {
@@ -240,13 +240,13 @@ namespace Escalonamento.Controllers
                     context.Utilizador.Add(utilizador);
                     context.SaveChanges();
 
-                    return new JsonResult("Utilizador adicionado com sucesso!");
+                    return Ok();
                 }
             }
             catch(Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 
@@ -260,7 +260,7 @@ namespace Escalonamento.Controllers
         /// <param name="id"> ID do utilizador alvo </param>
         /// <param name="value"> Informação nova do utilizador </param>
         [HttpPatch("{id}")]
-        public JsonResult Patch(int id, [FromBody] Utilizador uti)
+        public IActionResult Patch(int id, [FromBody] Utilizador uti)
         {
             try
             {
@@ -272,17 +272,18 @@ namespace Escalonamento.Controllers
                     utilizador.Aut = uti.Aut is null ? utilizador.Aut : uti.Aut;
                     utilizador.Estado = uti.Estado is null ? utilizador.Estado : uti.Estado;
 
-                    //Mudar mail no token do user
+                    //Por testar se muda o mail do user na token
+                    CreateToken(utilizador);
 
                     context.SaveChanges();
 
-                    return new JsonResult("Utilizador alterado com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 
@@ -315,12 +316,12 @@ namespace Escalonamento.Controllers
                     user.PassSalt = Convert.ToBase64String(passwordSalt);
 
                     context.SaveChanges();
-                    return new JsonResult("Password atualizada com sucesso");
+                    return Ok();
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    return new JsonResult("Error");
+                    return BadRequest();
                 }
             }
         }
@@ -334,7 +335,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="id"> ID do utilizador </param>
         [HttpDelete("{id}")]
-        public JsonResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             try
             {
@@ -345,13 +346,13 @@ namespace Escalonamento.Controllers
                     context.Utilizador.Remove(utilizador);
 
                     context.SaveChanges();
-                    return new JsonResult("Utilizador removido com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 

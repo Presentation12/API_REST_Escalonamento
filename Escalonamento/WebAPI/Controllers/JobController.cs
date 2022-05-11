@@ -69,7 +69,7 @@ namespace Escalonamento.Controllers
         /// <param name="job"> Informação do job </param>
         /// <returns> Resultado do método </returns>
         [HttpPost]
-        public JsonResult Post(Job job)
+        public IActionResult Post(Job job)
         {
             try
             {
@@ -82,13 +82,13 @@ namespace Escalonamento.Controllers
                     context.Job.Add(trabalho);
                     context.SaveChanges();
 
-                    return new JsonResult("Operação adicionada com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 
@@ -102,7 +102,7 @@ namespace Escalonamento.Controllers
         /// <param name="id_job"> ID do trabalho </param>
         /// <returns> Resultado do método </returns>
         [HttpDelete("{id_trabalho}")]
-        public JsonResult Delete(int id_trabalho)
+        public IActionResult Delete(int id_trabalho)
         {
             try
             {
@@ -113,13 +113,13 @@ namespace Escalonamento.Controllers
                     context.Job.Remove(trabalho);
 
                     context.SaveChanges();
-                    return new JsonResult("Job removido com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 

@@ -67,7 +67,7 @@ namespace Escalonamento.Controllers
         /// <param name="sim"> Informação da simulação </param>
         /// <returns> Resultado do método </returns>
         [HttpPost]
-        public JsonResult Post([FromBody] Simulacao sim)
+        public IActionResult Post([FromBody] Simulacao sim)
         {
             try
             {
@@ -82,12 +82,12 @@ namespace Escalonamento.Controllers
                     context.Simulacao.Add(simulacao);
 
                     context.SaveChanges();
-                    return new JsonResult("Simulacao adicionada com sucesso!");
+                    return Ok();
                 }
             }catch(Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 
@@ -102,7 +102,7 @@ namespace Escalonamento.Controllers
         /// <param name="sim"> Informação da simulação </param>
         /// <returns> Estado do método </returns>
         [HttpPatch("{id}")]
-        public JsonResult Patch(int id, [FromBody] Simulacao sim)
+        public IActionResult Patch(int id, [FromBody] Simulacao sim)
         {
             try
             {
@@ -114,13 +114,13 @@ namespace Escalonamento.Controllers
                     if(sim.IdUser != 0) simulacao.IdUserNavigation = context.Utilizador.Where(u => u.IdUser == sim.IdUser).FirstOrDefault();
 
                     context.SaveChanges();
-                    return new JsonResult("Simulacao alterada com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new JsonResult("Erro");
+                return BadRequest();
             }
         }
 
@@ -134,7 +134,7 @@ namespace Escalonamento.Controllers
         /// <param name="id"> ID da simulação </param>
         /// <returns> Estado do método </returns>
         [HttpDelete("{id}")]
-        public JsonResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             try
             {
@@ -145,13 +145,13 @@ namespace Escalonamento.Controllers
                     context.Simulacao.Remove(sim);
 
                     context.SaveChanges();
-                    return new JsonResult("Simulação removida com sucesso!");
+                    return Ok();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return null;
+                return BadRequest();
             }
         }
 
