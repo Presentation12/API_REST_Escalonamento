@@ -173,7 +173,7 @@ h3
     background-color: black;
     opacity: 50%;
 }
-input[type="number"] {
+input[type="number"],input[type="password"] {
 
     width: 200px;
     height: 30px;
