@@ -124,6 +124,33 @@ namespace Escalonamento.Controllers
             }
         }
 
+        /// <summary>
+        /// Método que arquiva uma simulação
+        /// </summary>
+        /// <param name="id"> ID da simulação </param>
+        /// <returns> Estado do método </returns>
+        [HttpPatch("delete/{id}")]
+        public IActionResult ArquivarSimulacao(int id)
+        {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    Simulacao simulacao = context.Simulacao.Where(s => s.IdSim == id).FirstOrDefault();
+
+                    simulacao.Estado = "Inativo";
+
+                    context.SaveChanges();
+                    return Ok();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
         #endregion
 
         #region DELETE

@@ -326,6 +326,46 @@ namespace Escalonamento.Controllers
             }
         }
 
+        /// <summary>
+        /// Método que permite arquivar um utilizador
+        /// </summary>
+        /// <param name="id_utilizador"> ID do Utilizador </param>
+        /// <returns> Estado do método </returns>
+        [Route("delete")]
+        [HttpPatch, Authorize(Roles = "Utilizador")]
+        public IActionResult ArquivarUtilizador(int id_utilizador)
+        {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    string userMail = User.FindFirstValue(ClaimTypes.Email);
+
+                    Utilizador user = context.Utilizador.Where(u => u.Mail == userMail).FirstOrDefault();
+
+                    if (user == null) return Forbid();
+
+                    user.Estado = "Inativo";
+
+                    List<Simulacao> sims = context.Simulacao.Where(s => s.IdUser == user.IdUser).ToList();
+
+                    foreach(Simulacao sim in sims)
+                    {
+                        sim.Estado = "Inativo";
+                    }
+
+                    context.SaveChanges();
+
+                    return Ok();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
         #endregion
 
         #region DELETE
