@@ -4,7 +4,8 @@
 <head>
     <link rel="stylesheet" href="../css/inicial.css">
     <link rel="stylesheet" href="../css/sim.css">
-    <title>Página inicial</title>
+    <link rel="stylesheet" href="../css/password.css">
+    <title>Conta</title>
     <style>
 
     </style>
@@ -27,21 +28,25 @@
         </div>
 
         <div class="conteiner">
-            <h1>Selecione a simulação</h1>
-
-            <select id="op">
-                <option>---</option>
-                <option>Simulação 1</option>
-            </select>
+            <h1>Alteração de Password</h1>
+            <h3>Nova Password</h3>
+            <input type="password">
+            <h3>Confirmação</h3>
+            <input type="password">
 
             <div>
-                <a href="#" id="ref">
-                    <input type="submit" value="Avançar" onclick="selectSim()">
+                <a href="#">
+                    <input type="submit" value="Confirmar">
                 </a>
-                <a href="nova.html">
-                    <input type="submit" value="Nova">
+                <a href="inicial.html">
+                    <input type="submit" value="Cancelar">
                 </a>
             </div>
+
+            <h1 class="conta">Conta</h1>
+            <a href="../../login/html/login.html">
+                <input type="submit" value="Suspender" id="rem">
+            </a>
 
         </div>
 
