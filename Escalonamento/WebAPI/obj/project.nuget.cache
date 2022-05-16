@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "nIK7GQxKPaRYyemhTWPG1QkXDWJRE51UPFTsO2DCc7X7CM76n2Z61WD8IEibzHSWZwZrT+oQWZbp08Uz3BMxqw==",
+  "dgSpecHash": "LfupWfm/7lhs8w8AOEpecYq0cwyibjsj9mhEOdY88tFJJ+sxIVTStopS1qTWpwp3vFF/bfBcv0L+jf2L1rcbHQ==",
   "success": true,
   "projectFilePath": "C:\\TrabalhosPraticos\\CD\\API_REST_Escalonamento\\Escalonamento\\WebAPI\\Escalonamento.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Asus\\.nuget\\packages\\google.protobuf.tools\\3.20.1\\google.protobuf.tools.3.20.1.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.25\\microsoft.aspnetcore.authentication.jwtbearer.3.1.25.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\3.1.24\\microsoft.aspnetcore.jsonpatch.3.1.24.nupkg.sha512",

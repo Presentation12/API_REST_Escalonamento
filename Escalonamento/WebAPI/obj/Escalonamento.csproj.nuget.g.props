@@ -22,5 +22,6 @@
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Users\Asus\.nuget\packages\microsoft.entityframeworkcore.tools\5.0.16</PkgMicrosoft_EntityFrameworkCore_Tools>
+    <PkgGoogle_Protobuf_Tools Condition=" '$(PkgGoogle_Protobuf_Tools)' == '' ">C:\Users\Asus\.nuget\packages\google.protobuf.tools\3.20.1</PkgGoogle_Protobuf_Tools>
   </PropertyGroup>
 </Project>

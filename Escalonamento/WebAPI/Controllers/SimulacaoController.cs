@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Escalonamento.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Escalonamento.Controllers
 {
     [Route("api/[controller]")]
@@ -180,6 +179,17 @@ namespace Escalonamento.Controllers
                 Console.WriteLine(e);
                 return BadRequest();
             }
+        }
+
+        #endregion
+
+        #region ALGORITHM
+
+        //Arranjar forma de passar os tempos para cada operacao
+        public void algoritmo(int numMachines, int numJobs, int numOperations)
+        {
+            //lista com rows todas ligacao job com maquina e duracao, posicao na lista é a operação 
+
         }
 
         #endregion
