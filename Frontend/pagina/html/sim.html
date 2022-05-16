@@ -30,24 +30,29 @@
                     <tr>
                         <th></th>
                         <th>Operação 1</th>
+                        <th>Operação 2</th>
                     </tr>
                 </thead>
                 <tbody class="bodytable">
                     <tr class="lineTable">
                         <td>Job 1</td>
-                        <td>(M0,3)</td>
+                        <td id="maqSel">-</td>
+                        <td>-</td>
                     </tr>
                     <tr class="lineTable">
                         <td>Job 2</td>
-                        <td>(M1,3)</td>
+                        <td>-</td>
+                        <td>-</td>
                     </tr>
                     <tr class="lineTable">
                         <td>Job 3</td>
-                        <td>(M0,3)</td>
+                        <td>-</td>
+                        <td>-</td>
                     </tr>
                     <tr class="lineTable">
                         <td>Job 4</td>
-                        <td>(M3,3)</td>
+                        <td>-</td>
+                        <td>-</td>
                     </tr>
                 </tbody>
             </table>
@@ -58,7 +63,7 @@
             </div>
 
             <div class="simulacao" id="simulacao">
-                <table class="table">
+                <table class="table2">
                     <tbody class="bodytable">
                         <tr class="lineTable">
                             <td>Máquina 1</td>
@@ -114,23 +119,18 @@
 
     </div>
 
-    <div class="alerta" id="novaOp">
+    <div class="alerta" id="addMaq">
         <div class="opacity">
         </div>
         <div class="box">
             <form action="">
-                <p>Job</p>
+                <p>Máquina</p>
                 <select required>
                     <option>---</option>
-                    <option>Job 1</option>
-                    <option>Job 2</option>
-                    <option>Job 3</option>
-                    <option>Job 4</option>
-                </select>
-                <p>Máquinas</p>
-                <select>
-                    <option>---</option>
                     <option>Máquina 1</option>
+                    <option>Máquina 2</option>
+                    <option>Máquina 3</option>
+                    <option>Máquina 4</option>
                 </select>
                 <p>Duração</p>
                 <input type="number" placeholder="unidades de tempo" required>
