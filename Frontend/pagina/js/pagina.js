@@ -10,9 +10,9 @@ function selectSim() {
     }
 }
 
-document.getElementById("btnOp").addEventListener("click", (e) => {
+document.getElementById("maqSel").addEventListener("click", (e) => {
     e.preventDefault();
-    document.getElementById("novaOp").style.display = "flex";
+    document.getElementById("addMaq").style.display = "flex";
 
 })
 
@@ -30,6 +30,6 @@ document.getElementById("btnCancelar").addEventListener("click", (e) => {
 
 document.getElementById("cancel").addEventListener("click", (e) => {
     e.preventDefault();
-    document.getElementById("novaOp").style.display = "none";
+    document.getElementById("addMaq").style.display = "none";
 
 })

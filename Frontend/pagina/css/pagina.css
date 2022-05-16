@@ -12,11 +12,21 @@
 }
 
 .submits {
-margin-top: 20px;
-margin-bottom: 50px;
+    margin-top: 20px;
+    margin-bottom: 50px;
 }
 
-.table{
+.table {
+    width: 90%;
+    border-collapse: collapse;
+    border: 1px solid;
+    table-layout: fixed;
+    text-align: left;
+    margin-top: 35px;
+    text-align: center;
+}
+
+.table2 {
     width: 90%;
     border-collapse: collapse;
     border: 1px solid;
@@ -25,51 +35,56 @@ margin-bottom: 50px;
     margin-top: 35px;
 }
 
-thead
-{
+thead {
     color: black;
 }
 
-thead tr
-{
+thead tr {
     background-color: rgb(255, 166, 0);
 }
 
-thead th
-{
+thead th {
     padding-left: 10px;
 }
 
-td
-{
- height: 25px;
- padding-left: 10px;
+td {
+    height: 25px;
+    padding-left: 10px;
 }
 
-tr{
+tr {
     background-color: #f7cd75;
 }
 
-tr:nth-child(even)
-{
+tr:nth-child(even) {
     background-color: rgb(241, 171, 80);
 }
 
-td:first-child
-{
-font-weight: bold;
+/* job */
+td:first-child {
+    font-weight: bold;
 }
 
-.time
+/* todos tds pos job */
+.table td:not(td:first-child)
 {
+    cursor: pointer;
+}
+.table td:not(td:first-child):hover
+{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.time {
     width: 90%;
     border: 1px solid;
     table-layout: fixed;
     text-align: right;
 }
 
-tbody tr th{
+tbody tr th {
     font-weight: normal;
     color: rgb(255, 166, 0);
-    background-color:black;
+    background-color: black;
 }
