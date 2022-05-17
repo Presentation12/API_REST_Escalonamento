@@ -1,1 +1,50 @@
-<p>perfil works!</p>
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <link rel="stylesheet" routerLink="perfil.component.css">
+</head>
+
+<body>
+
+    <div class="section">
+
+        <div class="top_navbar">
+            <a>Nome User</a>
+            <div class="dropdown" style="float:right;">
+                <img src="../../../assets/menu.png" class="menu">
+                <div class="dropdown-content">
+                    <a routerLink="/simulacao">Simulações</a>
+                    <a routerLink="/perfil">Conta</a>
+                    <a routerLink="/login">Sair</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="conteiner">
+            <h1>Alteração de Password</h1>
+            <h3>Nova Password</h3>
+            <input type="password">
+            <h3>Confirmação</h3>
+            <input type="password">
+
+            <div>
+                <a routerLink="#">
+                    <input type="submit" value="Confirmar">
+                </a>
+                <a routerLink="/simulacao">
+                    <input type="submit" value="Cancelar">
+                </a>
+            </div>
+
+            <h1 class="conta">Conta</h1>
+            <a routerLink="/login">
+                <input type="submit" value="Suspender" id="rem">
+            </a>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

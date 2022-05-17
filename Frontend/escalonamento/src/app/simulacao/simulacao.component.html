@@ -1,1 +1,46 @@
-<p>simulacao works!</p>
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <link rel="stylesheet" routerLink="simulacao.component.css">
+</head>
+
+<body>
+
+    <div class="section">
+
+        <div class="top_navbar">
+            <a>Nome User</a>
+            <div class="dropdown">
+                <img src="../../assets/menu.png" class="menu">
+                <div class="dropdown-content">
+                    <a routerLink="/simulacao">Simulações</a>
+                    <a routerLink="/perfil">Conta</a>
+                    <a routerLink="/login">Sair</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="conteiner">
+            <h1>Selecione a simulação</h1>
+
+            <select id="op">
+                <option>---</option>
+                <option>Simulação 1</option>
+            </select>
+
+            <div>
+                <a routerLink="#" id="ref">
+                    <input type="submit" value="Avançar" onclick="selectSim()">
+                </a>
+                <a routerLink="#">
+                    <input type="submit" value="Nova">
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

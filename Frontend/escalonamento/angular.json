@@ -96,7 +96,11 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["src/assets/login.js",
+                        "src/assets/simulacao.js",
+                        "src/assets/perfil.js",
+                        "src/assets/simgenerator.js"
+                      ]
           }
         }
       }
