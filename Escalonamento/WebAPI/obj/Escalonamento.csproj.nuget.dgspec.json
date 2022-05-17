@@ -46,6 +46,10 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "Google.OrTools": {
+              "target": "Package",
+              "version": "[9.3.10497, )"
+            },
             "Google.Protobuf.Tools": {
               "target": "Package",
               "version": "[3.20.1, )"
