@@ -333,7 +333,7 @@ namespace Escalonamento.Controllers
         /// <returns> Estado do método </returns>
         [Route("delete")]
         [HttpPatch, Authorize(Roles = "Utilizador")]
-        public IActionResult ArquivarUtilizador(int id_utilizador)
+        public IActionResult ArquivarUtilizador()
         {
             try
             {

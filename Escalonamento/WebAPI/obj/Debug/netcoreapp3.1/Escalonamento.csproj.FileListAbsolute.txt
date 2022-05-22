@@ -92,3 +92,10 @@ C:\TrabalhosPraticos\CD\API_REST_Escalonamento\Escalonamento\WebAPI\bin\Debug\ne
 C:\TrabalhosPraticos\CD\API_REST_Escalonamento\Escalonamento\WebAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\TrabalhosPraticos\CD\API_REST_Escalonamento\Escalonamento\WebAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\TrabalhosPraticos\CD\API_REST_Escalonamento\Escalonamento\WebAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\TrabalhosPraticos\CD\API_REST_Escalonamento\Escalonamento\WebAPI\bin\Debug\netcoreapp3.1\Google.OrTools.dll
+C:\TrabalhosPraticos\CD\API_REST_Escalonamento\Escalonamento\WebAPI\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\TrabalhosPraticos\CD\API_REST_Escalonamento\Escalonamento\WebAPI\bin\Debug\netcoreapp3.1\runtimes\linux-x64\native\google-ortools-native.so
+C:\TrabalhosPraticos\CD\API_REST_Escalonamento\Escalonamento\WebAPI\bin\Debug\netcoreapp3.1\runtimes\linux-x64\native\libortools.so.9
+C:\TrabalhosPraticos\CD\API_REST_Escalonamento\Escalonamento\WebAPI\bin\Debug\netcoreapp3.1\runtimes\osx-x64\native\google-ortools-native.dylib
+C:\TrabalhosPraticos\CD\API_REST_Escalonamento\Escalonamento\WebAPI\bin\Debug\netcoreapp3.1\runtimes\osx-x64\native\libortools.9.dylib
+C:\TrabalhosPraticos\CD\API_REST_Escalonamento\Escalonamento\WebAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\google-ortools-native.dll

@@ -31,6 +31,8 @@
     ".NETCoreApp,Version=v3.1": {
       "Escalonamento/1.0.0": {
         "dependencies": {
+          "Google.OrTools": "9.3.10497",
+          "Google.Protobuf.Tools": "3.20.1",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "3.1.25",
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "3.1.24",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.16",
@@ -207,7 +209,7 @@
           "System.Linq.Expressions": "4.2.2.0",
           "System.Linq.Parallel": "4.0.4.0",
           "System.Linq.Queryable": "4.0.4.0",
-          "System.Memory": "4.2.1.0",
+          "System.Memory.Reference": "4.2.1.0",
           "System.Net": "4.0.0.0",
           "System.Net.Http": "4.2.2.0",
           "System.Net.HttpListener": "4.0.2.0",
@@ -240,7 +242,7 @@
           "System.Resources.Reader": "4.1.2.0",
           "System.Resources.ResourceManager.Reference": "4.1.2.0",
           "System.Resources.Writer": "4.1.2.0",
-          "System.Runtime.CompilerServices.Unsafe": "4.0.6.0",
+          "System.Runtime.CompilerServices.Unsafe.Reference": "4.0.6.0",
           "System.Runtime.CompilerServices.VisualC": "4.1.2.0",
           "System.Runtime.Reference": "4.2.2.0",
           "System.Runtime.Extensions.Reference": "4.2.2.0",
@@ -313,6 +315,76 @@
           "Escalonamento.dll": {}
         }
       },
+      "Google.OrTools/9.3.10497": {
+        "dependencies": {
+          "Google.OrTools.runtime.linux-x64": "9.3.10497",
+          "Google.OrTools.runtime.osx-x64": "9.3.10497",
+          "Google.OrTools.runtime.win-x64": "9.3.10497",
+          "Google.Protobuf": "3.19.4"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Google.OrTools.dll": {
+            "assemblyVersion": "9.3.10497.0",
+            "fileVersion": "9.3.10497.0"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Google.OrTools.dll": {}
+        }
+      },
+      "Google.OrTools.runtime.linux-x64/9.3.10497": {
+        "runtimeTargets": {
+          "runtimes/linux-x64/native/google-ortools-native.so": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/linux-x64/native/libortools.so.9": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Google.OrTools.runtime.osx-x64/9.3.10497": {
+        "runtimeTargets": {
+          "runtimes/osx-x64/native/google-ortools-native.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/libortools.9.dylib": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Google.OrTools.runtime.win-x64/9.3.10497": {
+        "runtimeTargets": {
+          "runtimes/win-x64/native/google-ortools-native.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Google.Protobuf/3.19.4": {
+        "dependencies": {
+          "System.Memory": "4.5.3",
+          "System.Runtime.CompilerServices.Unsafe": "4.5.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Google.Protobuf.dll": {
+            "assemblyVersion": "3.19.4.0",
+            "fileVersion": "3.19.4.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Google.Protobuf.dll": {}
+        }
+      },
+      "Google.Protobuf.Tools/3.20.1": {},
       "Humanizer.Core/2.8.26": {
         "runtime": {
           "lib/netstandard2.0/Humanizer.dll": {
@@ -1004,6 +1076,7 @@
           "System.Runtime.Extensions": "4.3.0"
         }
       },
+      "System.Memory/4.5.3": {},
       "System.Net.NameResolution/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0",
@@ -1153,6 +1226,7 @@
           }
         }
       },
+      "System.Runtime.CompilerServices.Unsafe/4.5.2": {},
       "System.Runtime.Extensions/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0",
@@ -2404,7 +2478,7 @@
         },
         "compileOnly": true
       },
-      "System.Memory/4.2.1.0": {
+      "System.Memory.Reference/4.2.1.0": {
         "compile": {
           "System.Memory.dll": {}
         },
@@ -2602,7 +2676,7 @@
         },
         "compileOnly": true
       },
-      "System.Runtime.CompilerServices.Unsafe/4.0.6.0": {
+      "System.Runtime.CompilerServices.Unsafe.Reference/4.0.6.0": {
         "compile": {
           "System.Runtime.CompilerServices.Unsafe.dll": {}
         },
@@ -2999,6 +3073,48 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Google.OrTools/9.3.10497": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-483tZvX1I2sVE73bA5yRYxRT6IpCJ5uYV3tCbatNM6QyfZgm2rkKeK1FI6qe2fyRu9JYvFbjvHRDJYNb/p0sxw==",
+      "path": "google.ortools/9.3.10497",
+      "hashPath": "google.ortools.9.3.10497.nupkg.sha512"
+    },
+    "Google.OrTools.runtime.linux-x64/9.3.10497": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XiThh2bs56LARHWun6AavteyFKizEkxe2EXUo4sFysw2YBj8x6LA3ywFehLDHrRUbXjf4n3nUM7OrHD4Znb04w==",
+      "path": "google.ortools.runtime.linux-x64/9.3.10497",
+      "hashPath": "google.ortools.runtime.linux-x64.9.3.10497.nupkg.sha512"
+    },
+    "Google.OrTools.runtime.osx-x64/9.3.10497": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ODijvADcrNd1D8900jx5JsjpixHASDAuO9uI11JbkN5sye7psDt1lCn1em0qp8Heq4vUIu3cXbGDfPIeD+D5xQ==",
+      "path": "google.ortools.runtime.osx-x64/9.3.10497",
+      "hashPath": "google.ortools.runtime.osx-x64.9.3.10497.nupkg.sha512"
+    },
+    "Google.OrTools.runtime.win-x64/9.3.10497": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jfBlnrqp2agirfyiMy+BjRAbXM2QalaXK2YD8nupggUpl6+kk8QTVuJLoC+rH1zxR0KJvHQamjIXUqAQ1ixlmw==",
+      "path": "google.ortools.runtime.win-x64/9.3.10497",
+      "hashPath": "google.ortools.runtime.win-x64.9.3.10497.nupkg.sha512"
+    },
+    "Google.Protobuf/3.19.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fd07/ykL4O4FhqrZIELm5lmiyOHfdPg9+o+hWr6tcfRdS7tHXnImg/2wtogLzlW2eEmr0J7j6ZrZvaWOLiJbxQ==",
+      "path": "google.protobuf/3.19.4",
+      "hashPath": "google.protobuf.3.19.4.nupkg.sha512"
+    },
+    "Google.Protobuf.Tools/3.20.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tJ8jTkOt5v7AeuOX76q9I6LZzcxBQ5XQmXVSCviQdPXbVDBO0Jc1CrG2gbk5F3izpSL+Z97nmvzuNWfRQQQosw==",
+      "path": "google.protobuf.tools/3.20.1",
+      "hashPath": "google.protobuf.tools.3.20.1.nupkg.sha512"
     },
     "Humanizer.Core/2.8.26": {
       "type": "package",
@@ -3406,6 +3522,13 @@
       "path": "system.linq/4.3.0",
       "hashPath": "system.linq.4.3.0.nupkg.sha512"
     },
+    "System.Memory/4.5.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3oDzvc/zzetpTKWMShs1AADwZjQ/36HnsufHRPcOjyRAAMLDlu2iD33MBI2opxnezcVUtXyqDXXjoFMOU9c7SA==",
+      "path": "system.memory/4.5.3",
+      "hashPath": "system.memory.4.5.3.nupkg.sha512"
+    },
     "System.Net.NameResolution/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -3503,6 +3626,13 @@
       "sha512": "sha512-NdvNRjTPxYvIEhXQszT9L9vJhdQoX6AQ0AlhjTU+5NqFQVuacJTfhPVAvtGWNA2OJCqRiR/okBcZgMwI6MqcZg==",
       "path": "system.runtime.caching/4.7.0",
       "hashPath": "system.runtime.caching.4.7.0.nupkg.sha512"
+    },
+    "System.Runtime.CompilerServices.Unsafe/4.5.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wprSFgext8cwqymChhrBLu62LMg/1u92bU+VOwyfBimSPVFXtsNqEWC92Pf9ofzJFlk4IHmJA75EDJn1b2goAQ==",
+      "path": "system.runtime.compilerservices.unsafe/4.5.2",
+      "hashPath": "system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512"
     },
     "System.Runtime.Extensions/4.3.0": {
       "type": "package",
@@ -4539,7 +4669,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "System.Memory/4.2.1.0": {
+    "System.Memory.Reference/4.2.1.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
@@ -4704,7 +4834,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "System.Runtime.CompilerServices.Unsafe/4.0.6.0": {
+    "System.Runtime.CompilerServices.Unsafe.Reference/4.0.6.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

@@ -186,9 +186,11 @@ namespace Escalonamento.Controllers
         
         #region ALGORITHM
 
+        //Esquecer este algoritmo
         //Arranjar forma de passar os tempos para cada operacao
         public void algoritmo(int numMaquinas, int numJobs, int numOperations)
         {
+            //ALTERAR, ENVIAR DADOS POR PARAMETROS
             var allJobs =
                 new[] {
                     new[] {
@@ -209,10 +211,8 @@ namespace Escalonamento.Controllers
                         // job2
                         new { machine = 1, duration = 4 }, // task0
                         new { machine = 2, duration = 3 }, // task1
-                    }
-                        .ToList(),
-                }
-                    .ToList();
+                    }.ToList(),
+                }.ToList();
 
             int numMachines = 0;
             foreach (var job in allJobs)
@@ -275,7 +275,8 @@ namespace Escalonamento.Controllers
                     var nextKey = Tuple.Create(jobID, taskID + 1);
                     model.Add(allTasks[nextKey].Item1 >= allTasks[key].Item2);
              
-                    model.Add(allTasks[job, taskID + 1].start >= allTasks[job, taskID].end);
+                    //Está em Python !!!
+                   // model.Add(allTasks[job, taskID + 1].start >= allTasks[job, taskID].end);
 
                 }
             }
@@ -293,7 +294,8 @@ namespace Escalonamento.Controllers
             model.AddMaxEquality(objVar, ends);
             model.Minimize(objVar);
 
-            model.AddMaxEquality(obj_var,[all_tasks[(job, len(jobs_data[job]) - 1)].end for job in all_jobs]) ;
+            //Está em Python !!! 
+           // model.AddMaxEquality(obj_var,[all_tasks[(job, len(jobs_data[job]) - 1)].end for job in all_jobs]) ;
 
             CpSolver solver = new CpSolver();
             CpSolverStatus status = solver.Solve(model);
@@ -303,7 +305,7 @@ namespace Escalonamento.Controllers
             {
                 Console.WriteLine("Solution:");
 
-                Dictionary<int, List<AssignedTask>> assignedJobs = new Dictionary<int, List<AssignedTask>>();
+                //Dictionary<int, List<AssignedTask>> assignedJobs = new Dictionary<int, List<AssignedTask>>();
                 for (int jobID = 0; jobID < allJobs.Count(); ++jobID)
                 {
                     var job = allJobs[jobID];
@@ -312,11 +314,11 @@ namespace Escalonamento.Controllers
                         var task = job[taskID];
                         var key = Tuple.Create(jobID, taskID);
                         int start = (int)solver.Value(allTasks[key].Item1);
-                        if (!assignedJobs.ContainsKey(task.machine))
+                      /*  if (!assignedJobs.ContainsKey(task.machine))
                         {
                             assignedJobs.Add(task.machine, new List<AssignedTask>());
                         }
-                        assignedJobs[task.machine].Add(new AssignedTask(jobID, taskID, start, task.duration));
+                        assignedJobs[task.machine].Add(new AssignedTask(jobID, taskID, start, task.duration));*/
                     }
                 }
 
@@ -325,11 +327,11 @@ namespace Escalonamento.Controllers
                 foreach (int machine in allMachines)
                 {
                     // Sort by starting time.
-                    assignedJobs[machine].Sort();
+                    //assignedJobs[machine].Sort();
                     String solLineTasks = $"Machine {machine}: ";
                     String solLine = "           ";
 
-                    foreach (var assignedTask in assignedJobs[machine])
+                    /*foreach (var assignedTask in assignedJobs[machine])
                     {
                         String name = $"job_{assignedTask.jobID}_task_{assignedTask.taskID}";
                         // Add spaces to output to align columns.
@@ -338,7 +340,7 @@ namespace Escalonamento.Controllers
                         String solTmp = $"[{assignedTask.start},{assignedTask.start + assignedTask.duration}]";
                         // Add spaces to output to align columns.
                         solLine += $"{solTmp,-15}";
-                    }
+                    }*/
                     output += solLineTasks + "\n";
                     output += solLine + "\n";
                 }

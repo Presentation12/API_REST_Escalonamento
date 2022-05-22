@@ -7,10 +7,10 @@ declare function mostraPass():any;
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
 
-  constructor() { 
-    this.loadScript("assets/login.js")
+  constructor() {
   }
 
   public loadScript(url : any)
@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadScript("../assets/login.js")
   }
 
   MostraPass()
