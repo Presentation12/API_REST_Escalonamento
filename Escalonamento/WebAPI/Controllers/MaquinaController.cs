@@ -1,4 +1,5 @@
 ﻿using Escalonamento.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Escalonamento.Controllers
         /// Método que devolve a lista inteira das maquinas
         /// </summary>
         /// <returns> Maquinas na base de dados </returns>
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "Admin, Utilizador")]
         public IEnumerable<Maquina> Get()
         {
             try
@@ -41,7 +42,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="id_maquina"> ID da maquina </param>
         /// <returns> Máquina </returns>
-        [HttpGet("{id_maquina}")]
+        [HttpGet("{id_maquina}"), Authorize(Roles = "Admin, Utilizador")]
         public Maquina Get(int id_maquina)
         {
             try
@@ -67,7 +68,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="maq"> Informação da maquina </param>
         /// <returns> Resultado do método </returns>
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin, Utilizador")]
         public IActionResult Post(Maquina maq)
         {
             try
@@ -102,7 +103,7 @@ namespace Escalonamento.Controllers
         /// <param name="id_maquina"> ID da máquina </param>
         /// <param name="maq"> Informação da máquina </param>
         /// <returns> Estado do método </returns>
-        [HttpPatch("{id_maquina}")]
+        [HttpPatch("{id_maquina}"), Authorize(Roles = "Admin, Utilizador")]
         public IActionResult Patch(int id_maquina, [FromBody] Maquina maq)
         {
             try
@@ -133,7 +134,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="id_maquina"> ID da maquina </param>
         /// <returns> Resultado do método </returns>
-        [HttpDelete("{id_maquina}")]
+        [HttpDelete("{id_maquina}"), Authorize(Roles = "Admin")]
         public IActionResult Delete(int id_maquina)
         {
             try

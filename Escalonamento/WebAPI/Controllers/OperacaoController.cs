@@ -1,4 +1,5 @@
 ﻿using Escalonamento.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Escalonamento.Controllers
         /// Método que devolve a lista inteira das operações
         /// </summary>
         /// <returns> Operações na base de dados </returns>
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "Admin, Utilizador")]
         public IEnumerable<Operacao> Get()
         {
             try
@@ -41,7 +42,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="id_operacao"> ID da operação </param>
         /// <returns> Operação </returns>
-        [HttpGet("{id_operacao}")]
+        [HttpGet("{id_operacao}"), Authorize(Roles = "Admin, Utilizador")]
         public Operacao Get(int id_operacao)
         {
             try
@@ -67,7 +68,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="op"> Informação da operação </param>
         /// <returns> Resultado do método </returns>
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin, Utilizador")]
         public IActionResult Post(Operacao op)
         {
             try
@@ -101,7 +102,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="id_operacao"> ID da operação </param>
         /// <returns> Resultado do método </returns>
-        [HttpDelete("{id_operacao}")]
+        [HttpDelete("{id_operacao}"), Authorize(Roles = "Admin")]
         public IActionResult Delete(int id_operacao)
         {
             try

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Escalonamento.Models;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,7 +20,7 @@ namespace Escalonamento.Controllers
         /// Método que retorna todas as ligações entre um job e uma simulação
         /// </summary>
         /// <returns> Lista de SimJobs </returns>
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "Admin, Utilizador")]
         public IEnumerable<SimJob> Get()
         {
             try
@@ -42,7 +43,7 @@ namespace Escalonamento.Controllers
         /// <param name="idsim"> ID da simulação </param>
         /// <param name="idjob"> ID do job </param>
         /// <returns></returns>
-        [HttpGet("{idsim}_{idjob}")]
+        [HttpGet("{idsim}_{idjob}"), Authorize(Roles = "Admin, Utilizador")]
         public SimJob Get(int idsim, int idjob)
         {
             try
@@ -68,7 +69,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="sj"> Informação do SimJob </param>
         /// <returns> Estado do Método </returns>
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin, Utilizador")]
         public IActionResult Post([FromBody] SimJob sj)
         {
             try
@@ -103,7 +104,7 @@ namespace Escalonamento.Controllers
         /// <param name="idsim"> ID da simulação </param>
         /// <param name="idjob"> ID do job </param>
         /// <returns> Estado do método </returns>
-        [HttpDelete("{idsim}_{idjob}")]
+        [HttpDelete("{idsim}_{idjob}"), Authorize(Roles = "Admin")]
         public IActionResult Delete(int idsim, int idjob)
         {
             try

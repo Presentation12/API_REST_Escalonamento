@@ -1,4 +1,5 @@
 ﻿using Escalonamento.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Escalonamento.Controllers
         /// Método que devolve a lista de jobs
         /// </summary>
         /// <returns> Jobs na base de dados </returns>
-        [HttpGet]
+        [HttpGet, Authorize(Roles ="Admin, Utilizador")]
         public IEnumerable<Job> Get()
         {
             try
@@ -42,7 +43,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="id_job"> ID do job </param>
         /// <returns> Job </returns>
-        [HttpGet("{id_job}")]
+        [HttpGet("{id_job}"), Authorize(Roles = "Admin, Utilizador")]
         public Job Get(int id_job)
         {
             try
@@ -68,7 +69,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="job"> Informação do job </param>
         /// <returns> Resultado do método </returns>
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin, Utilizador")]
         public IActionResult Post(Job job)
         {
             try
@@ -101,7 +102,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="id_job"> ID do trabalho </param>
         /// <returns> Resultado do método </returns>
-        [HttpDelete("{id_trabalho}")]
+        [HttpDelete("{id_trabalho}"), Authorize(Roles = "Admin")]
         public IActionResult Delete(int id_trabalho)
         {
             try

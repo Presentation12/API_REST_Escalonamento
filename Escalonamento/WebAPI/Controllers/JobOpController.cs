@@ -1,4 +1,5 @@
 ﻿using Escalonamento.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Escalonamento.Controllers
         /// Método que retorna todas as ligações entre um job e uma operação
         /// </summary>
         /// <returns> Lista de JobsOps </returns>
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "Admin, Utilizador")]
         public IEnumerable<JobOp> Get()
         {
             try
@@ -42,7 +43,7 @@ namespace Escalonamento.Controllers
         /// <param name="idop"> ID da operação </param>
         /// <param name="idjob"> ID do job </param>
         /// <returns></returns>
-        [HttpGet("{idop}_{idjob}")]
+        [HttpGet("{idop}_{idjob}"), Authorize(Roles = "Admin, Utilizador")]
         public JobOp Get(int idop, int idjob)
         {
             try
@@ -68,7 +69,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="jo"> Informação do JobOp </param>
         /// <returns> Estado do Método </returns>
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin, Utilizador")]
         public IActionResult Post([FromBody] JobOp jo)
         {
             try
@@ -104,7 +105,7 @@ namespace Escalonamento.Controllers
         /// <param name="idop"> ID da operação </param>
         /// <param name="idjob"> ID do job </param>
         /// <returns> Estado do método </returns>
-        [HttpDelete("{idop}_{idjob}")]
+        [HttpDelete("{idop}_{idjob}"), Authorize(Roles = "Admin")]
         public IActionResult Delete(int idop, int idjob)
         {
             try

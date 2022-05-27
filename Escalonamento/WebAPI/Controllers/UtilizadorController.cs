@@ -40,7 +40,7 @@ namespace Escalonamento.Controllers
         {
             using (var context = new EscalonamentoContext())
             {
-                Utilizador user = context.Utilizador.FirstOrDefault(aux => aux.Mail == utilizador.Mail);
+                Utilizador user = context.Utilizador.FirstOrDefault(aux => aux.Mail == utilizador.Mail && aux.Estado != "Inativo");
 
                 if (user == null)
                 {
@@ -59,11 +59,38 @@ namespace Escalonamento.Controllers
         }
 
         /// <summary>
+        /// Método para gerar tolem para admin
+        /// </summary>
+        /// <param name="utilizador"></param>
+        /// <returns></returns>
+        private string CreateTokenAdmin(Utilizador utilizador)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, utilizador.Mail),
+                new Claim(ClaimTypes.Role, "Admin")
+            };
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return jwt;
+        }
+
+        /// <summary>
         /// Método para gerar token de sessão para o utilizador em causa
         /// </summary>
         /// <param name="utilizador"> Utilizador </param>
         /// <returns> Token JWT Bearer </returns>
-        private string CreateToken(Utilizador utilizador)
+        private string CreateTokenUser(Utilizador utilizador)
         {
             List<Claim> claims = new List<Claim>
             {
@@ -72,7 +99,7 @@ namespace Escalonamento.Controllers
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
-
+            
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var token = new JwtSecurityToken(
@@ -130,7 +157,7 @@ namespace Escalonamento.Controllers
         /// Método que devolve a lista inteira de utilizadores
         /// </summary>
         /// <returns> Utilizadores na base de dados </returns>
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "Admin")]
         public IEnumerable<Utilizador> Get()
         {
             try
@@ -138,7 +165,7 @@ namespace Escalonamento.Controllers
                 using (var context = new EscalonamentoContext())
                 {
                     List<Utilizador> utilizadores = context.Utilizador.ToList();
-                   // HidePassWord(utilizadores);
+                    HidePassWord(utilizadores);
 
                     return utilizadores;
                 }
@@ -156,17 +183,33 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="id"> ID do utilizador </param>
         /// <returns> Utilizador em específico </returns>
-        [HttpGet("{id}")]
-        public Utilizador Get(int id)
+        [HttpGet("{id}"), Authorize(Roles = "Admin, Utilizador")]
+        public IActionResult Get(int id)
         {
             try
             {
                 using (var context = new EscalonamentoContext())
                 {
-                    Utilizador user = context.Utilizador.Where(u => u.IdUser == id).FirstOrDefault();
-                    //HidePassWord(user);
+                    if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
+                    {
+                        string UserMail = User.FindFirstValue(ClaimTypes.Email);
 
-                    return user;
+                        Console.WriteLine(UserMail);
+
+                        Utilizador utilizador = context.Utilizador.Where(u => u.IdUser == id && u.Estado != "Inativo").FirstOrDefault();
+
+                        if (utilizador == null) return BadRequest();
+
+                        if (UserMail != utilizador.Mail)
+                        {
+                            return Forbid();
+                        }
+                    }
+            
+                    Utilizador user = context.Utilizador.Where(u => u.IdUser == id).FirstOrDefault();
+                    HidePassWord(user);
+
+                    return new JsonResult(user);
                 }
             }
             catch (Exception e)
@@ -176,13 +219,17 @@ namespace Escalonamento.Controllers
             }
         }
 
+        #endregion
+
+        #region POST
+
         /// <summary>
         /// Login do utilizador
         /// </summary>
         /// <param name="account"> Utilizador </param>
         /// <returns> Estado do método </returns>
         [Route("Login")]
-        [HttpGet]
+        [HttpPost]
         public IActionResult Login(Utilizador utilizador)
         {
             using (var context = new EscalonamentoContext())
@@ -193,7 +240,13 @@ namespace Escalonamento.Controllers
 
                     VerifyAccount(utilizador);
 
-                    string token = CreateToken(utilizador);
+                    Console.WriteLine(user);
+
+                    string token;
+
+                    if (user.Aut == false) token = CreateTokenUser(utilizador);
+                    else token = CreateTokenAdmin(utilizador);
+
                     return new JsonResult(token);
                 }
                 catch (ArgumentException ae)
@@ -208,10 +261,6 @@ namespace Escalonamento.Controllers
                 }
             }
         }
-
-        #endregion
-
-        #region POST
 
         /// <summary>
         /// Método que adiciona um novo utilizador na base de dados
@@ -243,7 +292,7 @@ namespace Escalonamento.Controllers
                     return Ok();
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 return BadRequest();
@@ -259,21 +308,35 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="id"> ID do utilizador alvo </param>
         /// <param name="value"> Informação nova do utilizador </param>
-        [HttpPatch("{id}")]
+        [HttpPatch("{id}"), Authorize(Roles ="Admin, Utilizador")]
         public IActionResult Patch(int id, [FromBody] Utilizador uti)
         {
             try
             {
                 using (var context = new EscalonamentoContext())
                 {
+                    if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
+                    {
+                        string UserMail = User.FindFirstValue(ClaimTypes.Email);
+
+                        Utilizador user = context.Utilizador.Where(u => u.IdUser == id && u.Estado != "Inativo").FirstOrDefault();
+
+                        if (user == null) return BadRequest();
+
+                        if (UserMail != user.Mail)
+                        {
+                            return Forbid();
+                        }
+                    }
+
                     Utilizador utilizador = context.Utilizador.Where(u => u.IdUser == id).FirstOrDefault();
 
                     utilizador.Mail = uti.Mail is null ? utilizador.Mail : uti.Mail;
                     utilizador.Aut = uti.Aut is null ? utilizador.Aut : uti.Aut;
                     utilizador.Estado = uti.Estado is null ? utilizador.Estado : uti.Estado;
 
-                    //Por testar se muda o mail do user na token
-                    CreateToken(utilizador);
+                    if (utilizador.Aut == false) CreateTokenUser(utilizador);
+                    else CreateTokenAdmin(utilizador);
 
                     context.SaveChanges();
 
@@ -292,24 +355,32 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="utilizador"> Utilizador </param>
         /// <returns> Estado do método </returns>
-        [Route("recoverpassword")]
-        [HttpPatch, Authorize(Roles = "Utilizador")]
-        public IActionResult RecoverPassword(Utilizador utilizador)
+        [Route("recoverpassword/{id}")]
+        [HttpPatch, Authorize(Roles = "Admin ,Utilizador")]
+        public IActionResult RecoverPassword(int id, Utilizador utilizador)
         {
             using (var context = new EscalonamentoContext())
             {
                 try
                 {
-                    string mailUtilizador = User.FindFirstValue(ClaimTypes.Email);
+                    Utilizador user = context.Utilizador.Where(c => c.IdUser == id && c.Estado != "Inativo").FirstOrDefault();
 
-                    Utilizador user = context.Utilizador.Where(c => c.Mail == utilizador.Mail && c.Estado == "Ativo").FirstOrDefault();
-
-                    if (user == null) return new JsonResult("Email nao encontrado");
-
-                    if (mailUtilizador != user.Mail)
+                    if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
                     {
-                        return Forbid();
+                        string mailUtilizador = User.FindFirstValue(ClaimTypes.Email);
+
+                        if (user == null) return BadRequest();
+
+                        if (mailUtilizador != user.Mail)
+                        {
+                            return Forbid();
+                        }
                     }
+                    else if(User.HasClaim(ClaimTypes.Role, "Admin"))
+                    {
+                        if (user == null) return BadRequest();
+                    }
+                    
 
                     HashSaltPW.CreatePasswordHash(utilizador.PassHash, out byte[] passwordHash, out byte[] passwordSalt);
                     user.PassHash = Convert.ToBase64String(passwordHash);
@@ -331,19 +402,31 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="id_utilizador"> ID do Utilizador </param>
         /// <returns> Estado do método </returns>
-        [Route("delete")]
-        [HttpPatch, Authorize(Roles = "Utilizador")]
-        public IActionResult ArquivarUtilizador()
+        [Route("delete/{id}")]
+        [HttpPatch, Authorize(Roles = "Admin, Utilizador")]
+        public IActionResult ArquivarUtilizador(int id)
         {
             try
             {
                 using (var context = new EscalonamentoContext())
                 {
-                    string userMail = User.FindFirstValue(ClaimTypes.Email);
+                    Utilizador user = context.Utilizador.Where(u => u.IdUser == id && u.Estado != "Inativo").FirstOrDefault();
+                    
+                    if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
+                    {
+                        string UserMail = User.FindFirstValue(ClaimTypes.Email);
 
-                    Utilizador user = context.Utilizador.Where(u => u.Mail == userMail).FirstOrDefault();
+                        if (user == null) return BadRequest();
 
-                    if (user == null) return Forbid();
+                        if (UserMail != user.Mail)
+                        {
+                            return Forbid();
+                        }
+                    }
+                    else if(User.HasClaim(ClaimTypes.Role, "Admin"))
+                    {
+                        if (user == null) return BadRequest();
+                    }
 
                     user.Estado = "Inativo";
 
@@ -374,7 +457,7 @@ namespace Escalonamento.Controllers
         /// Método que remove um utilizador da base de dados
         /// </summary>
         /// <param name="id"> ID do utilizador </param>
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             try

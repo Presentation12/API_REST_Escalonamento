@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Escalonamento.Models;
 using Google.OrTools.Sat;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 namespace Escalonamento.Controllers
@@ -19,7 +21,7 @@ namespace Escalonamento.Controllers
         /// Método que retorna lista de simulações
         /// </summary>
         /// <returns> Lista de simulações </returns>
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "Admin")]
         public IEnumerable<Simulacao> Get()
         {
             try
@@ -41,13 +43,34 @@ namespace Escalonamento.Controllers
         /// <param name="id"> ID da simulação </param>
         /// <returns> Simulação </returns>
         [HttpGet("{id}")]
-        public Simulacao Get(int id)
+        public IActionResult Get(int id)
         {
             try
             {
                 using (var context = new EscalonamentoContext())
                 {
-                    return context.Simulacao.Where(s => s.IdSim == id).FirstOrDefault();
+                    Simulacao sim = context.Simulacao.Where(s => s.IdSim == id && s.Estado != "Inativo").FirstOrDefault();
+                    Utilizador user = context.Utilizador.Where(u => u.IdUser == sim.IdUser && u.Estado != "Inativo").FirstOrDefault();
+
+                    if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
+                    {
+                        string UserMail = User.FindFirstValue(ClaimTypes.Email);
+
+                        if (user == null) return BadRequest();
+
+                        if (UserMail != user.Mail)
+                        {
+                            return Forbid();
+                        }
+
+                        return new JsonResult(context.Simulacao.Where(s => s.IdSim == id).FirstOrDefault());
+                    }
+                    else if (User.HasClaim(ClaimTypes.Role, "Admin"))
+                    {
+                        return new JsonResult(context.Simulacao.Where(s => s.IdSim == id).FirstOrDefault());
+                    }
+                    else return BadRequest();
+
                 }
             }
             catch (Exception e)
@@ -66,18 +89,32 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="sim"> Informação da simulação </param>
         /// <returns> Resultado do método </returns>
-        [HttpPost]
-        public IActionResult Post([FromBody] Simulacao sim)
+        [HttpPost("{idUser}"), Authorize(Roles = "Admin, Utilizador")]
+        public IActionResult Post(int idUser, [FromBody] Simulacao sim)
         {
             try
             {
                 using (var context = new EscalonamentoContext())
                 {
+                    if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
+                    {
+                        string UserMail = User.FindFirstValue(ClaimTypes.Email);
+
+                        Utilizador user = context.Utilizador.Where(u => u.IdUser == idUser && u.Estado != "Inativo").FirstOrDefault();
+
+                        if (user == null) return BadRequest();
+
+                        if (UserMail != user.Mail)
+                        {
+                            return Forbid();
+                        }
+                    }
+
                     Simulacao simulacao = new Simulacao();
 
                     simulacao.IdSim = sim.IdSim;
                     simulacao.Estado = sim.Estado;
-                    simulacao.IdUserNavigation = context.Utilizador.Where(u => u.IdUser == sim.IdUser).FirstOrDefault();
+                    simulacao.IdUserNavigation = context.Utilizador.Where(u => u.IdUser == idUser).FirstOrDefault();
 
                     context.Simulacao.Add(simulacao);
 
@@ -101,14 +138,28 @@ namespace Escalonamento.Controllers
         /// <param name="id"> ID da simulação </param>
         /// <param name="sim"> Informação da simulação </param>
         /// <returns> Estado do método </returns>
-        [HttpPatch("{id}")]
-        public IActionResult Patch(int id, [FromBody] Simulacao sim)
+        [HttpPatch("{idSim}"), Authorize(Roles = "Admin, Utilizador")]
+        public IActionResult Patch(int idSim, [FromBody] Simulacao sim)
         {
             try
             {
                 using (var context = new EscalonamentoContext())
                 {
-                    Simulacao simulacao = context.Simulacao.Where(s => s.IdSim == id).FirstOrDefault();
+                    if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
+                    {
+                        string UserMail = User.FindFirstValue(ClaimTypes.Email);
+
+                        Utilizador user = context.Utilizador.Where(u => u.IdUser == sim.IdUser && u.Estado != "Inativo").FirstOrDefault();
+
+                        if (user == null) return BadRequest();
+
+                        if (UserMail != user.Mail)
+                        {
+                            return Forbid();
+                        }
+                    }
+
+                    Simulacao simulacao = context.Simulacao.Where(s => s.IdSim == idSim).FirstOrDefault();
 
                     simulacao.Estado = sim.Estado is null ? simulacao.Estado : sim.Estado;
                     if(sim.IdUser != 0) simulacao.IdUserNavigation = context.Utilizador.Where(u => u.IdUser == sim.IdUser).FirstOrDefault();
@@ -138,6 +189,20 @@ namespace Escalonamento.Controllers
                 {
                     Simulacao simulacao = context.Simulacao.Where(s => s.IdSim == id).FirstOrDefault();
 
+                    if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
+                    {
+                        string UserMail = User.FindFirstValue(ClaimTypes.Email);
+
+                        Utilizador user = context.Utilizador.Where(u => u.IdUser == simulacao.IdUser && u.Estado != "Inativo").FirstOrDefault();
+
+                        if (user == null) return BadRequest();
+
+                        if (UserMail != user.Mail)
+                        {
+                            return Forbid();
+                        }
+                    }
+
                     simulacao.Estado = "Inativo";
 
                     context.SaveChanges();
@@ -160,7 +225,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="id"> ID da simulação </param>
         /// <returns> Estado do método </returns>
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             try
