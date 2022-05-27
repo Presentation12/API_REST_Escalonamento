@@ -1,17 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.IO;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using System.Data;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using System.Security.Claims;
+using Escalonamento.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
-using Escalonamento.Models;
-
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,7 +24,7 @@ namespace Escalonamento.Controllers
 
         public UtilizadorController(IConfiguration configuration)
         {
-            _configuration = configuration; 
+            _configuration = configuration;
         }
 
         #region AUXILIARY METHODS
@@ -44,7 +42,7 @@ namespace Escalonamento.Controllers
 
                 if (user == null)
                 {
-                    throw new ArgumentException("Cliente não existe!", "account");
+                    throw new ArgumentException("Utilizador não existe!", "account");
                 }
                 else
                 {
@@ -177,6 +175,30 @@ namespace Escalonamento.Controllers
             }
         }
 
+        /// <summary>
+        /// Obter User pela sua token
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("getuserbytoken"), Authorize(Roles = "Utilizador, Admin")]
+        public IActionResult GetUserByToken()
+        {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    string MailUser = User.FindFirstValue(ClaimTypes.Email);
+                    Utilizador user = context.Utilizador.Where(u => u.Mail == MailUser).FirstOrDefault();
+                    if (user == null) return BadRequest();
+                    return new JsonResult(user);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+
+        }
 
         /// <summary>
         /// Método que devolve a um utilizador específico
@@ -284,7 +306,7 @@ namespace Escalonamento.Controllers
                     utilizador.PassSalt = Convert.ToBase64String(passwordSalt);
 
                     utilizador.Aut = uti.Aut;
-                    utilizador.Estado = uti.Estado;
+                    utilizador.Estado = "Ati";
 
                     context.Utilizador.Add(utilizador);
                     context.SaveChanges();
@@ -397,13 +419,16 @@ namespace Escalonamento.Controllers
             }
         }
 
+        #endregion
+
+        #region DELETE
+
         /// <summary>
         /// Método que permite arquivar um utilizador
         /// </summary>
         /// <param name="id_utilizador"> ID do Utilizador </param>
         /// <returns> Estado do método </returns>
-        [Route("delete/{id}")]
-        [HttpPatch, Authorize(Roles = "Admin, Utilizador")]
+        [HttpDelete("delete/{id}"), Authorize(Roles = "Admin, Utilizador")]
         public IActionResult ArquivarUtilizador(int id)
         {
             try
@@ -411,19 +436,20 @@ namespace Escalonamento.Controllers
                 using (var context = new EscalonamentoContext())
                 {
                     Utilizador user = context.Utilizador.Where(u => u.IdUser == id && u.Estado != "Inativo").FirstOrDefault();
-                    
+
                     if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
                     {
                         string UserMail = User.FindFirstValue(ClaimTypes.Email);
 
                         if (user == null) return BadRequest();
-
+                        Console.WriteLine(user.Mail);
+                        Console.WriteLine(UserMail);
                         if (UserMail != user.Mail)
                         {
                             return Forbid();
                         }
                     }
-                    else if(User.HasClaim(ClaimTypes.Role, "Admin"))
+                    else if (User.HasClaim(ClaimTypes.Role, "Admin"))
                     {
                         if (user == null) return BadRequest();
                     }
@@ -432,7 +458,7 @@ namespace Escalonamento.Controllers
 
                     List<Simulacao> sims = context.Simulacao.Where(s => s.IdUser == user.IdUser).ToList();
 
-                    foreach(Simulacao sim in sims)
+                    foreach (Simulacao sim in sims)
                     {
                         sim.Estado = "Inativo";
                     }
@@ -448,10 +474,6 @@ namespace Escalonamento.Controllers
                 return BadRequest();
             }
         }
-
-        #endregion
-
-        #region DELETE
 
         /// <summary>
         /// Método que remove um utilizador da base de dados

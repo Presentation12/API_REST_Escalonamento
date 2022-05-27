@@ -6,41 +6,45 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SharedService {
-  readonly APIUrl = "http://localhost:5000/api/"
+  readonly APIUrl = "http://localhost:5000/api"
 
   private tokenHardcode:any=""
-  headersAuth = new HttpHeaders().append("Authorization", `Bearer ${this.tokenHardcode}`);
+  headersAuth = new HttpHeaders().append("Authorization", `Bearer ${localStorage.getItem('token')}`);
 
   constructor(private http:HttpClient) { }
 
   //#region Utilizador
 
+  GetUserByToken():Observable<any[]>{
+    return this.http.get<any>(this.APIUrl+'/utilizador/getuserbytoken', {headers: this.headersAuth});
+  }
+
   GetUtilizador():Observable<any[]>{
     return this.http.get<any>(this.APIUrl+'/utilizador', {headers: this.headersAuth});
   }
 
-  GetUtilizadorByID(id:any):Observable<any[]>{
-    return this.http.get<any>(this.APIUrl+'/utilizador/'+id, {headers: this.headersAuth});
+  GetUtilizadorByID(idUser:any):Observable<any[]>{
+    return this.http.get<any>(this.APIUrl+'/utilizador/'+idUser, {headers: this.headersAuth});
   }
 
-  Login():Observable<any[]>{
-    return this.http.get<any>(this.APIUrl+'/utilizador/login', {headers: this.headersAuth});
+  Login(account:any){
+    return this.http.post(this.APIUrl+'/utilizador/login', account);
   }
 
   RegistUser(object:any){
-    return this.http.post(this.APIUrl+'/utilizador', object, {headers: this.headersAuth});
+    return this.http.post(this.APIUrl+'/utilizador', object);
   }
 
-  EditUser(object:any, id:any){
-    return this.http.patch(this.APIUrl+'/utilizador/' + id, object, {headers: this.headersAuth});
+  EditUser(object:any, idUser:any){
+    return this.http.patch(this.APIUrl+'/utilizador/' + idUser, object, {headers: this.headersAuth});
   }
 
-  RecoverPassword(object:any){
-    return this.http.patch(this.APIUrl+'/utilizador/recoverpassword', object, {headers: this.headersAuth});
+  RecoverPassword(idUser:any,object:any){
+    return this.http.patch(this.APIUrl+'/utilizador/recoverpassword/'+idUser, object, {headers: this.headersAuth});
   }
 
-  DeleteUser(){
-    return this.http.patch(this.APIUrl+'/utilizador/delete', {headers: this.headersAuth});
+  DeleteUser(idUser:any){
+    return this.http.delete(this.APIUrl+'/utilizador/delete/'+idUser, {headers: this.headersAuth});
   }
 
   //FALTA METODO EM QUE UM ADMIN ELIMINA OUTRO USER
@@ -117,16 +121,16 @@ export class SharedService {
     return this.http.get<any>(this.APIUrl+'/simulacao', {headers: this.headersAuth});
   }
 
-  GetSimulacaoByID(id:any):Observable<any[]>{
-    return this.http.get<any>(this.APIUrl+'/simulacao/'+ id, {headers: this.headersAuth});
+  GetSimulacaoByID(idSim:any):Observable<any[]>{
+    return this.http.get<any>(this.APIUrl+'/simulacao/'+ idSim, {headers: this.headersAuth});
   }
 
-  AddSimulacao(object:any){
-    return this.http.post(this.APIUrl+'/simulacao', object, {headers: this.headersAuth});
+  AddSimulacao(idUser:any,object:any){
+    return this.http.post(this.APIUrl+'/simulacao/'+idUser, object, {headers: this.headersAuth});
   }
 
-  EditSimulacao(object:any, id:any){
-    return this.http.patch(this.APIUrl+'/simulacao/'+ id, object, {headers: this.headersAuth})
+  EditSimulacao(object:any, idSim:any){
+    return this.http.patch(this.APIUrl+'/simulacao/'+ idSim, object, {headers: this.headersAuth})
   }
 
   DeleteSimulacao(id:any){

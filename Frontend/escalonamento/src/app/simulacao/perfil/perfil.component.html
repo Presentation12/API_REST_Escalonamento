@@ -16,7 +16,7 @@
                 <div class="dropdown-content">
                     <a routerLink="/simulacao">Simulações</a>
                     <a routerLink="/perfil">Conta</a>
-                    <a routerLink="/login">Sair</a>
+                    <a routerLink="/login" (click)="logout()">Sair</a>
                 </div>
             </div>
         </div>
@@ -24,22 +24,22 @@
         <div class="conteiner">
             <h1>Alteração de Password</h1>
             <h3>Nova Password</h3>
-            <input type="password">
+            <input type="password" [(ngModel)]="Pass" [ngModelOptions]="{standalone: true}">
             <h3>Confirmação</h3>
-            <input type="password">
+            <input type="password" [(ngModel)]="ConfirmPass" [ngModelOptions]="{standalone: true}">
 
             <div>
-                <a routerLink="#">
-                    <input type="submit" value="Confirmar">
+                <a routerLink="/perfil">
+                    <input type="submit" value="Confirmar" (click)="UpdateClientePassword()">
                 </a>
-                <a routerLink="/simulacao">
-                    <input type="submit" value="Cancelar">
+                <a>
+                    <input type="submit" value="Cancelar" (click)="Cancelar()">
                 </a>
             </div>
 
             <h1 class="conta">Conta</h1>
-            <a routerLink="/login">
-                <input type="submit" value="Suspender" id="rem">
+            <a>
+                <input type="submit" value="Suspender" id="rem" (click)="Suspender()">
             </a>
 
         </div>

@@ -7,6 +7,8 @@
     font-family: Poppins-Regular, sans-serif;
 }
 
+
+
 body {
     list-style: none;
     text-decoration: none;
@@ -206,7 +208,6 @@ input[type="password"] {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
 }
 
 input {

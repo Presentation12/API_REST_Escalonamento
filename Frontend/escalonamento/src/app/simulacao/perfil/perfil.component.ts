@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/shared.service';
 
 @Component({
   selector: 'app-perfil',
@@ -7,7 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PerfilComponent implements OnInit {
 
-  constructor() { }
+  Pass:any;
+  ConfirmPass:any;
+  UserDados:any={
+    Mail:"",
+    PassHash:""
+  }
+  Conta:any;
+
+  constructor(private service : SharedService) { }
 
   public loadScript(url: any) {
     let node = document.createElement("script");
@@ -18,6 +27,50 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadScript("../../assets/perfil.js")
+    this.refreshUser();
+  }
+
+  refreshUser(){
+    this.service.GetUserByToken().subscribe(data => {
+      this.Conta=data;
+      console.log(this.Conta)
+      console.log(localStorage.getItem('token'));
+    })
+  }
+
+  Cancelar(){
+    this.Pass = "";
+    this.ConfirmPass ="" ;
+  }
+
+  Suspender(){
+    if(confirm("Tem a certeza que pretende eliminar esta conta?")){
+      this.service.GetUserByToken().subscribe(data => {
+        this.Conta = data;
+        this.service.DeleteUser(this.Conta.IdUser).subscribe();
+      })
+    }
+  }
+
+  UpdateClientePassword(){
+    this.service.GetUserByToken().subscribe(data => {
+      this.UserDados = data;
+      if (this.Pass==this.ConfirmPass)
+      {
+        this.UserDados.PassHash = this.Pass
+
+        this.service.RecoverPassword(this.UserDados.IdUser,this.UserDados).subscribe();
+
+        alert("Palavra Pass alterada com sucesso!")
+        this.Pass = "";
+        this.ConfirmPass ="" ;
+      }
+      else{alert("Passwords não correspondentes")}
+    })
+ }
+
+  logout(){
+    localStorage.setItem('token', '');
   }
 
 }

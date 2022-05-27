@@ -18,18 +18,18 @@
                     <h1>Login</h1>
 
                     <div class="inputs">
-                        <input required="required" type="text" placeholder="E-mail" />
+                        <input required="required" type="text" placeholder="E-mail" [(ngModel)]="Account.Mail" [ngModelOptions]="{standalone: true}"/>
                     </div>
 
                     <div class="pass">
-                        <input id="pass" required="required" type="password" placeholder="Palavra-passe">
+                        <input id="pass" required="required" type="password" placeholder="Palavra-passe" [(ngModel)]="Account.PassHash" [ngModelOptions]="{standalone: true}">
                         <span type="image" (click)="MostraPass()">
                             <img class="eye" src="../../assets/eye.png">
                         </span>
                     </div>
 
                     <p>
-                        <input type="submit" value="Entrar" routerLink="/simulacao"/>
+                        <input type="submit" value="Entrar" (click)="login()"/>
                     </p>
 
                     <div class="footer">
@@ -48,13 +48,17 @@
 
                     <h1>Registo</h1>
 
-                    <div class="inputs">
-                        <input type="email" placeholder="E-mail" />
-                        <input type="password" placeholder="Palavra-passe" />
-                    </div>
+                    <div class="inputs regist">
+                        <input type="email" placeholder="E-mail" [(ngModel)]="NewAccount.Mail" [ngModelOptions]="{standalone: true}"/>
+                        <input type="password" placeholder="Palavra-passe" [(ngModel)]="NewAccount.PassHash" [ngModelOptions]="{standalone: true}"/>
+                        <div>
+                          <input style="padding-right: 100px;margin-top:10px" type="checkbox" [(ngModel)]="NewAccount.Aut" [ngModelOptions]="{standalone: true}">
+                          <a style="margin-right: 100px;margin-top:10px">Admin</a>
+                        </div>
+                      </div>
 
                     <p>
-                        <input type="submit" value="Registar" />
+                        <input type="submit" value="Registar" (click)="registaConta()"/>
                     </p>
 
                     <footer class="link">
