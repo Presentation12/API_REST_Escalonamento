@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { NewSimComponent } from './new-sim/new-sim.component';
 import { ShowSimsComponent } from './show-sims/show-sims.component';
+import { NewSimTemposComponent } from './new-sim-tempos/new-sim-tempos.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ShowSimsComponent } from './show-sims/show-sims.component';
     LoginComponent,
     PerfilComponent,
     NewSimComponent,
-    ShowSimsComponent
+    ShowSimsComponent,
+    NewSimTemposComponent
   ],
   imports: [
     BrowserModule,
