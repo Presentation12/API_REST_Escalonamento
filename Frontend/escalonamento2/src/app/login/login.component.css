@@ -1,0 +1,249 @@
+body{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+background-image: linear-gradient(to top, rgb(255, 166, 0) 0%, rgb(113, 222, 255) 100%);
+font-family: Poppins-Regular, sans-serif;
+}
+
+main {
+display: flex;
+justify-content: center;
+align-items: center;
+box-shadow: 0 0px 50px 0px;
+position: relative;
+position: relative;
+height: max-content;
+border-radius: 15px;
+}
+
+h1
+{
+  color:rgb(255, 166, 0);
+}
+
+.content {
+width: 450px;
+background-color: black;
+
+flex-direction: row;
+align-items: center;
+display: flex;
+text-align: center;
+}
+
+.log, .reg {
+height: 600px;
+width: 450px;
+background-color: black;
+}
+
+.image {
+height: 300px;
+width: 225px;
+object-fit: cover;
+}
+
+.inputs {
+margin-top: 90px;
+}
+
+.regist{
+display: flex;
+flex-direction: column;
+margin-left: 80px;
+}
+
+.pass {
+position: relative;
+}
+
+.pass span {
+position: fixed;
+margin-top: 3%;
+margin-left: -4%;
+}
+
+.logo {
+width: 200px;
+margin-top: -20%;
+}
+
+.image {
+height: 600px;
+width: 450px;
+border-radius: 0px 15px 15px 0px;
+}
+
+.eye {
+margin: 0 -35px -8px;
+height: 25px;
+width: 25px;
+cursor: pointer;
+}
+
+input:not([type="checkbox"]) {
+
+width: 250px;
+margin-top: 10px;
+padding: 7px;
+border: 1px solid rgb(255, 166, 0);
+background-color: black;
+color: rgb(255, 166, 0);
+border-radius: 10px;
+
+-webkit-transition: all 0.2s linear;
+transition: all 0.2s linear;
+}
+
+input[type="submit"] {
+width: 90px;
+cursor: pointer;
+background: black;
+color: rgb(255, 166, 0);
+border-color: rgb(255, 166, 0);
+font-size: 13px;
+font-weight: bold;
+border-radius: 20px;
+
+transition: all 0.2s linear;
+}
+
+input[type="submit"]:hover {
+background-color: rgb(255, 166, 0);
+color: black;
+}
+
+a {
+color: #555555;
+font-size: 12px;
+text-decoration: none;
+}
+
+a:hover {
+color: rgb(255, 166, 0);
+}
+
+.footer {
+background-color: #242424;
+}
+
+.link {
+height: 40px;
+width: 450px;
+background-color: rgb(255, 166, 0);
+color: black;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.link a {
+font-weight: bold;
+
+color: black;
+margin-left: 10px;
+padding: 5px;
+
+-webkit-border-radius: 4px;
+border-radius: 10px;
+text-decoration: none;
+
+-webkit-transition: all 0.4s linear;
+transition: all 0.4s linear;
+}
+
+.link a:hover {
+color: rgb(255, 166, 0);
+background: black;
+}
+
+#registo,
+#login,
+#recuperar {
+position: fixed;
+display: flex;
+justify-content: center;
+align-items: center;
+width: inherit;
+
+background: black;
+
+border-radius: 15px 0px 0px 15px;
+
+
+animation-duration: 0.5s;
+animation-timing-function: ease;
+animation-fill-mode: both;
+}
+
+/* Efeito ao clicar no botão ( Login ) */
+#pararegisto:target~.content #registo,
+#paralogin:target~.content #login {
+z-index: 2;
+animation-name: fadeInLeft;
+animation-delay: .1s;
+}
+
+/* Efeito ao clicar no botão ( Registo ) */
+#registro:target~.content #login,
+#paralogin:target~.content #registo {
+-webkit-animation-name: fadeOutLeft;
+animation-name: fadeOutLeft;
+}
+
+/*fadeInLeft*/
+@-webkit-keyframes fadeInLeft {
+0% {
+  opacity: 0;
+  -webkit-transform: translateX(-20px);
+}
+
+100% {
+  opacity: 1;
+  -webkit-transform: translateX(0);
+}
+}
+
+@keyframes fadeInLeft {
+0% {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+100% {
+  opacity: 1;
+  transform: translateX(0);
+}
+}
+
+/*fadeOutLeft*/
+@-webkit-keyframes fadeOutLeft {
+0% {
+  opacity: 1;
+  -webkit-transform: translateX(0);
+}
+
+100% {
+  opacity: 0;
+  -webkit-transform: translateX(-20px);
+}
+}
+
+@keyframes fadeOutLeft {
+0% {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+100% {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+}

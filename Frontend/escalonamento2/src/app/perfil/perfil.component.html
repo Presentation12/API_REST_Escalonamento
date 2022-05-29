@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil</title>
+</head>
+<body>
+  <div *ngIf="state == 1" class="conteiner">
+    <h1>Opções</h1>
+    <input type="button" value="Nova Simulação">
+    <input type="button" value="Ver Simulações">
+    <input type="button" value="Retroceder" (click)="optionsBack()">
+  </div>
+  <div *ngIf="state == 0" class="section">
+
+    <div class="top_navbar">
+        <a>{{Conta.Mail}}</a>
+        <div class="dropdown" style="float:right;">
+            <img src="../../../assets/menu.png" class="menu">
+            <div class="dropdown-content">
+                <a (click)="options()">Simulações</a>
+                <a routerLink="/perfil">Conta</a>
+                <a routerLink="/login" (click)="logout()">Sair</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="conteiner">
+        <h1>Alteração de Password</h1>
+        <h3>Nova Password</h3>
+        <input type="password" [(ngModel)]="Pass" [ngModelOptions]="{standalone: true}">
+        <h3>Confirmação</h3>
+        <input type="password" [(ngModel)]="ConfirmPass" [ngModelOptions]="{standalone: true}">
+
+        <div>
+            <a routerLink="/perfil">
+                <input type="submit" value="Confirmar" (click)="UpdateClientePassword()">
+            </a>
+            <a>
+                <input type="submit" value="Cancelar" (click)="Cancelar()">
+            </a>
+        </div>
+
+        <h1 class="conta">Conta</h1>
+        <a>
+            <input type="submit" value="Suspender" id="rem" (click)="Suspender()">
+        </a>
+
+    </div>
+</div>
+</body>
+</html>

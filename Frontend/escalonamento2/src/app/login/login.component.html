@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+</head>
+<body>
+  <main>
+    <a class="links" id="paralogin"></a>
+    <a class="links" id="pararegisto"></a>
+
+    <div class="content">
+
+        <!--LOGIN-->
+        <div id="login" class="log">
+            <form>
+
+                <h1>Login</h1>
+
+                <div class="inputs">
+                    <input required="required" type="text" placeholder="E-mail" [(ngModel)]="Account.Mail" [ngModelOptions]="{standalone: true}"/>
+                </div>
+
+                <div class="pass">
+                    <input id="pass" required="required" type="password" placeholder="Palavra-passe" [(ngModel)]="Account.PassHash" [ngModelOptions]="{standalone: true}">
+                    <span type="image" (click)="MostraPass()">
+                        <img class="eye" src="../../assets/eye.png">
+                    </span>
+                </div>
+
+                <p>
+                    <input type="submit" value="Entrar" (click)="login()"/>
+                </p>
+
+                <div class="footer">
+                    <div class="link">
+                        Ainda não se registou?
+                        <a href="#pararegisto">Registar</a>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <!--REGISTO-->
+        <div id="registo" class="reg">
+            <form>
+
+                <h1>Registo</h1>
+
+                <div class="inputs regist">
+                    <input type="email" placeholder="E-mail" [(ngModel)]="NewAccount.Mail" [ngModelOptions]="{standalone: true}"/>
+                    <input type="password" placeholder="Palavra-passe" [(ngModel)]="NewAccount.PassHash" [ngModelOptions]="{standalone: true}"/>
+                    <div>
+                      <input style="padding-right: 100px;margin-top:10px" type="checkbox" [(ngModel)]="NewAccount.Aut" [ngModelOptions]="{standalone: true}">
+                      <a style="margin-right: 100px;margin-top:10px">Admin</a>
+                    </div>
+                  </div>
+
+                <p>
+                    <input type="submit" value="Registar" (click)="registaConta()"/>
+                </p>
+
+                <footer class="link">
+                    Já está registado?
+                    <a href="#paralogin">Login</a>
+                </footer>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="content">
+        <img src="../../assets/side.jpg" class="image">
+    </div>
+
+</main>
+</body>
+</html>
