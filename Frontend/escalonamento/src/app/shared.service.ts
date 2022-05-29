@@ -125,6 +125,14 @@ export class SharedService {
     return this.http.get<any>(this.APIUrl+'/simulacao/'+ idSim, {headers: this.headersAuth});
   }
 
+  GetLastSimulacaoByUser(idUser:any):Observable<any[]>{
+    return this.http.get<any>(this.APIUrl+'/simulacao/userlast/'+ idUser, {headers: this.headersAuth});
+  }
+
+  GetSimulacoesByUser(idUser:any):Observable<any[]>{
+    return this.http.get<any>(this.APIUrl+'/simulacao/user/'+idUser, {headers: this.headersAuth})
+  }
+
   AddSimulacao(idUser:any,object:any){
     return this.http.post(this.APIUrl+'/simulacao/'+idUser, object, {headers: this.headersAuth});
   }
@@ -136,5 +144,6 @@ export class SharedService {
   DeleteSimulacao(id:any){
     return this.http.patch(this.APIUrl+'/simulacao/delete/'+ id, {headers: this.headersAuth});
   }
+
   //#endregion
 }

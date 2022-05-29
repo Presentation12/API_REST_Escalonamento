@@ -262,8 +262,6 @@ namespace Escalonamento.Controllers
 
                     VerifyAccount(utilizador);
 
-                    Console.WriteLine(user);
-
                     string token;
 
                     if (user.Aut == false) token = CreateTokenUser(utilizador);

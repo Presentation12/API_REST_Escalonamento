@@ -78,7 +78,7 @@ namespace Escalonamento.Controllers
                     Maquina maquina = new Maquina();
 
                     maquina.IdMaq = maq.IdMaq;
-                    maquina.Estado = maq.Estado;
+                    maquina.Estado = "Ativo";
 
                     context.Maquina.Add(maquina);
                     context.SaveChanges();

@@ -80,8 +80,69 @@ namespace Escalonamento.Controllers
             }
         }
 
+        [HttpGet("user/{idUser}"), Authorize(Roles = "Admin, Utilizador")]
+        public IActionResult GetSimsByUser(int idUser)
+        {
+            try{
+                using (var context = new EscalonamentoContext())
+                {
+                    if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
+                    {
+                        string UserMail = User.FindFirstValue(ClaimTypes.Email);
+
+                        Utilizador user = context.Utilizador.Where(u => u.IdUser == idUser && u.Estado != "Inativo").FirstOrDefault();
+
+                        if (user == null) return BadRequest();
+
+                        if (UserMail != user.Mail)
+                        {
+                            return Forbid();
+                        }
+                    }
+
+                    return new JsonResult(context.Simulacao.Where(s => s.IdUser == idUser).ToList());
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("userlast/{idUser}"), Authorize(Roles = "Admin, Utilizador")]
+        public IActionResult GetLastSimByUser(int idUser)
+        {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
+                    {
+                        string UserMail = User.FindFirstValue(ClaimTypes.Email);
+
+                        Utilizador user = context.Utilizador.Where(u => u.IdUser == idUser && u.Estado != "Inativo").FirstOrDefault();
+
+                        if (user == null) return BadRequest();
+
+                        if (UserMail != user.Mail)
+                        {
+                            return Forbid();
+                        }
+                    }
+
+                    return new JsonResult(context.Simulacao.Where(s => s.IdUser == idUser).OrderBy(sim => sim.IdSim).LastOrDefault());
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
         #endregion
-        
+
         #region POST
 
         /// <summary>
@@ -113,7 +174,7 @@ namespace Escalonamento.Controllers
                     Simulacao simulacao = new Simulacao();
 
                     simulacao.IdSim = sim.IdSim;
-                    simulacao.Estado = sim.Estado;
+                    simulacao.Estado = "Ativo";
                     simulacao.IdUserNavigation = context.Utilizador.Where(u => u.IdUser == idUser).FirstOrDefault();
 
                     context.Simulacao.Add(simulacao);

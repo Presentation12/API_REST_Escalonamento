@@ -14,7 +14,9 @@ export class PerfilComponent implements OnInit {
     Mail:"",
     PassHash:""
   }
-  Conta:any;
+  Conta:any={
+    Mail:""
+  };
 
   constructor(private service : SharedService) { }
 
@@ -33,8 +35,6 @@ export class PerfilComponent implements OnInit {
   refreshUser(){
     this.service.GetUserByToken().subscribe(data => {
       this.Conta=data;
-      console.log(this.Conta)
-      console.log(localStorage.getItem('token'));
     })
   }
 

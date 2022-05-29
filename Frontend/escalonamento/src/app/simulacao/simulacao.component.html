@@ -9,7 +9,7 @@
 
     <div class="section">
         <div class="top_navbar">
-            <a>Nome User</a>
+            <a>{{Conta.Mail}}</a>
             <div class="dropdown">
                 <img src="../../assets/menu.png" class="menu">
                 <div class="dropdown-content">
@@ -20,23 +20,236 @@
             </div>
         </div>
 
-        <div class="conteiner">
+        <div *ngIf="state == 0" class="conteiner">
             <h1>Selecione a simulação</h1>
 
-            <select id="op">
+            <select id="op" [(ngModel)]="selectedSimString">
                 <option>---</option>
-                <option>Simulação 1</option>
+                <option *ngFor="let sim of UserSims">Simulacao {{sim.IdSim}}</option>
             </select>
 
             <div>
-                <a routerLink="/gerador" id="ref">
-                    <input type="submit" value="Avançar" onclick="selectSim()">
+                <a id="ref">
+                    <input type="button" value="Avançar" (click)="activateSimGen();selectSim()">
                 </a>
-                <a routerLink="#">
-                    <input type="submit" value="Nova">
+                <a>
+                    <input type="button" value="Nova" (click)="activateNew()">
                 </a>
             </div>
         </div>
+
+        <div *ngIf="state == 4" class="conteiner" >
+          <div style="margin-bottom: 10px">Continuar!</div>
+          <input type="button" value="Press Me" (click)="getLastSim();activateNewTable()">
+        </div>
+
+
+        <div *ngIf="state == 1" class="conteiner">
+          <h1>Nova Simulação</h1>
+
+          <div style="display:flex;flex-direction:column;gap: 20px;">
+            <div style="display:flex;flex-direction:column;justify-content:center;">
+              <div style="display: flex;justify-content:space-between;width:200px">
+                <a>Número de máquinas: </a><input type="number" [(ngModel)]="MachinesNum">
+              </div>
+              <div style="display: flex;justify-content:space-between;width:200px">
+                <a>Número de Jobs: </a><input type="number" [(ngModel)]="JobsNum">
+              </div>
+              <div style="display: flex;justify-content:space-between;width:200px">
+                <a>Número de Operações: </a><input type="number" [(ngModel)]="OperationsNum">
+              </div>
+            </div>
+
+            <div>
+              <a id="ref">
+                <input type="submit" value="Avançar" (click)="createSim();ShowBtn()">
+              </a>
+              <a>
+                  <input type="submit" value="Cancelar" (click)="deactivateNew()">
+              </a>
+            </div>
+
+          </div>
+      </div>
+
+      <div *ngIf="state == 2" class="conteiner">
+        <h1>Simulação {{selectedSim.IdSim}}</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Operação 1</th>
+                    <th>Operação 2</th>
+                </tr>
+            </thead>
+            <tbody class="bodytable">
+                <tr class="lineTable">
+                    <td>Job 1</td>
+                    <td id="maqSel">-</td>
+                    <td>-</td>
+                </tr>
+                <tr class="lineTable">
+                    <td>Job 2</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr class="lineTable">
+                    <td>Job 3</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr class="lineTable">
+                    <td>Job 4</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="submits">
+            <input type="submit" value="Novo Job" id="btnJob">
+            <input type="submit" value="Nova Operação" id="btnOp">
+            <input type="submit" value="Simular" id="btnSim">
+        </div>
+
+        <div class="simulacao" id="simulacao">
+            <table class="table2">
+                <tbody class="bodytable">
+                    <tr class="lineTable">
+                        <td>Máquina 1</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="lineTable">
+                        <td>Máquina 2</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="lineTable">
+                        <td>Máquina 3</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="lineTable">
+                        <td>Máquina 4</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="time">
+                <tbody>
+                    <tr>
+                        <th>
+                            0
+                        </th>
+                        <th>
+                            1
+                        </th>
+                        <th>
+                            2
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="submit" value="Fechar" id="btnCancelar">
+        </div>
+
+
+
+        <h2>Detalhes</h2>
+        <div class="detalhes">
+            <h3>Número de Trabalhos: X</h3>
+            <h3>Número de Operações: Y</h3>
+            <h3>Número de Máquinas: Z</h3>
+        </div>
+
+        <div>
+            <input type="submit" value="Remover" id="rem">
+        </div>
+    </div>
+
+    <div *ngIf="state == 3" class="conteiner">
+      <h1>Simulação {{lastSim.IdSim}}</h1>
+      <table class="table">
+          <thead>
+              <tr>
+                  <th></th>
+                  <th *ngFor = "">Operação 1</th>
+              </tr>
+          </thead>
+          <tbody class="bodytable">
+              <tr class="lineTable">
+                  <td>Job 1</td>
+                  <td id="maqSel">-</td>
+                  <td>-</td>
+              </tr>
+              <tr class="lineTable">
+                  <td>Job 2</td>
+                  <td>-</td>
+                  <td>-</td>
+              </tr>
+              <tr class="lineTable">
+                  <td>Job 3</td>
+                  <td>-</td>
+                  <td>-</td>
+              </tr>
+              <tr class="lineTable">
+                  <td>Job 4</td>
+                  <td>-</td>
+                  <td>-</td>
+              </tr>
+          </tbody>
+      </table>
+      <div class="submits">
+          <input type="submit" value="Simular" id="btnSim">
+      </div>
+
+      <div class="simulacao" id="simulacao">
+          <table class="table2">
+              <tbody class="bodytable">
+                  <tr class="lineTable">
+                      <td>Máquina 1</td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+                  <tr class="lineTable">
+                      <td>Máquina 2</td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+                  <tr class="lineTable">
+                      <td>Máquina 3</td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+                  <tr class="lineTable">
+                      <td>Máquina 4</td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+              </tbody>
+          </table>
+          <table class="time">
+              <tbody>
+                  <tr>
+                      <th>
+                          0
+                      </th>
+                      <th>
+                          1
+                      </th>
+                      <th>
+                          2
+                      </th>
+                  </tr>
+              </tbody>
+          </table>
+          <input type="submit" value="Fechar" id="btnCancelar">
+      </div>
+  </div>
+
+
+
     </div>
 </body>
 </html>

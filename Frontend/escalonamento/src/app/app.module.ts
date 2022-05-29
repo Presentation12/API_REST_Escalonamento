@@ -11,15 +11,13 @@ import { AppComponent } from './app.component';
 import { SimulacaoComponent } from './simulacao/simulacao.component';
 import { LoginComponent } from './login/login.component';
 import { PerfilComponent } from './simulacao/perfil/perfil.component';
-import { SimgeneratorComponent } from './simulacao/simgenerator/simgenerator.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SimulacaoComponent,
     LoginComponent,
-    PerfilComponent,
-    SimgeneratorComponent
+    PerfilComponent
   ],
   imports: [
     BrowserModule,
