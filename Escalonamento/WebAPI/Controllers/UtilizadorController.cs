@@ -245,6 +245,12 @@ namespace Escalonamento.Controllers
 
         #region POST
 
+        struct login
+        {
+            public string token { get; set; }
+            public string role { get; set; }
+        }
+
         /// <summary>
         /// Login do utilizador
         /// </summary>
@@ -258,6 +264,7 @@ namespace Escalonamento.Controllers
             {
                 try
                 {
+                    login login = new login();
                     Utilizador user = context.Utilizador.FirstOrDefault(aux => aux.Mail == utilizador.Mail);
 
                     VerifyAccount(utilizador);
@@ -267,7 +274,11 @@ namespace Escalonamento.Controllers
                     if (user.Aut == false) token = CreateTokenUser(utilizador);
                     else token = CreateTokenAdmin(utilizador);
 
-                    return new JsonResult(token);
+                    login.token = token;
+                    if (user.Aut == false) login.role = "Utilizador";
+                    else login.role = "Admin";
+
+                    return new JsonResult(login);
                 }
                 catch (ArgumentException ae)
                 {

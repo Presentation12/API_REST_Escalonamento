@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
     PassHash:"",
     Aut:""
   }
+  loginData:any;
 
   constructor(private service: SharedService, private router: Router) { }
   public loadScript(url : any)
@@ -36,13 +37,22 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.service.Login(this.Account).subscribe(data=>{
+     this.loginData = data;
      if (data == "Utilizador não existe! (Parameter 'account')") alert("Utilizador não existe!")
      else if(data == "Password Errada. (Parameter 'account')") alert("Password Errada.")
      else{
-       localStorage.setItem('token', data.toString());
-       this.router.navigateByUrl('/perfil').then(() =>{
-         this.router.navigate([decodeURI('/perfil')]);
-       });
+       if(this.loginData.role == "Utilizador"){
+        localStorage.setItem('token', this.loginData.token.toString());
+        this.router.navigateByUrl('/perfil').then(() =>{
+          this.router.navigate([decodeURI('/perfil')]);
+        });
+       }
+       else if(this.loginData.role == "Admin"){
+        localStorage.setItem('token', this.loginData.token.toString());
+        this.router.navigateByUrl('/admin').then(() =>{
+          this.router.navigate([decodeURI('/admin')]);
+        });
+       }
      }
     });
    }
