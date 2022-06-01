@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Escalonamento.Controllers
@@ -19,7 +20,6 @@ namespace Escalonamento.Controllers
     [ApiController]
     public class UtilizadorController : ControllerBase
     {
-
         private readonly IConfiguration _configuration;
 
         public UtilizadorController(IConfiguration configuration)
@@ -97,7 +97,7 @@ namespace Escalonamento.Controllers
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
-            
+
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var token = new JwtSecurityToken(
@@ -121,7 +121,7 @@ namespace Escalonamento.Controllers
                 utilizador.PassHash = "Hidden";
                 utilizador.PassSalt = "Hidden";
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
             }
@@ -227,7 +227,7 @@ namespace Escalonamento.Controllers
                             return Forbid();
                         }
                     }
-            
+
                     Utilizador user = context.Utilizador.Where(u => u.IdUser == id).FirstOrDefault();
                     HidePassWord(user);
 
@@ -339,7 +339,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="id"> ID do utilizador alvo </param>
         /// <param name="value"> Informação nova do utilizador </param>
-        [HttpPatch("{id}"), Authorize(Roles ="Admin, Utilizador")]
+        [HttpPatch("{id}"), Authorize(Roles = "Admin, Utilizador")]
         public IActionResult Patch(int id, [FromBody] Utilizador uti)
         {
             try
@@ -407,11 +407,11 @@ namespace Escalonamento.Controllers
                             return Forbid();
                         }
                     }
-                    else if(User.HasClaim(ClaimTypes.Role, "Admin"))
+                    else if (User.HasClaim(ClaimTypes.Role, "Admin"))
                     {
                         if (user == null) return BadRequest();
                     }
-                    
+
 
                     HashSaltPW.CreatePasswordHash(utilizador.PassHash, out byte[] passwordHash, out byte[] passwordSalt);
                     user.PassHash = Convert.ToBase64String(passwordHash);
@@ -465,11 +465,11 @@ namespace Escalonamento.Controllers
 
                     user.Estado = "Inativo";
 
-                    List<Simulacao> sims = context.Simulacao.Where(s => s.IdUser == user.IdUser).ToList();
+                    List<Conexao> conns = context.Conexao.Where(c => c.IdUser == user.IdUser).ToList();
 
-                    foreach (Simulacao sim in sims)
+                    foreach (Conexao con in conns)
                     {
-                        sim.Estado = "Inativo";
+                        con.Estado = false;
                     }
 
                     context.SaveChanges();

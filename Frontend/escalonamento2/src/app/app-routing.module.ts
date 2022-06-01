@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { NewSimComponent } from './new-sim/new-sim.component';
-import { NewSimTemposComponent } from './new-sim-tempos/new-sim-tempos.component';
 import { ShowSimsComponent } from './show-sims/show-sims.component';
 import { AdminComponent } from './admin/admin.component';
 
@@ -12,7 +11,6 @@ const routes: Routes = [
   {path: 'login',component:LoginComponent},
   {path: 'perfil',component:PerfilComponent},
   {path: 'newsim',component:NewSimComponent},
-  {path: 'newsimtempos',component:NewSimTemposComponent},
   {path: 'showsims',component:ShowSimsComponent},
   {path: 'admin',component:AdminComponent}
 ];
