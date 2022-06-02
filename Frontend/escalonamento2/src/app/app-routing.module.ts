@@ -10,8 +10,8 @@ import { AdminComponent } from './admin/admin.component';
 const routes: Routes = [
   {path: 'login',component:LoginComponent},
   {path: 'perfil',component:PerfilComponent},
-  {path: 'newsim',component:NewSimComponent},
-  {path: 'showsims',component:ShowSimsComponent},
+  {path: 'perfil/newsim',component:NewSimComponent},
+  {path: 'perfil/showsims',component:ShowSimsComponent},
   {path: 'admin',component:AdminComponent}
 ];
 
