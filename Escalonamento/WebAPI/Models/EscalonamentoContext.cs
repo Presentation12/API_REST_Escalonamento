@@ -26,7 +26,7 @@ namespace Escalonamento.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=tcp:escalonamento.database.windows.net,1433;Initial Catalog=Escalonamento;Persist Security Info=False;User ID=escalonamento;Password=Quimgordo69;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;");
+                optionsBuilder.UseSqlServer("Server=tcp:escalonamento.database.windows.net,1433;Initial Catalog=Escalonamento;Persist Security Info=False;User ID=escalonamento;Password=Quimgordo69;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
@@ -36,7 +36,8 @@ namespace Escalonamento.Models
 
             modelBuilder.Entity<Conexao>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.IdUser, e.IdSim, e.IdJob, e.IdOp })
+                    .HasName("pk_conexao");
 
                 entity.ToTable("conexao");
 
