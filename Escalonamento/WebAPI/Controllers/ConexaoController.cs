@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Escalonamento.Controllers
@@ -19,20 +20,20 @@ namespace Escalonamento.Controllers
         /// Método que devolve a lista inteira das conexões ativos
         /// </summary>
         /// <returns> conexões na base de dados </returns>
-        [HttpGet, Authorize(Roles = "Admin")]
-        public IEnumerable<Conexao> GetActives()
+        [HttpGet("active"), Authorize(Roles = "Admin")]
+        public IActionResult GetActives()
         {
             try
             {
                 using (var context = new EscalonamentoContext())
                 {
-                    return context.Conexao.Where(c => c.Estado == true).ToList();
+                    return new JsonResult(context.Conexao.Where(c => c.Estado == true).ToList());
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return null;
+                return BadRequest();
             }
         }
 
@@ -40,20 +41,20 @@ namespace Escalonamento.Controllers
         /// Método que devolve a lista inteira das conexões
         /// </summary>
         /// <returns> conexões na base de dados </returns>
-        [HttpGet, Authorize(Roles = "Admin")]
-        public IEnumerable<Conexao> GetInactives()
+        [HttpGet("inactive"), Authorize(Roles = "Admin")]
+        public IActionResult GetInactives()
         {
             try
             {
                 using (var context = new EscalonamentoContext())
                 {
-                    return context.Conexao.ToList();
+                    return new JsonResult(context.Conexao.ToList());
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return null;
+                return BadRequest();
             }
         }
 
@@ -63,19 +64,34 @@ namespace Escalonamento.Controllers
         /// <param name="id_utilizador"> ID da utilizador </param>
         /// <returns> Conexao </returns>
         [HttpGet("{id_utilizador}"), Authorize(Roles = "Admin, Utilizador")]
-        public IEnumerable<Conexao> GetByIdUser(int id_utilizador)
+        public IActionResult GetByIdUser(int id_utilizador)
         {
             try
             {
                 using (var context = new EscalonamentoContext())
                 {
-                    return context.Conexao.Where(c => c.IdUser == id_utilizador && c.Estado == true).ToList();
+                    if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
+                    {
+                        string UserMail = User.FindFirstValue(ClaimTypes.Email);
+                        
+                        Utilizador user = context.Utilizador.Where(u => u.IdUser == id_utilizador && u.Estado != "Inativo").FirstOrDefault();
+                        Console.WriteLine(UserMail + "-->" + user.Mail);
+
+                        if (user == null) return BadRequest();
+
+                        if (UserMail != user.Mail)
+                        {
+                            return Forbid();
+                        }
+                    }
+
+                    return new JsonResult(context.Conexao.Where(c => c.IdUser == id_utilizador && c.Estado == true).ToList());
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return null;
+                return BadRequest();
             }
         }
 
@@ -138,6 +154,20 @@ namespace Escalonamento.Controllers
             {
                 using (var context = new EscalonamentoContext())
                 {
+                    if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
+                    {
+                        string UserMail = User.FindFirstValue(ClaimTypes.Email);
+
+                        Utilizador user = context.Utilizador.Where(u => u.IdUser == id_utilizador && u.Estado != "Inativo").FirstOrDefault();
+
+                        if (user == null) return BadRequest();
+
+                        if (UserMail != user.Mail)
+                        {
+                            return Forbid();
+                        }
+                    }
+
                     Conexao conexao = context.Conexao.Where(c => c.IdUser == id_utilizador && c.IdSim == id_simulacao && c.IdJob == id_job && c.IdOp == id_operacao).FirstOrDefault();
 
                     conexao.IdMaq = con.IdMaq is null ? conexao.IdMaq : con.IdMaq;
@@ -193,13 +223,27 @@ namespace Escalonamento.Controllers
         /// <param name="id_utilizador"> id do utilizador </param>
         /// <param name="id_simulacao"> id do simulacao </param>
         /// <returns> Resultado do metodo </returns>
-        [HttpDelete("{id_utilizador}/{id_simulacao}"), Authorize(Roles = "Admin, Utilizador")]
+        [HttpDelete("admin/{id_utilizador}/{id_simulacao}"), Authorize(Roles = "Admin, Utilizador")]
         public IActionResult Delete(int id_utilizador, int  id_simulacao)
         {
             try
             {
                 using (var context = new EscalonamentoContext())
                 {
+                    if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
+                    {
+                        string UserMail = User.FindFirstValue(ClaimTypes.Email);
+
+                        Utilizador user = context.Utilizador.Where(u => u.IdUser == id_utilizador && u.Estado != "Inativo").FirstOrDefault();
+
+                        if (user == null) return BadRequest();
+
+                        if (UserMail != user.Mail)
+                        {
+                            return Forbid();
+                        }
+                    }
+
                     List<Conexao> conexoes = context.Conexao.Where(c => c.IdSim == id_simulacao && c.IdUser == id_utilizador).ToList();
 
                     foreach (Conexao con in conexoes)
