@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-declare function createTable(r:any,c:any):any;
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-new-sim',
@@ -10,7 +9,7 @@ declare function createTable(r:any,c:any):any;
 
 export class NewSimComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: SharedService) { }
 
   public loadScript(url: any) {
     let node = document.createElement("script");
@@ -19,13 +18,27 @@ export class NewSimComponent implements OnInit {
     document.body.append(node);
   }
 
-  ngOnInit(): void {
-    this.loadScript("../assets/simgenerator.js")
+  NovaConexao : any = {};
+  IdSim:any;
+  IdJob:any;
+  IdOp:any;
+  IdMaq:any;
+  Duracao:any;
+
+  SubmitConexao()
+  {
+    this.NovaConexao = {
+      IdUser: `${}`,
+      IdSim: `${this.IdSim}`,
+      IdJob: `${this.IdJob}`,
+      IdOp: `${this.IdOp}`,
+      IdMaq: `${this.IdMaq}`,
+      Duracao: `${this.Duracao}`
+    }
+    this.service.PostConexao(this.NovaConexao).subscribe();
   }
 
-  CriarTabela(){
-    let r = window.prompt("Insira o número de Jobs");
-    let c = window.prompt("Insira o número de Operations");
-    createTable(r,c);
+  ngOnInit(): void {
+    this.loadScript("../assets/simgenerator.js")
   }
 }
