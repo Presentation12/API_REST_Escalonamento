@@ -150,4 +150,14 @@ export class SharedService {
 
   //#endregion
 
+
+  //#region Conexao
+
+  // post de uma nova conexão
+  PostConexao(conexao:any)
+  {
+    return this.http.post(this.APIUrl+'/conexao', conexao, {headers: this.headersAuth});
+  }
+  
+  //#endregion
 }
