@@ -142,8 +142,15 @@ namespace Escalonamento.Controllers
                 using (var context = new EscalonamentoContext())
                 {
                     Maquina maquina = context.Maquina.Where(m => m.IdMaq == id_maquina).FirstOrDefault();
+                    List<Conexao> conexoes = context.Conexao.Where(c => c.IdMaq == id_maquina).ToList();
 
-                    context.Maquina.Remove(maquina);
+                    foreach (Conexao con in conexoes)
+                    {
+                        con.IdMaq = null;
+                        con.Duracao = null;
+                    }
+
+                    maquina.Estado = "Inativo";
 
                     context.SaveChanges();
                     return Ok();
