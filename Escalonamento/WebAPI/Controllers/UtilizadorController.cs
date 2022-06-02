@@ -216,8 +216,6 @@ namespace Escalonamento.Controllers
                     {
                         string UserMail = User.FindFirstValue(ClaimTypes.Email);
 
-                        Console.WriteLine(UserMail);
-
                         Utilizador utilizador = context.Utilizador.Where(u => u.IdUser == id && u.Estado != "Inativo").FirstOrDefault();
 
                         if (utilizador == null) return BadRequest();
@@ -451,8 +449,7 @@ namespace Escalonamento.Controllers
                         string UserMail = User.FindFirstValue(ClaimTypes.Email);
 
                         if (user == null) return BadRequest();
-                        Console.WriteLine(user.Mail);
-                        Console.WriteLine(UserMail);
+
                         if (UserMail != user.Mail)
                         {
                             return Forbid();

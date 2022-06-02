@@ -27,7 +27,7 @@ namespace Escalonamento.Controllers
             {
                 using (var context = new EscalonamentoContext())
                 {
-                    return context.Maquina.ToList();
+                    return context.Maquina.Where(m => m.Estado != "Inativo").ToList();
                 }
             }
             catch (Exception e)
@@ -49,7 +49,7 @@ namespace Escalonamento.Controllers
             {
                 using (var context = new EscalonamentoContext())
                 {
-                    return context.Maquina.Where(m => m.IdMaq == id_maquina).FirstOrDefault();
+                    return context.Maquina.Where(m => m.IdMaq == id_maquina && m.Estado != "Inativo").FirstOrDefault();
                 }
             }
             catch (Exception e)

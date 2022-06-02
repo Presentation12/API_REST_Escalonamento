@@ -38,11 +38,9 @@ export class LoginComponent implements OnInit {
   login(): void {
     this.service.Login(this.Account).subscribe(data=>{
      this.loginData = data;
-     console.log(data)
      if (data == "Utilizador não existe! (Parameter 'account')") alert("Utilizador não existe!")
      else if(data == "Password Errada. (Parameter 'account')") alert("Password Errada.")
      else{
-       console.log(this.loginData.role);
        if(this.loginData.role == "Utilizador"){
         localStorage.setItem('token', this.loginData.token.toString());
         this.router.navigateByUrl('/perfil').then(() =>{

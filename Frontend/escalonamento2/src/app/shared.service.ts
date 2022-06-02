@@ -9,10 +9,10 @@ import { Observable } from 'rxjs';
 export class SharedService {
   readonly APIUrl = "http://localhost:5000/api"
 
-  private tokenHardcode:any="eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhYmNkQGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlV0aWxpemFkb3IiLCJleHAiOjE2NTQyODAwMjB9.lv_nIT0QF927Jor8NPt5zO_dAtZW6VXJGdicHYNu6vUuyFBZWxE9V_Eitu7FH14kgbDgSiJRDMeeFm9BxwAMsw"
+  //private tokenHardcode:any="eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhYmNkQGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlV0aWxpemFkb3IiLCJleHAiOjE2NTQyODAwMjB9.lv_nIT0QF927Jor8NPt5zO_dAtZW6VXJGdicHYNu6vUuyFBZWxE9V_Eitu7FH14kgbDgSiJRDMeeFm9BxwAMsw"
 
-  //headersAuth = new HttpHeaders().append("Authorization", `Bearer ${localStorage.getItem('token')}`);
-  headersAuth = new HttpHeaders().append("Authorization", `Bearer ${this.tokenHardcode}`);
+  headersAuth = new HttpHeaders().append("Authorization", `Bearer ${localStorage.getItem('token')}`);
+  //headersAuth = new HttpHeaders().append("Authorization", `Bearer ${this.tokenHardcode}`);
 
   constructor(private http:HttpClient) { }
 
@@ -160,15 +160,15 @@ export class SharedService {
   }
 
   //busca todas as conexoes de uma simulaçao para apresentar em formato tabelar
-  GetSimulacaoByUser():Observable<any[]>
+  GetSimulacaoByUser(idUser:any, idSim:any):Observable<any[]>
   {
-    return this.http.get<any>(this.APIUrl + '/conexao/' + 16 + '/' + 1,{headers: this.headersAuth});
+    return this.http.get<any>(this.APIUrl + '/conexao/' + idUser + '/' + idSim,{headers: this.headersAuth});
   }
 
   //busca todas as conexoes de um user
-  GetConexoesByUser():Observable<any[]>
+  GetConexoesByUser(idUser:any):Observable<any[]>
   {
-    return this.http.get<any>(this.APIUrl + '/conexao/' + 16,{headers: this.headersAuth});
+    return this.http.get<any>(this.APIUrl + '/conexao/' + idUser,{headers: this.headersAuth});
   }
 
   //#endregion

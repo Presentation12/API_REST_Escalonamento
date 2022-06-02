@@ -12,12 +12,12 @@
     <div class="conteiner">
 
         <h1>Simulação</h1>
-        <select name="simulacao" id="simulacao">
+        <select name="simulacao" id="simulacao" [(ngModel)]="SimulacaoSelectedId" (change)="refreshTable()">
             <option value="---">---</option>
-            <option value="sim" *ngFor="let Conexao of ConexoesSimulacoes">{{Conexao.IdSim}}</option>
+            <option *ngFor="let Simulacao of ConexoesSimulacoesIDs">{{Simulacao}}</option>
         </select>
 
-        <table class="table">
+        <table class="table" *ngIf="state == 1">
             <thead>
                 <th></th>
                 <th *ngFor="let Conexao of ConexoesSimulacao">Operação {{Conexao.IdOp}}</th>

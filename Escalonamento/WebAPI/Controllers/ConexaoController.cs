@@ -75,7 +75,6 @@ namespace Escalonamento.Controllers
                         string UserMail = User.FindFirstValue(ClaimTypes.Email);
                         
                         Utilizador user = context.Utilizador.Where(u => u.IdUser == id_utilizador && u.Estado != "Inativo").FirstOrDefault();
-                        Console.WriteLine(UserMail + "-->" + user.Mail);
 
                         if (user == null) return BadRequest();
 
@@ -86,6 +85,43 @@ namespace Escalonamento.Controllers
                     }
 
                     return new JsonResult(context.Conexao.Where(c => c.IdUser == id_utilizador && c.Estado == true).ToList());
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
+        /// <summary>
+        /// Obter todas os dados de uma simulacao
+        /// </summary>
+        /// <param name="id_utilizador"></param>
+        /// <param name="id_simulacao"></param>
+        /// <returns></returns>
+        [HttpGet("{id_utilizador}/{id_simulacao}"), Authorize(Roles = "Admin, Utilizador")]
+        public IActionResult GetSimulacaoByUser(int id_utilizador, int id_simulacao)
+        {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    if (User.HasClaim(ClaimTypes.Role, "Utilizador"))
+                    {
+                        string UserMail = User.FindFirstValue(ClaimTypes.Email);
+
+                        Utilizador user = context.Utilizador.Where(u => u.IdUser == id_utilizador && u.Estado != "Inativo").FirstOrDefault();
+
+                        if (user == null) return BadRequest();
+
+                        if (UserMail != user.Mail)
+                        {
+                            return Forbid();
+                        }
+                    }
+
+                    return new JsonResult(context.Conexao.Where(c => c.IdUser == id_utilizador && c.Estado == true && c.IdSim == id_simulacao).ToList());
                 }
             }
             catch (Exception e)
