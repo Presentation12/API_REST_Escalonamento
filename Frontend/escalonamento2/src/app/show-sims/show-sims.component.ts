@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-show-sims',
@@ -7,9 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShowSimsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: SharedService) { }
+
+  ConexoesSimulacao: any = [];
+  //buscar todas as conexoes de uma simulacao
+  refreshTable() {
+    this.service.GetSimulacaoByUser().subscribe(data=>{
+      this.ConexoesSimulacao = data;
+    });
+  }
+
+  ConexoesSimulacoes: any = [];
+  //buscar todas as conexoes
+  refreshSimulacoes()
+  {
+    this.service.GetConexoesByUser().subscribe(data=>{
+      this.ConexoesSimulacoes = data;
+    });
+  }
 
   ngOnInit(): void {
+    this.refreshTable();
+    this.refreshSimulacoes();
   }
 
 }

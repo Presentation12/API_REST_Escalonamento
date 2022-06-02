@@ -28,7 +28,7 @@ export class NewSimComponent implements OnInit {
   SubmitConexao()
   {
     this.NovaConexao = {
-      IdUser: `${}`,
+      IdUser: `${111111111111111111111111111111}`,
       IdSim: `${this.IdSim}`,
       IdJob: `${this.IdJob}`,
       IdOp: `${this.IdOp}`,

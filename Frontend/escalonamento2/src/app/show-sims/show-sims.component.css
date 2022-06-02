@@ -1,0 +1,102 @@
+body {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: linear-gradient(to top left, rgb(255, 166, 0) 0%, black 100%);
+    font-family: Poppins-Regular, sans-serif;
+}
+
+input[type="submit"],
+input[type="button"] {
+    width: 110px;
+    height: 30px;
+    cursor: pointer;
+    color: rgb(255, 166, 0);
+    background-color: black;
+    border: 2px solid rgb(255, 166, 0);
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 20px;
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background: rgb(255, 166, 0);
+    color: black;
+}
+
+h1,
+h2,
+p {
+    color: rgb(255, 196, 0);
+}
+
+input[type="number"] {
+
+    width: 200px;
+    height: 30px;
+    margin-top: 10px;
+    padding: 7px;
+    border: 1px solid rgb(255, 166, 0);
+    background-color: black;
+    color: rgb(255, 166, 0);
+    border-radius: 15px;
+
+}
+
+.conteiner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin-top: 90px;
+    margin-bottom: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+input {
+    margin-bottom: 20px;
+}
+
+table {
+    height: max-content;
+    width: 80%;
+    table-layout: fixed;
+    text-align: center;
+    border-radius: 15px;
+    margin-bottom: 60px;
+    background-color: black;
+    color: white;
+    border-collapse: collapse;
+}
+
+select
+{
+    margin-bottom: 20px;
+    margin-top: -15px;
+    border-radius: 15px;
+    background-color: black;
+    color: rgb(255, 166, 0);
+    height: 30px;
+    font-size: 15px;
+}
+
+thead
+{
+    color: rgb(255, 166, 0);
+}
+
+.job
+{
+    color: rgb(255, 166, 0);
+}

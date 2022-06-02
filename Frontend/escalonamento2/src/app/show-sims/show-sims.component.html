@@ -1,1 +1,42 @@
-<p>show-sims works!</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+    <div class="conteiner">
+
+        <h1>Simulação</h1>
+        <select name="simulacao" id="simulacao">
+            <option value="---">---</option>
+            <option value="sim" *ngFor="let Conexao of ConexoesSimulacoes">{{Conexao.IdSim}}</option>
+        </select>
+
+        <table class="table">
+            <thead>
+                <th></th>
+                <th *ngFor="let Conexao of ConexoesSimulacao">Operação {{Conexao.IdOp}}</th>
+            </thead>
+            <tbody class="bodytable">
+                <tr class="lineTable" *ngFor="let Conexao of ConexoesSimulacao">
+                    <td class="job">Job {{Conexao.IdJob}}</td>
+                    <td *ngFor="let MaqDur of ConexoesSimulacao">
+                        <a *ngIf="MaqDur.IdOp == Conexao.IdOp && MaqDur.IdJob == Conexao.IdJob" class="celula">M{{MaqDur.IdMaq}}, {{MaqDur.Duracao}}</a>
+                        <a *ngIf="MaqDur.IdOp == Conexao.IdOp && MaqDur.IdJob != Conexao.IdJob" class="celula">---</a>
+                        <a *ngIf="MaqDur.IdOp != Conexao.IdOp && MaqDur.IdJob == Conexao.IdJob" class="celula">---</a>
+                        <a *ngIf="MaqDur.IdOp != Conexao.IdOp && MaqDur.IdJob != Conexao.IdJob" class="celula">---</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+
+</html>
