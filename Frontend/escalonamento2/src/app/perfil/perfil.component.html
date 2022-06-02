@@ -10,9 +10,9 @@
   <div *ngIf="state == 1" class="conteiner">
     <h1>Opções</h1>
     <input type="button" value="Simular">
-    <input type="button" value="Novo Sim">
-    <input type="button" value="Ver Simulações" routerLink="/newsim">
-    <input type="button" value="Retroceder" (click)="optionsBack()">
+    <input type="button" value="Novo Sim" routerLink="/perfil/newsim">
+    <input type="button" value="Ver Simulações" routerLink="/perfil/showsims">
+    <input type="button" id="retroceder" value="Retroceder" (click)="optionsBack()">
   </div>
   <div *ngIf="state == 0" class="section">
 
