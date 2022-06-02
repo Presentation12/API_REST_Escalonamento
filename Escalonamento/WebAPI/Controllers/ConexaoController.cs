@@ -120,6 +120,42 @@ namespace Escalonamento.Controllers
 
         #endregion
 
+        #region UPDATE
+
+        /// <summary>
+        /// Método que atualiza a informação de uma certa máquina e duracao pertencente a uma conexão
+        /// </summary>
+        /// <param name="id_utilizador"> id do utilizador </param>
+        /// <param name="id_simulacao"> id da simulacao </param>
+        /// <param name="id_job"> id do job </param>
+        /// <param name="id_operacao"> id da operacao </param>
+        /// <param name="con"> conexao que leva a nova duracao e novo id_maq </param>
+        /// <returns> Resultado do método </returns>
+        [HttpPatch("{id_utilizador}/{id_simulacao}/{id_job}/{id_operacao}"), Authorize(Roles = "Admin, Utilizador")]
+        public IActionResult Patch(int id_utilizador, int id_simulacao, int id_job, int id_operacao, [FromBody]Conexao con)
+        {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    Conexao conexao = context.Conexao.Where(c => c.IdUser == id_utilizador && c.IdSim == id_simulacao && c.IdJob == id_job && c.IdOp == id_operacao).FirstOrDefault();
+
+                    conexao.IdMaq = con.IdMaq is null ? conexao.IdMaq : con.IdMaq;
+                    conexao.Duracao = con.Duracao is null ? conexao.Duracao : con.Duracao;
+
+                    context.SaveChanges();
+                    return Ok();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
+        #endregion
+
         #region DELETE
 
         /// Método que remove uma maquina da base de dados
