@@ -12,21 +12,20 @@
 
   <div class="conteiner">
     <h1>Sim Novo</h1>
-    <input type="number" placeholder="Id Simulação" [(ngModel)]="IdSim">
-    <input type="number" placeholder="Id Job" [(ngModel)]="IdJob">
-    <input type="number" placeholder="Id Operação" [(ngModel)]="IdOp">
+    <input type="number" min="1" placeholder="Id Simulação" [(ngModel)]="IdSim">
+    <input type="number" min="1" placeholder="Id Job" [(ngModel)]="IdJob">
+    <input type="number" min="1" placeholder="Id Operação" [(ngModel)]="IdOp">
     <div style="display: flex;align-items: center;gap:50px">
       <p>ID Máquina</p>
       <select name="maquina" id="simulacao" [(ngModel)]="IdMaq">
         <option *ngFor="let maquina of Maquinas">{{maquina.IdMaq}}</option>
       </select>
     </div>
-    <input type="number" placeholder="Duração" [(ngModel)]="Duracao">
+    <input type="number" min="1" placeholder="Duração" [(ngModel)]="Duracao">
     <div>
       <input type="submit" value="Submeter" (click)="SubmitConexao()">
       <input type="submit" value="Cancelar" routerLink="/perfil">
     </div>
-    <input type="submit" value="Retroceder" routerLink="/perfil">
   </div>
 
 </body>

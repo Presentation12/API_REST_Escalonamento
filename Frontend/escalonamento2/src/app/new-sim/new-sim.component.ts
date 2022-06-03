@@ -18,39 +18,38 @@ export class NewSimComponent implements OnInit {
     document.body.append(node);
   }
 
-  User:any={};
-  NovaConexao : any = {};
-  IdSim:any;
-  IdJob:any;
-  IdOp:any;
-  IdMaq:any;
-  IdUser:any;
-  Duracao:any;
-  Maquinas:any=[];
+  User: any = {};
+  NovaConexao: any = {};
+  IdSim: any;
+  IdJob: any;
+  IdOp: any;
+  IdMaq: any;
+  IdUser: any;
+  Duracao: any;
+  Maquinas: any = [];
 
-  refreshUser(){
+  refreshUser() {
     this.service.GetUserByToken().subscribe(data => {
       this.User = data
     })
   }
 
-  clear(){
-    this.IdSim="";
-    this.IdJob="";
-    this.IdOp="";
-    this.IdMaq="";
-    this.IdUser="";
-    this.Duracao="";
+  clear() {
+    this.IdSim = "";
+    this.IdJob = "";
+    this.IdOp = "";
+    this.IdMaq = "";
+    this.IdUser = "";
+    this.Duracao = "";
   }
 
-  getmaquinas(){
+  getmaquinas() {
     this.service.GetMaquina().subscribe(data => {
       this.Maquinas = data;
     })
   }
 
-  SubmitConexao()
-  {
+  SubmitConexao() {
     this.service.GetUserByToken().subscribe(data => {
       this.User = data;
       this.NovaConexao = {
@@ -61,11 +60,18 @@ export class NewSimComponent implements OnInit {
         IdMaq: `${this.IdMaq}`,
         Duracao: `${this.Duracao}`
       }
-      console.log(this.NovaConexao)
-      //this.service.PostConexao(this.NovaConexao).subscribe();
-      alert(`Adicionou uma conexão à simulacao ${this.NovaConexao.IdSim}`)
-      this.clear()
+      if(this.NovaConexao.IdSim > 0 && this.NovaConexao.IdJob > 0 && this.NovaConexao.IdOp > 0 && this.NovaConexao.Duracao > 0)
+      {
+        this.service.PostConexao(this.NovaConexao).subscribe();
+        alert(`Adicionou uma conexão à simulacao ${this.NovaConexao.IdSim}`)
+        this.clear()
+      }
+      else
+      {
+        alert("Você adicionou algum elemento igual ou abaixo de zero");
+      }
     })
+
   }
 
   ngOnInit(): void {
