@@ -26,10 +26,11 @@
                 <tr class="lineTable" *ngFor="let Conexao of ConexoesSimulacao">
                     <td class="job">Job {{Conexao.IdJob}}</td>
                     <td *ngFor="let MaqDur of ConexoesSimulacao">
-                        <a *ngIf="MaqDur.IdOp == Conexao.IdOp && MaqDur.IdJob == Conexao.IdJob" class="celula">M{{MaqDur.IdMaq}}, {{MaqDur.Duracao}}</a>
+                        <a *ngIf="MaqDur.IdOp == Conexao.IdOp && MaqDur.IdJob == Conexao.IdJob && MaqDur.IdMaq != null && MaqDur.Duracao != null" class="celula">M{{MaqDur.IdMaq}}, {{MaqDur.Duracao}}</a>
                         <a *ngIf="MaqDur.IdOp == Conexao.IdOp && MaqDur.IdJob != Conexao.IdJob" class="celula">---</a>
                         <a *ngIf="MaqDur.IdOp != Conexao.IdOp && MaqDur.IdJob == Conexao.IdJob" class="celula">---</a>
                         <a *ngIf="MaqDur.IdOp != Conexao.IdOp && MaqDur.IdJob != Conexao.IdJob" class="celula">---</a>
+                        <a *ngIf="MaqDur.IdOp == Conexao.IdOp && MaqDur.IdJob == Conexao.IdJob && MaqDur.IdMaq == null && MaqDur.Duracao == null" class="celula">M---, ---</a>
                     </td>
                 </tr>
             </tbody>
