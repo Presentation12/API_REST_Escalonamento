@@ -12,10 +12,13 @@
     <div class="conteiner">
 
         <h1>Simulação</h1>
-        <select name="simulacao" id="simulacao" [(ngModel)]="SimulacaoSelectedId" (change)="refreshTable()">
-            <option value="---">---</option>
-            <option *ngFor="let Simulacao of ConexoesSimulacoesIDs">{{Simulacao}}</option>
-        </select>
+        <div class="sim">
+            <select name="simulacao" id="simulacao" [(ngModel)]="SimulacaoSelectedId" (change)="refreshTable()">
+                <option value="---">---</option>
+                <option *ngFor="let Simulacao of ConexoesSimulacoesIDs">{{Simulacao}}</option>
+            </select>
+            <input class="remover" type="submit" value="Remover" (click)="removeSimulation()">
+        </div>
 
         <table class="table" *ngIf="state == 1">
             <thead>
@@ -26,15 +29,46 @@
                 <tr class="lineTable" *ngFor="let Conexao of ConexoesSimulacao">
                     <td class="job">Job {{Conexao.IdJob}}</td>
                     <td *ngFor="let MaqDur of ConexoesSimulacao">
-                        <a *ngIf="MaqDur.IdOp == Conexao.IdOp && MaqDur.IdJob == Conexao.IdJob && MaqDur.IdMaq != null && MaqDur.Duracao != null" class="celula">M{{MaqDur.IdMaq}}, {{MaqDur.Duracao}}</a>
+                        <a *ngIf="MaqDur.IdOp == Conexao.IdOp && MaqDur.IdJob == Conexao.IdJob && MaqDur.IdMaq != null && MaqDur.Duracao != null"
+                            class="celula">M{{MaqDur.IdMaq}}, {{MaqDur.Duracao}}</a>
                         <a *ngIf="MaqDur.IdOp == Conexao.IdOp && MaqDur.IdJob != Conexao.IdJob" class="celula">---</a>
                         <a *ngIf="MaqDur.IdOp != Conexao.IdOp && MaqDur.IdJob == Conexao.IdJob" class="celula">---</a>
                         <a *ngIf="MaqDur.IdOp != Conexao.IdOp && MaqDur.IdJob != Conexao.IdJob" class="celula">---</a>
-                        <a *ngIf="MaqDur.IdOp == Conexao.IdOp && MaqDur.IdJob == Conexao.IdJob && MaqDur.IdMaq == null && MaqDur.Duracao == null" class="celula">M---, ---</a>
+                        <a *ngIf="MaqDur.IdOp == Conexao.IdOp && MaqDur.IdJob == Conexao.IdJob && MaqDur.IdMaq == null && MaqDur.Duracao == null"
+                            class="celula">M---, ---</a>
                     </td>
                 </tr>
             </tbody>
         </table>
+
+        <h2 *ngIf="state == 1">Gestão de máquinas na simulação</h2>
+        <div class="CellUpdate" *ngIf="state == 1">
+            <h3>Selecione a célula</h3>
+            <div class="componente">
+                <p>ID Job</p>
+                <select [(ngModel)]="IdJob">
+                    <option></option>
+                    <option *ngFor="let simulacao of ConexoesSimulacao">{{simulacao.IdJob}}</option>
+                </select>
+            </div>
+            <div class="componente">
+                <p>ID Operação</p>
+                <select [(ngModel)]="IdOp">
+                    <option></option>
+                    <option *ngFor="let simulacao of ConexoesSimulacao">{{simulacao.IdOp}}</option>
+                </select>
+            </div>
+
+            <h3>Novos valores da célula</h3>
+            <div class="componente">
+                <p>ID Máquina</p>
+                <select [(ngModel)]="IdMaq">
+                    <option *ngFor="let maquina of Maquinas">{{maquina.IdMaq}}</option>
+                </select>
+            </div>
+            <input type="number" min="1" placeholder="Duração" [(ngModel)]="Duracao">
+            <input class="submit" type="submit" value="Submeter" (click)="updateCell()">
+        </div>
 
     </div>
 

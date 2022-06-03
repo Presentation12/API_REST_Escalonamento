@@ -177,14 +177,10 @@ namespace Escalonamento.Controllers
         /// <summary>
         /// Método que atualiza a informação de uma certa máquina e duracao pertencente a uma conexão
         /// </summary>
-        /// <param name="id_utilizador"> id do utilizador </param>
-        /// <param name="id_simulacao"> id da simulacao </param>
-        /// <param name="id_job"> id do job </param>
-        /// <param name="id_operacao"> id da operacao </param>
-        /// <param name="con"> conexao que leva a nova duracao e novo id_maq </param>
+        /// <param name="con"> conexao </param>
         /// <returns> Resultado do método </returns>
-        [HttpPatch("{id_utilizador}/{id_simulacao}/{id_job}/{id_operacao}"), Authorize(Roles = "Admin, Utilizador")]
-        public IActionResult Patch(int id_utilizador, int id_simulacao, int id_job, int id_operacao, [FromBody]Conexao con)
+        [HttpPatch, Authorize(Roles = "Admin, Utilizador")]
+        public IActionResult Patch([FromBody]Conexao con)
         {
             try
             {
@@ -194,7 +190,7 @@ namespace Escalonamento.Controllers
                     {
                         string UserMail = User.FindFirstValue(ClaimTypes.Email);
 
-                        Utilizador user = context.Utilizador.Where(u => u.IdUser == id_utilizador && u.Estado != "Inativo").FirstOrDefault();
+                        Utilizador user = context.Utilizador.Where(u => u.IdUser == con.IdUser && u.Estado != "Inativo").FirstOrDefault();
 
                         if (user == null) return BadRequest();
 
@@ -204,7 +200,7 @@ namespace Escalonamento.Controllers
                         }
                     }
 
-                    Conexao conexao = context.Conexao.Where(c => c.IdUser == id_utilizador && c.IdSim == id_simulacao && c.IdJob == id_job && c.IdOp == id_operacao).FirstOrDefault();
+                    Conexao conexao = context.Conexao.Where(c => c.IdUser == con.IdUser && c.IdSim == con.IdSim && c.IdJob == con.IdJob && c.IdOp == con.IdOp).FirstOrDefault();
 
                     conexao.IdMaq = con.IdMaq is null ? conexao.IdMaq : con.IdMaq;
                     conexao.Duracao = con.Duracao is null ? conexao.Duracao : con.Duracao;
@@ -259,7 +255,7 @@ namespace Escalonamento.Controllers
         /// <param name="id_utilizador"> id do utilizador </param>
         /// <param name="id_simulacao"> id do simulacao </param>
         /// <returns> Resultado do metodo </returns>
-        [HttpDelete("admin/{id_utilizador}/{id_simulacao}"), Authorize(Roles = "Admin, Utilizador")]
+        [HttpDelete("deletesim/{id_utilizador}/{id_simulacao}"), Authorize(Roles = "Admin, Utilizador")]
         public IActionResult Delete(int id_utilizador, int  id_simulacao)
         {
             try

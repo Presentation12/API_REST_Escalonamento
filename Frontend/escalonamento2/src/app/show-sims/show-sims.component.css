@@ -38,9 +38,7 @@ p {
 }
 
 input[type="number"] {
-
-    width: 200px;
-    height: 30px;
+    height: 20px;
     margin-top: 10px;
     padding: 7px;
     border: 1px solid rgb(255, 166, 0);
@@ -64,10 +62,6 @@ input[type="number"] {
     flex-direction: column;
 }
 
-input {
-    margin-bottom: 20px;
-}
-
 table {
     height: max-content;
     width: 80%;
@@ -82,8 +76,6 @@ table {
 
 select
 {
-    margin-bottom: 20px;
-    margin-top: -15px;
     border-radius: 15px;
     background-color: black;
     color: rgb(255, 166, 0);
@@ -99,4 +91,50 @@ thead
 .job
 {
     color: rgb(255, 166, 0);
+}
+
+.CellUpdate
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    padding: 10px;
+    width: 500px;
+    border-radius: 15px;
+}
+
+.componente
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h3
+{
+    color: rgb(122, 77, 0);
+}
+
+.sim
+{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: -15px;
+}
+
+.remover:hover
+{
+    background-color: red;
+    color: rgb(255, 166, 0);
+}
+
+.submit
+{
+    margin-top: 20px;
 }
