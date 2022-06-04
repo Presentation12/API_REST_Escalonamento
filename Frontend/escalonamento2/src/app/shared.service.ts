@@ -85,7 +85,7 @@ export class SharedService {
   GetMaquinaByJobOp(conexao:any){
     return this.http.post(this.APIUrl+'/maquina/getmaquinabyjobop', conexao, { headers: this.headersAuth })
   }
-  
+
   AddMaquina(object: any) {
     return this.http.post(this.APIUrl + '/maquina', object, { headers: this.headersAuth });
   }
@@ -179,6 +179,15 @@ export class SharedService {
   DeleteSimulationByUser(idUser:any, idSim:any)
   {
     return this.http.delete(this.APIUrl + '/conexao/deletesim/' + idUser + '/' + idSim, { headers: this.headersAuth });
+  }
+
+  //#endregion
+
+  //#region Plano
+
+  PlanearSim(idUser:any, idSim:any)
+  {
+    return this.http.get(this.APIUrl + '/conexao/deletesim/' + idUser + '/' + idSim, { headers: this.headersAuth });
   }
 
   //#endregion

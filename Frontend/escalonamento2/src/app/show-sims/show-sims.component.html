@@ -45,6 +45,13 @@
             </tbody>
         </table>
 
+        <h2 *ngIf="state == 1">Plano</h2>
+        <div *ngIf="state == 1">
+          <div style="display:flex;flex-direction:column;text-align:center;align-items:center;gap:15px;">
+            <input type="button" value = "Executar" (click)="executaPlano()">
+          </div>
+        </div>
+
         <h2 *ngIf="state == 1">Pesquisa Máquina/Duração</h2>
         <div *ngIf="state == 1">
           <div style="display:flex;flex-direction:column;text-align:center;align-items:center;gap:15px;">

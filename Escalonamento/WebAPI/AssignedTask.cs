@@ -2,75 +2,113 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Escalonamento.Models;
 using Google.OrTools.Sat;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Escalonamento
 {
-    public class ScheduleRequestsSat
+    public class AssignedTask
     {
-        private class AssignedTask : IComparable
+        public int jobID;
+        public int taskID;
+        public int start;
+        public int duration;
+
+        public AssignedTask(int jobID, int taskID, int start, int duration)
         {
-            public int jobID;
-            public int taskID;
-            public int start;
-            public int duration;
+            this.jobID = jobID;
+            this.taskID = taskID;
+            this.start = start;
+            this.duration = duration;
+        }
 
-            public AssignedTask(int jobID, int taskID, int start, int duration)
+        public int CompareTo(object obj)
+        {
+            if (obj == null)
+                return 1;
+
+            AssignedTask otherTask = obj as AssignedTask;
+            if (otherTask != null)
             {
-                this.jobID = jobID;
-                this.taskID = taskID;
-                this.start = start;
-                this.duration = duration;
-            }
-
-            public int CompareTo(object obj)
-            {
-                if (obj == null)
-                    return 1;
-
-                AssignedTask otherTask = obj as AssignedTask;
-                if (otherTask != null)
-                {
-                    if (this.start != otherTask.start)
-                        return this.start.CompareTo(otherTask.start);
-                    else
-                        return this.duration.CompareTo(otherTask.duration);
-                }
+                if (this.start != otherTask.start)
+                    return this.start.CompareTo(otherTask.start);
                 else
-                    throw new ArgumentException("Object is not a Temperature");
+                    return this.duration.CompareTo(otherTask.duration);
             }
+            else
+                throw new ArgumentException("Object is not a Temperature");
+        }
 
-            public struct Row
-            {
-                int machine;
-                int duration;
-            }
+        public struct Row
+        {
+            public int machine;
+            public int duration;
+        }
 
-            public void AlgoritmoEscalonamento(int nJobs, int nOps, List<Row> rows)
+        public static int AlgoritmoEscalonamento(int IdUser, int IdSim)
+        {
+            using (var context = new EscalonamentoContext())
             {
-            //Arranjar forma de guardar parametro corretamente
-            var allJobs =
-                new[] {
-                    new[] {
-                        // job0
-                        new { machine = 0, duration = 3 }, // task0
-                        new { machine = 1, duration = 2 }, // task1
-                        new { machine = 2, duration = 2 }, // task2
+                //Arranjar forma de guardar parametro corretamente
+                var allJobs = new List<List<Row>>();
+                Row op = new Row();
+                List<Row> job_row = new List<Row>();
+                List<Conexao> simulacao = context.Conexao.Where(s => s.IdSim == IdSim && s.IdUser == IdUser).ToList();
+               
+                Console.WriteLine(simulacao[0].IdMaq);
+                
+                for (int i = 0; i < simulacao.Count; i++)
+                {
+                    op.machine = (int)simulacao[i].IdMaq;
+                    op.duration = (int)simulacao[i].Duracao;
+
+                    /*primeiro membro da simulacao*/
+                    if (i == 0) job_row.Add(op);
+
+                    /*ultimo membro da lista*/
+                    else if (i == simulacao.Count - 1)
+                    {
+                        Console.WriteLine("Boas");
+                        /*igual ao anterior*/
+                        if (simulacao[i].IdJob == simulacao[i - 1].IdJob)
+                        {
+                            allJobs.Add(job_row);
+                        }
+                        /*diferente do anterior*/
+                        else
+                        {
+                            allJobs.Add(job_row);
+                            job_row.Clear();
+                            job_row.Add(op);
+                            allJobs.Add(job_row);
+                        }
                     }
-                        .ToList(),
-                    new[] {
-                        // job1
-                        new { machine = 0, duration = 2 }, // task0
-                        new { machine = 2, duration = 1 }, // task1
-                        new { machine = 1, duration = 4 }, // task2
+                    /*IDJob atual == IDJob anterior*/
+                    else if (simulacao[i].IdJob == simulacao[i - 1].IdJob)
+                    {
+                        job_row.Add(op);
                     }
-                        .ToList(),
-                    new[] {
-                        // job2
-                        new { machine = 1, duration = 4 }, // task0
-                        new { machine = 2, duration = 3 }, // task1
-                    }.ToList(),
-                }.ToList();
+                    /*IDJob atual != IDJob anterior*/
+                    else
+                    {
+                        allJobs.Add(job_row);
+                        job_row.Clear();
+                        job_row.Add(op);
+                    }
+                }
+
+                Console.WriteLine("Primeira lista\n");
+                foreach (List<Row> jobs in allJobs)
+                {
+                    foreach (Row operation in jobs)
+                    {
+                        Console.WriteLine("\tOp " + operation.machine + " -> "+ operation.duration + "\n");
+                    }
+                    Console.WriteLine("\n\nOutra lista\n");
+                }
+
+                return 0;
 
                 int numMachines = 0;
                 foreach (var job in allJobs)

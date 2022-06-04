@@ -48,12 +48,20 @@ export class ShowSimsComponent implements OnInit {
       IdJob: `${this.IdJobAux}`,
       IdOp: `${this.IdOpAux}`
     }
-    
+
     this.service.GetMaquinaByJobOp(this.SelectConexao).subscribe(
       data =>
         this.SelectedMachine = data,
       error => alert("Erro: Máquina não encontrada")
     )
+  }
+
+  executaPlano(){
+    this.service.GetUserByToken().subscribe(data => {
+      this.User = data
+
+      
+    })
   }
 
   refreshCliente() {
