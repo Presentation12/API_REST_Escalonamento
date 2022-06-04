@@ -14,10 +14,10 @@ export class ShowSimsComponent implements OnInit {
   User: any = {};
   SimulacaoSelectedId: any;
   state: number = 0;
-  SelectConexao:any={};
-  SelectedMachine:any={
-    IdMaq:"",
-    Duracao:""
+  SelectConexao: any = {};
+  SelectedMachine: any = {
+    IdMaq: "",
+    Duracao: ""
   }
 
   //valores a mandar no update de uma cell + SimulacaoSelectedId + User.IdUser
@@ -37,12 +37,12 @@ export class ShowSimsComponent implements OnInit {
     })
   }
 
-  pesquisaMaquina(){
-    this.service.GetUserByToken().subscribe(data =>{
+  pesquisaMaquina() {
+    this.service.GetUserByToken().subscribe(data => {
       this.User = data
     })
 
-    this.SelectConexao={
+    this.SelectConexao = {
       IdUser: `${this.User.IdUser}`,
       IdSim: `${this.SimulacaoSelectedId}`,
       IdJob: `${this.IdJobAux}`,
@@ -56,11 +56,23 @@ export class ShowSimsComponent implements OnInit {
     )
   }
 
-  executaPlano(){
+  Output: any = {};
+
+  executaPlano() {
     this.service.GetUserByToken().subscribe(data => {
       this.User = data
 
-      
+      this.service.PlanearSim(this.User.IdUser, this.SimulacaoSelectedId).subscribe(data => {
+        this.Output = data;
+        var content = `Duração total: ${this.Output.DuracaoTotal}\n\n${this.Output.output}\n\nConflicts: ${this.Output.conflicts}\nBranches: ${this.Output.branches}\nWall Time: ${this.Output.wallTime}`;
+
+        content = "data:application/txt, " + encodeURIComponent(content);
+        var x = document.createElement("A");
+        x.setAttribute("href", content);
+        x.setAttribute("download", "plano.txt");
+        document.body.appendChild(x);
+        x.click();
+      });
     })
   }
 
@@ -70,11 +82,11 @@ export class ShowSimsComponent implements OnInit {
     })
   }
 
-  download(){
+  download() {
     this.service.GetUserByToken().subscribe(data => {
       this.User = data;
 
-      if (this.SimulacaoSelectedId == "---" || this.SimulacaoSelectedId == undefined ) {
+      if (this.SimulacaoSelectedId == "---" || this.SimulacaoSelectedId == undefined) {
         alert("Selecione uma simulação para fazer download!")
       }
       else {
@@ -107,8 +119,7 @@ export class ShowSimsComponent implements OnInit {
     this.service.GetUserByToken().subscribe(data => {
       this.User = data;
 
-      if (this.SimulacaoSelectedId == "---" || this.SimulacaoSelectedId == undefined)
-      {
+      if (this.SimulacaoSelectedId == "---" || this.SimulacaoSelectedId == undefined) {
         alert("Simulação não selecionada");
       }
       else {

@@ -185,9 +185,10 @@ export class SharedService {
 
   //#region Plano
 
+  // planeamento de uma simulação
   PlanearSim(idUser:any, idSim:any)
   {
-    return this.http.get(this.APIUrl + '/conexao/deletesim/' + idUser + '/' + idSim, { headers: this.headersAuth });
+    return this.http.get(this.APIUrl + '/conexao/planear/' + idUser + '/' + idSim, { headers: this.headersAuth });
   }
 
   //#endregion
