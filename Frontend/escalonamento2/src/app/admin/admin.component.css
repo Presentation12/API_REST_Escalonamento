@@ -71,7 +71,7 @@ select {
 
 input[type="submit"],
 input[type="button"] {
-  width: 110px;
+  width: 120px;
   height: 30px;
   cursor: pointer;
   color: rgb(255, 166, 0);
@@ -213,4 +213,9 @@ h1 {
 
 .conta {
   margin-top: 70px;
+}
+
+a
+{
+  text-decoration: none;
 }

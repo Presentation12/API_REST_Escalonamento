@@ -1,16 +1,16 @@
 body {
     position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
     top: 0;
     bottom: 0;
-    left: 0;
     right: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     background-image: linear-gradient(to top left, rgb(255, 166, 0) 0%, black 100%);
     font-family: Poppins-Regular, sans-serif;
 }
+
 
 input[type="submit"],
 input[type="button"] {
@@ -49,17 +49,11 @@ input[type="number"] {
 }
 
 .conteiner {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    margin-top: 90px;
-    margin-bottom: 90px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    background-image: linear-gradient(to top left, rgb(255, 166, 0) 0%, black 100%);
 }
 
 table {
@@ -103,6 +97,7 @@ thead
     padding: 10px;
     width: 500px;
     border-radius: 15px;
+    margin-bottom: 50px;
 }
 
 .componente

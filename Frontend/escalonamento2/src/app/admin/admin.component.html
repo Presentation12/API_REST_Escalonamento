@@ -9,9 +9,9 @@
 <body>
   <div *ngIf="state == 1" class="conteiner">
     <h1>Opções</h1>
-    <input type="button" value="Simular">
-    <input type="button" value="Novo Sim" routerLink="/newsim">
-    <input type="button" value="Ver Simulações">
+    <input type="button" value="Criar Simulação" routerLink="/newsim">
+    <input type="button" value="Gerir Simulações" routerLink="/showsims">
+    <input type="button" value="Gerir Máquinas" routerLink="">
     <input type="button" value="Retroceder" (click)="optionsBack()">
   </div>
   <div *ngIf="state == 0" class="section">
@@ -22,7 +22,7 @@
             <img src="../../../assets/menu.png" class="menu">
             <div class="dropdown-content">
                 <a (click)="options()">Simulações</a>
-                <a routerLink="/perfil">Gerir Funcionários (TODO)</a>
+                <a routerLink="/funcionarios">Gerir Funcionários</a>
                 <a routerLink="/login" (click)="logout()">Sair</a>
             </div>
         </div>

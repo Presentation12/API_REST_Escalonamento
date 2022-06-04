@@ -37,7 +37,7 @@ export class ShowSimsComponent implements OnInit {
     })
   }
 
-  refresh(): void {
+  refreshPage(): void {
     window.location.reload();
   }
 
@@ -45,9 +45,18 @@ export class ShowSimsComponent implements OnInit {
   removeSimulation() {
     this.service.GetUserByToken().subscribe(data => {
       this.User = data;
-      if (this.SimulacaoSelectedId != "---") {
-        this.service.DeleteSimulationByUser(this.User.IdUser, this.SimulacaoSelectedId).subscribe();
-        this.refresh();
+
+      if (this.SimulacaoSelectedId == "---" || this.SimulacaoSelectedId == undefined) 
+      {
+        alert("Simulação não selecionada");
+      }
+      else {
+        var c = confirm("Você tem a certeza?");
+        if (c == true) {
+          this.service.DeleteSimulationByUser(this.User.IdUser, this.SimulacaoSelectedId).subscribe();
+          alert(`Simulação ${this.SimulacaoSelectedId} removida com sucesso`);
+          this.refreshPage();
+        }
       }
     });
   }
@@ -69,7 +78,7 @@ export class ShowSimsComponent implements OnInit {
 
         this.service.UpdateCellByUser(this.NewCell).subscribe();
         alert("Sucesso");
-        this.refresh();
+        this.refreshPage();
       }
       else {
         alert("Campos vazios!");

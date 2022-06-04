@@ -15,7 +15,7 @@
         <div class="sim">
             <select name="simulacao" id="simulacao" [(ngModel)]="SimulacaoSelectedId" (change)="refreshTable()">
                 <option value="---">---</option>
-                <option *ngFor="let Simulacao of ConexoesSimulacoesIDs">{{Simulacao}}</option>
+                <option *ngFor="let SimulacaoId of ConexoesSimulacoesIDs">{{SimulacaoId}}</option>
             </select>
             <input class="remover" type="submit" value="Remover" (click)="removeSimulation()">
         </div>

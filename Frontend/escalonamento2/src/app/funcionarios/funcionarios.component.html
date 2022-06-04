@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="conteiner">
+        <h1>Funcionários</h1>
+        <table>
+            <thead>
+                <th>Mail</th>
+                <th>Autoridade</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr class="lineTable" *ngFor="let funcionario of Funcionarios">
+                    <td>{{funcionario.Mail}}</td>
+                    <td *ngIf="funcionario.Aut == 1">Administrador</td>
+                    <td *ngIf="funcionario.Aut == 0">Funcionário</td>
+                    <td><input type="submit" value="Desativar" (click)="DesativarFuncionario(funcionario.IdUser)"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

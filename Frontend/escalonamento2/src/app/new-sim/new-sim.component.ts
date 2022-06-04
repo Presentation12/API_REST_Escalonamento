@@ -1,3 +1,4 @@
+import { JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../shared.service';
 
@@ -27,6 +28,13 @@ export class NewSimComponent implements OnInit {
   IdUser: any;
   Duracao: any;
   Maquinas: any = [];
+
+  // para buscar respostas de requests (400, 404, etc)
+  ErrorMessage: any;
+
+  refreshPage(): void {
+    window.location.reload();
+  }
 
   refreshUser() {
     this.service.GetUserByToken().subscribe(data => {
@@ -60,14 +68,19 @@ export class NewSimComponent implements OnInit {
         IdMaq: `${this.IdMaq}`,
         Duracao: `${this.Duracao}`
       }
-      if(this.NovaConexao.IdSim > 0 && this.NovaConexao.IdJob > 0 && this.NovaConexao.IdOp > 0 && this.NovaConexao.Duracao > 0)
-      {
+      if (this.NovaConexao.IdSim > 0 && this.NovaConexao.IdJob > 0 && this.NovaConexao.IdOp > 0 && this.NovaConexao.Duracao > 0) {
         this.service.PostConexao(this.NovaConexao).subscribe();
-        alert(`Adicionou uma conexão à simulacao ${this.NovaConexao.IdSim}`)
-        this.clear()
+
+        //verificar se retorna nao badrequest (ou seja, não conseguiu inserir -> que a conexao ja existe)
+        //if () {
+          alert(`Adicionou uma conexão à simulacao ${this.NovaConexao.IdSim}`);
+          this.refreshPage();
+        //}
+        //else {
+          //alert("Erro: Você inseriu um conexão que já existe");
+        //}
       }
-      else
-      {
+      else {
         alert("Você adicionou algum elemento igual ou abaixo de zero");
       }
     })
