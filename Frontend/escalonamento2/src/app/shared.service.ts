@@ -50,8 +50,6 @@ export class SharedService {
     return this.http.delete(this.APIUrl + '/utilizador/delete/' + idUser, { headers: this.headersAuth });
   }
 
-  //FALTA METODO EM QUE UM ADMIN ELIMINA OUTRO USER
-
   //#endregion
 
   //#region Job
@@ -84,6 +82,10 @@ export class SharedService {
     return this.http.get<any>(this.APIUrl + '/maquina/' + id, { headers: this.headersAuth });
   }
 
+  GetMaquinaByJobOp(conexao:any){
+    return this.http.post(this.APIUrl+'/maquina/getmaquinabyjobop', conexao, { headers: this.headersAuth })
+  }
+  
   AddMaquina(object: any) {
     return this.http.post(this.APIUrl + '/maquina', object, { headers: this.headersAuth });
   }
@@ -154,8 +156,8 @@ export class SharedService {
   //#region Conexao
 
   // post de uma nova conexão
-  PostConexao(conexao: any): Observable<any[]> {
-    return this.http.post<any>(this.APIUrl + '/conexao', conexao, { headers: this.headersAuth });
+  PostConexao(conexao: any){
+    return this.http.post(this.APIUrl + '/conexao', conexao, { headers: this.headersAuth });
   }
 
   //busca todas as conexoes de uma simulaçao para apresentar em formato tabelar
@@ -169,14 +171,14 @@ export class SharedService {
   }
 
   //alterar maquina e duracao de uma determinada operacao de um job de uma simulacao de um user
-  UpdateCellByUser(cell: any): Observable<any[]> {
-    return this.http.patch<any>(this.APIUrl + '/conexao', cell, { headers: this.headersAuth });
+  UpdateCellByUser(cell: any){
+    return this.http.patch(this.APIUrl + '/conexao', cell, { headers: this.headersAuth });
   }
 
   //remover simulação de um user
-  DeleteSimulationByUser(idUser:any, idSim:any): Observable<any[]>
+  DeleteSimulationByUser(idUser:any, idSim:any)
   {
-    return this.http.delete<any>(this.APIUrl + '/conexao/deletesim/' + idUser + '/' + idSim, { headers: this.headersAuth });
+    return this.http.delete(this.APIUrl + '/conexao/deletesim/' + idUser + '/' + idSim, { headers: this.headersAuth });
   }
 
   //#endregion

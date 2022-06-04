@@ -1,6 +1,7 @@
 import { JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-sim',
@@ -10,7 +11,7 @@ import { SharedService } from '../shared.service';
 
 export class NewSimComponent implements OnInit {
 
-  constructor(private service: SharedService) { }
+  constructor(private service: SharedService, private router: Router) { }
 
   public loadScript(url: any) {
     let node = document.createElement("script");
@@ -42,6 +43,19 @@ export class NewSimComponent implements OnInit {
     })
   }
 
+  retroceder(){
+    this.service.GetUserByToken().subscribe(data => {
+        this.User = data
+        if(this.User.Aut == true){
+          this.router.navigateByUrl('/admin');
+        }
+        else{
+          this.router.navigateByUrl('/cliente');
+        }
+      }
+    )
+  }
+
   clear() {
     this.IdSim = "";
     this.IdJob = "";
@@ -59,6 +73,9 @@ export class NewSimComponent implements OnInit {
 
   SubmitConexao() {
     this.service.GetUserByToken().subscribe(data => {
+      if(this.IdMaq == "---" || this.IdMaq == undefined) this.IdMaq = "";
+
+
       this.User = data;
       this.NovaConexao = {
         IdUser: `${this.User.IdUser}`,
@@ -68,23 +85,19 @@ export class NewSimComponent implements OnInit {
         IdMaq: `${this.IdMaq}`,
         Duracao: `${this.Duracao}`
       }
-      if (this.NovaConexao.IdSim > 0 && this.NovaConexao.IdJob > 0 && this.NovaConexao.IdOp > 0 && this.NovaConexao.Duracao > 0) {
-        this.service.PostConexao(this.NovaConexao).subscribe();
 
-        //verificar se retorna nao badrequest (ou seja, não conseguiu inserir -> que a conexao ja existe)
-        //if () {
-          alert(`Adicionou uma conexão à simulacao ${this.NovaConexao.IdSim}`);
-          this.refreshPage();
-        //}
-        //else {
-          //alert("Erro: Você inseriu um conexão que já existe");
-        //}
+      if(this.Duracao == "" || this.Duracao == undefined) this.NovaConexao.Duracao = null;
+
+      if (this.NovaConexao.IdSim > 0 && this.NovaConexao.IdJob > 0 && this.NovaConexao.IdOp > 0 && (this.NovaConexao.Duracao > 0 || this.NovaConexao.Duracao == null)) {
+        this.service.PostConexao(this.NovaConexao).subscribe(
+          data =>  alert(`Adicionou uma conexão à simulacao ${this.NovaConexao.IdSim}`),
+          error => alert("Erro: Você inseriu uma conexão que já existe")
+          );
       }
       else {
-        alert("Você adicionou algum elemento igual ou abaixo de zero");
+        alert("Erro ao adicionar a máquina. Verifique os campos");
       }
     })
-
   }
 
   ngOnInit(): void {

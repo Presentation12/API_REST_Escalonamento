@@ -14,6 +14,11 @@ export class ShowSimsComponent implements OnInit {
   User: any = {};
   SimulacaoSelectedId: any;
   state: number = 0;
+  SelectConexao:any={};
+  SelectedMachine:any={
+    IdMaq:"",
+    Duracao:""
+  }
 
   //valores a mandar no update de uma cell + SimulacaoSelectedId + User.IdUser
   IdJob: any;
@@ -21,7 +26,8 @@ export class ShowSimsComponent implements OnInit {
   IdMaq: any;
   Duracao: any;
   NewCell: any = [];
-
+  IdJobAux: any;
+  IdOpAux: any;
 
   Maquinas: any;
 
@@ -31,9 +37,56 @@ export class ShowSimsComponent implements OnInit {
     })
   }
 
+  pesquisaMaquina(){
+    this.service.GetUserByToken().subscribe(data =>{
+      this.User = data
+    })
+
+    this.SelectConexao={
+      IdUser: `${this.User.IdUser}`,
+      IdSim: `${this.SimulacaoSelectedId}`,
+      IdJob: `${this.IdJobAux}`,
+      IdOp: `${this.IdOpAux}`
+    }
+    
+    this.service.GetMaquinaByJobOp(this.SelectConexao).subscribe(
+      data =>
+        this.SelectedMachine = data,
+      error => alert("Erro: Máquina não encontrada")
+    )
+  }
+
   refreshCliente() {
     this.service.GetUserByToken().subscribe(data => {
       this.User = data;
+    })
+  }
+
+  download(){
+    this.service.GetUserByToken().subscribe(data => {
+      this.User = data;
+
+      if (this.SimulacaoSelectedId == "---" || this.SimulacaoSelectedId == undefined ) {
+        alert("Selecione uma simulação para fazer download!")
+      }
+      else {
+        this.service.GetSimulacaoByUser(this.User.IdUser, this.SimulacaoSelectedId).subscribe(data => {
+          this.ConexoesSimulacao = data;
+        });
+
+        var content = "ID Job;ID Operacao;ID Maquina;Duracao\r";
+
+        for (let i = 0; i < this.ConexoesSimulacao.length; i++) {
+          content += `${this.ConexoesSimulacao[i].IdJob};${this.ConexoesSimulacao[i].IdOp};${this.ConexoesSimulacao[i].IdMaq};${this.ConexoesSimulacao[i].Duracao}\r`;
+        }
+
+        content = "data:application/csv, " + encodeURIComponent(content);
+        var x = document.createElement("A");
+        x.setAttribute("href", content);
+        x.setAttribute("download", "simulacao.csv");
+        document.body.appendChild(x);
+        x.click();
+      }
     })
   }
 
@@ -46,7 +99,7 @@ export class ShowSimsComponent implements OnInit {
     this.service.GetUserByToken().subscribe(data => {
       this.User = data;
 
-      if (this.SimulacaoSelectedId == "---" || this.SimulacaoSelectedId == undefined) 
+      if (this.SimulacaoSelectedId == "---" || this.SimulacaoSelectedId == undefined)
       {
         alert("Simulação não selecionada");
       }

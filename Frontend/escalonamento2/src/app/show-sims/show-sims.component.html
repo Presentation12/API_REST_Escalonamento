@@ -18,8 +18,12 @@
                 <option *ngFor="let SimulacaoId of ConexoesSimulacoesIDs">{{SimulacaoId}}</option>
             </select>
             <input class="remover" type="submit" value="Remover" (click)="removeSimulation()">
+            <input class="remover" type="button" value="Download File" (click)="download()">
         </div>
 
+        <div>
+
+        </div>
         <table class="table" *ngIf="state == 1">
             <thead>
                 <th></th>
@@ -41,7 +45,21 @@
             </tbody>
         </table>
 
-        <h2 *ngIf="state == 1">Gestão de máquinas na simulação</h2>
+        <h2 *ngIf="state == 1">Pesquisa Máquina/Duração</h2>
+        <div *ngIf="state == 1">
+          <div style="display:flex;flex-direction:column;text-align:center;align-items:center;gap:15px;">
+            <div>
+              <a style="color:rgb(196, 165, 26);font-weight:bold">Máquina: {{SelectedMachine.IdMaq}} Duração: {{SelectedMachine.Duracao}}</a>
+            </div>
+            <div>
+              <input type="number" placeholder="ID Job" [(ngModel)]="IdJobAux">
+              <input type="number" placeholder="ID Operação" [(ngModel)]="IdOpAux">
+            </div>
+            <input type="button" value = "Pesquisar" (click)="pesquisaMaquina()">
+          </div>
+        </div>
+
+        <h2 *ngIf="state == 1">Substituir célula na simulação</h2>
         <div class="CellUpdate" *ngIf="state == 1">
             <h3>Selecione a célula</h3>
             <div class="componente">

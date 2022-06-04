@@ -43,19 +43,45 @@ namespace Escalonamento.Controllers
         /// <param name="id_maquina"> ID da maquina </param>
         /// <returns> Máquina </returns>
         [HttpGet("{id_maquina}"), Authorize(Roles = "Admin, Utilizador")]
-        public Maquina Get(int id_maquina)
+        public IActionResult Get(int id_maquina)
         {
             try
             {
                 using (var context = new EscalonamentoContext())
                 {
-                    return context.Maquina.Where(m => m.IdMaq == id_maquina && m.Estado != "Inativo").FirstOrDefault();
+                    return new JsonResult(context.Maquina.Where(m => m.IdMaq == id_maquina && m.Estado != "Inativo").FirstOrDefault());
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return null;
+                return BadRequest();
+            }
+        }
+
+        /// <summary>
+        /// Obter máquina e a duração de uso pelos IDs de um certo Job e Op
+        /// </summary>
+        /// <param name="con"></param>
+        /// <returns></returns>
+        [HttpPost("getmaquinabyjobop"), Authorize(Roles = "Admin, Utilizador")]
+        public IActionResult GetMaquinaByJobOp([FromBody] Conexao con)
+        {
+            try
+            {
+                using (var context = new EscalonamentoContext())
+                {
+                    Conexao con2 = context.Conexao.Where(m => m.IdUser == con.IdUser && m.IdSim == con.IdSim && m.IdJob == con.IdJob && m.IdOp == con.IdOp).FirstOrDefault();
+
+                    if (con2 == null || (con2.IdMaq == null)) return BadRequest();
+
+                    return new JsonResult(con2);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
             }
         }
 
