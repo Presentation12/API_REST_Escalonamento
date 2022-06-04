@@ -162,7 +162,7 @@ namespace Escalonamento.Controllers
             {
                 using (var context = new EscalonamentoContext())
                 {
-                    List<Utilizador> utilizadores = context.Utilizador.ToList();
+                    List<Utilizador> utilizadores = context.Utilizador.Where(u => u.Estado == "Ativo").ToList();
                     HidePassWord(utilizadores);
 
                     return utilizadores;
