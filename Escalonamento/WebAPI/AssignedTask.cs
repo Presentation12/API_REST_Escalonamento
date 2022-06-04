@@ -62,6 +62,7 @@ namespace Escalonamento
 
                 for(int i = 1; i <= lastIDJob.IdJob; i++)
                 {
+                    job_row = new List<Row>();
                     foreach (Conexao con in simulacao)
                     {
                         if (con.IdJob == i)
@@ -74,7 +75,7 @@ namespace Escalonamento
                     }
 
                     allJobs.Add(job_row);
-                    job_row.Clear();
+                    //job_row.Clear();
                 }
 
                 return new JsonResult(allJobs);
