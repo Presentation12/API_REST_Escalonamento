@@ -134,8 +134,7 @@ namespace Escalonamento.Controllers
         [HttpGet("planear/{IdUser}/{IdSim}"), Authorize]
         public IActionResult Planner(int IdUser, int IdSim)
         {
-            int teste = AssignedTask.AlgoritmoEscalonamento(IdUser, IdSim);
-            return Ok();
+            return AssignedTask.AlgoritmoEscalonamento(IdUser, IdSim);
         }
 
         #endregion

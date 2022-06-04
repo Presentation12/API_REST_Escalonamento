@@ -46,69 +46,38 @@ namespace Escalonamento
             public int duration;
         }
 
-        public static int AlgoritmoEscalonamento(int IdUser, int IdSim)
+        public static IActionResult AlgoritmoEscalonamento(int IdUser, int IdSim)
         {
             using (var context = new EscalonamentoContext())
             {
                 //Arranjar forma de guardar parametro corretamente
                 var allJobs = new List<List<Row>>();
+                var allJobs2 = new List<List<Row>>();
                 Row op = new Row();
                 List<Row> job_row = new List<Row>();
+                List<Row> job_row_temp = new List<Row>();
                 List<Conexao> simulacao = context.Conexao.Where(s => s.IdSim == IdSim && s.IdUser == IdUser).ToList();
-               
-                Console.WriteLine(simulacao[0].IdMaq);
-                
-                for (int i = 0; i < simulacao.Count; i++)
+                Conexao lastIDJob = context.Conexao.Where(c => c.IdSim == IdSim && c.IdUser == IdUser)
+                .OrderBy(c => c.IdUser).ThenBy(c=> c.IdSim).ThenBy(c=> c.IdJob).ThenBy(c => c.IdOp).LastOrDefault();
+
+                for(int i = 1; i <= lastIDJob.IdJob; i++)
                 {
-                    op.machine = (int)simulacao[i].IdMaq;
-                    op.duration = (int)simulacao[i].Duracao;
-
-                    /*primeiro membro da simulacao*/
-                    if (i == 0) job_row.Add(op);
-
-                    /*ultimo membro da lista*/
-                    else if (i == simulacao.Count - 1)
+                    foreach (Conexao con in simulacao)
                     {
-                        Console.WriteLine("Boas");
-                        /*igual ao anterior*/
-                        if (simulacao[i].IdJob == simulacao[i - 1].IdJob)
+                        if (con.IdJob == i)
                         {
-                            allJobs.Add(job_row);
-                        }
-                        /*diferente do anterior*/
-                        else
-                        {
-                            allJobs.Add(job_row);
-                            job_row.Clear();
+                            op.machine = (int)con.IdMaq;
+                            op.duration = (int)con.Duracao;
+
                             job_row.Add(op);
-                            allJobs.Add(job_row);
                         }
                     }
-                    /*IDJob atual == IDJob anterior*/
-                    else if (simulacao[i].IdJob == simulacao[i - 1].IdJob)
-                    {
-                        job_row.Add(op);
-                    }
-                    /*IDJob atual != IDJob anterior*/
-                    else
-                    {
-                        allJobs.Add(job_row);
-                        job_row.Clear();
-                        job_row.Add(op);
-                    }
+
+                    allJobs.Add(job_row);
+                    job_row.Clear();
                 }
 
-                Console.WriteLine("Primeira lista\n");
-                foreach (List<Row> jobs in allJobs)
-                {
-                    foreach (Row operation in jobs)
-                    {
-                        Console.WriteLine("\tOp " + operation.machine + " -> "+ operation.duration + "\n");
-                    }
-                    Console.WriteLine("\n\nOutra lista\n");
-                }
-
-                return 0;
+                return new JsonResult(allJobs);
 
                 int numMachines = 0;
                 foreach (var job in allJobs)
