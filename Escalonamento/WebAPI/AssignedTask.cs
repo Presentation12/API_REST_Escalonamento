@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Escalonamento
 {
-    public class AssignedTask
+    public class AssignedTask : IComparable
     {
         public int jobID;
         public int taskID;
@@ -46,19 +46,26 @@ namespace Escalonamento
             public int duration;
         }
 
+        public struct OutputFrontend
+        {
+            public double DuracaoTotal;
+            public string output;
+            public double conflicts;
+            public double branches;
+            public double wallTime;
+        }
+
         public static IActionResult AlgoritmoEscalonamento(int IdUser, int IdSim)
         {
             using (var context = new EscalonamentoContext())
             {
-                //Arranjar forma de guardar parametro corretamente
                 var allJobs = new List<List<Row>>();
-                var allJobs2 = new List<List<Row>>();
                 Row op = new Row();
-                List<Row> job_row = new List<Row>();
-                List<Row> job_row_temp = new List<Row>();
+                List<Row> job_row;
                 List<Conexao> simulacao = context.Conexao.Where(s => s.IdSim == IdSim && s.IdUser == IdUser).ToList();
                 Conexao lastIDJob = context.Conexao.Where(c => c.IdSim == IdSim && c.IdUser == IdUser)
                 .OrderBy(c => c.IdUser).ThenBy(c=> c.IdSim).ThenBy(c=> c.IdJob).ThenBy(c => c.IdOp).LastOrDefault();
+                OutputFrontend outputFrontend = new OutputFrontend();
 
                 for(int i = 1; i <= lastIDJob.IdJob; i++)
                 {
@@ -75,20 +82,17 @@ namespace Escalonamento
                     }
 
                     allJobs.Add(job_row);
-                    //job_row.Clear();
                 }
-
-                return new JsonResult(allJobs);
 
                 int numMachines = 0;
                 foreach (var job in allJobs)
                 {
                     foreach (var task in job)
                     {
-                        numMachines = Math.Max(numMachines, 1 + task.machine);
+                        numMachines = Math.Max(numMachines, task.machine);
                     }
                 }
-                int[] allMachines = Enumerable.Range(0, numMachines).ToArray();
+                int[] allMachines = Enumerable.Range(1, numMachines).ToArray();
 
                 // Computes horizon dynamically as the sum of all durations.
                 int horizon = 0;
@@ -194,7 +198,7 @@ namespace Escalonamento
 
                         foreach (var assignedTask in assignedJobs[machine])
                         {
-                            String name = $"job_{assignedTask.jobID}_task_{assignedTask.taskID}";
+                            String name = $"job_{assignedTask.jobID+1}_task_{assignedTask.taskID}";
                             // Add spaces to output to align columns.
                             solLineTasks += $"{name,-15}";
 
@@ -208,6 +212,9 @@ namespace Escalonamento
                     // Finally print the solution found.
                     Console.WriteLine($"Optimal Schedule Length: {solver.ObjectiveValue}");
                     Console.WriteLine($"\n{output}");
+
+                    outputFrontend.DuracaoTotal = solver.ObjectiveValue;
+                    outputFrontend.output = output;
                 }
                 else
                 {
@@ -218,6 +225,12 @@ namespace Escalonamento
                 Console.WriteLine($"  conflicts: {solver.NumConflicts()}");
                 Console.WriteLine($"  branches : {solver.NumBranches()}");
                 Console.WriteLine($"  wall time: {solver.WallTime()}s");
+
+                outputFrontend.conflicts = solver.NumConflicts();
+                outputFrontend.branches = solver.NumBranches();
+                outputFrontend.wallTime = solver.WallTime();
+
+                return new JsonResult(outputFrontend);
             }
         }
     }
