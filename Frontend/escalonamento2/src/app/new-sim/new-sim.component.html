@@ -18,13 +18,14 @@
     <div style="display: flex;align-items: center;gap:50px">
       <p>ID Máquina</p>
       <select name="maquina" id="simulacao" [(ngModel)]="IdMaq">
+        <option value="---">---</option>
         <option *ngFor="let maquina of Maquinas">{{maquina.IdMaq}}</option>
       </select>
     </div>
     <input type="number" min="1" placeholder="Duração" [(ngModel)]="Duracao">
     <div>
       <input type="submit" value="Submeter" (click)="SubmitConexao()">
-      <input type="submit" value="Cancelar" routerLink="/perfil">
+      <input type="submit" value="Cancelar" (click)="retroceder()">
     </div>
   </div>
 
