@@ -13,6 +13,7 @@ import { NewSimComponent } from './new-sim/new-sim.component';
 import { ShowSimsComponent } from './show-sims/show-sims.component';
 import { AdminComponent } from './admin/admin.component';
 import { FuncionariosComponent } from './funcionarios/funcionarios.component';
+import { MaquinasComponent } from './maquinas/maquinas.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { FuncionariosComponent } from './funcionarios/funcionarios.component';
     NewSimComponent,
     ShowSimsComponent,
     AdminComponent,
-    FuncionariosComponent
+    FuncionariosComponent,
+    MaquinasComponent
   ],
   imports: [
     BrowserModule,

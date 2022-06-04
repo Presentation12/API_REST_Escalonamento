@@ -68,7 +68,7 @@ namespace Escalonamento.Controllers
         /// </summary>
         /// <param name="maq"> Informação da maquina </param>
         /// <returns> Resultado do método </returns>
-        [HttpPost, Authorize(Roles = "Admin, Utilizador")]
+        [HttpPost, Authorize(Roles = "Admin")]
         public IActionResult Post(Maquina maq)
         {
             try

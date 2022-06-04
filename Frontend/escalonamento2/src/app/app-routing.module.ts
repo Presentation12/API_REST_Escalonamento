@@ -7,6 +7,7 @@ import { NewSimComponent } from './new-sim/new-sim.component';
 import { ShowSimsComponent } from './show-sims/show-sims.component';
 import { AdminComponent } from './admin/admin.component';
 import { FuncionariosComponent } from './funcionarios/funcionarios.component';
+import { MaquinasComponent } from './maquinas/maquinas.component';
 
 const routes: Routes = [
   {path: 'login',component:LoginComponent},
@@ -14,7 +15,8 @@ const routes: Routes = [
   {path: 'newsim',component:NewSimComponent},
   {path: 'showsims',component:ShowSimsComponent},
   {path: 'admin',component:AdminComponent},
-  {path: 'funcionarios', component:FuncionariosComponent}
+  {path: 'funcionarios', component:FuncionariosComponent},
+  {path: 'maquinas', component:MaquinasComponent}
 ];
 
 @NgModule({
