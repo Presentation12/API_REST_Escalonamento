@@ -198,7 +198,7 @@ namespace Escalonamento
 
                         foreach (var assignedTask in assignedJobs[machine])
                         {
-                            String name = $"job_{assignedTask.jobID+1}_task_{assignedTask.taskID}";
+                            String name = $"job_{assignedTask.jobID+1}_task_{assignedTask.taskID+1}";
                             // Add spaces to output to align columns.
                             solLineTasks += $"{name,-15}";
 
