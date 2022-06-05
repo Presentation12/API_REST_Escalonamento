@@ -137,17 +137,61 @@ namespace Escalonamento.Controllers
              return AssignedTask.AlgoritmoEscalonamento(IdUser, IdSim);
         }
 
+        public struct status
+        {
+            public int status_value;
+            public string status_text;
+        }
+
         [HttpPost("planearmanual"), Authorize]
         public IActionResult PlannerManual(List<Conexao> sim)
         {
             try
             {
-                foreach(Conexao conexao in sim)
+                int TempoConclusao = 0;
+                status status = new status();
+
+                for (int i = 0; i < sim.Count; i++)
                 {
-                    
+                    if ((sim[i].TempoInicial + sim[i].Duracao) > TempoConclusao)
+                        TempoConclusao = (int)sim[i].TempoInicial + (int)sim[i].Duracao;
+
+                    if (i != 0)
+                    {
+                        if ((sim[i].IdOp == (sim[i - 1].IdOp + 1)) && (sim[i].IdJob == sim[i - 1].IdJob))
+                        {
+                            if (sim[i].TempoInicial < sim[i - 1].TempoInicial + sim[i - 1].Duracao)
+                            {
+                                status.status_value = 0;
+                                status.status_text = "Job " + sim[i].IdJob + " Op " + sim[i].IdOp + " esta a comecar antes da operacao anterior acabar.";
+
+                                return new JsonResult(status);
+                            }
+                        }
+                    }
                 }
 
-                return Ok();
+                foreach(Conexao conexao in sim)
+                {
+                    foreach(Conexao con in sim)
+                    {
+                        if((conexao.IdMaq == con.IdMaq) && !(conexao.IdSim == con.IdSim && conexao.IdJob == con.IdJob && conexao.IdOp == con.IdOp))
+                        {
+                            if(conexao.TempoInicial >= con.TempoInicial && conexao.TempoInicial < con.TempoInicial + con.Duracao)
+                            {
+                                status.status_value = 0;
+                                status.status_text = "Job " + conexao.IdJob + " Op " + conexao.IdOp + " tem uma maquina atribuida que esta ocupada.";
+
+                                return new JsonResult(status);
+                            }
+                        }
+                    }
+                }
+
+                status.status_value = 1;
+                status.status_text = TempoConclusao.ToString();
+
+                return new JsonResult(status);
             }
             catch(Exception e)
             {

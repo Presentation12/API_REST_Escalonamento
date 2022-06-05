@@ -29,6 +29,7 @@ export class ShowSimsComponent implements OnInit {
   NewCell: any = [];
   IdJobAux: any;
   IdOpAux: any;
+  EstadoPlano:any={};
 
   Maquinas: any;
 
@@ -60,25 +61,36 @@ export class ShowSimsComponent implements OnInit {
   Output: any = {};
 
   executaPlano() {
-    this.service.GetUserByToken().subscribe(data => {
-      this.User = data
+    let canExecute = 1
+    for(let i = 0; i < this.ConexoesSimulacao.length; i++){
+      if(this.ConexoesSimulacao[i].IdMaq == null){
+        alert(`Maquina indisponivel: Job ${this.ConexoesSimulacao[i].IdJob} Operation ${this.ConexoesSimulacao[i].IdOp}`)
+        canExecute = 0;
+      }
+    }
 
-      this.service.PlanearSim(this.User.IdUser, this.SimulacaoSelectedId).subscribe(data => {
-        this.Output = data;
-        var content = `Duração total: ${this.Output.DuracaoTotal}\n\n${this.Output.output}\n\nConflicts: ${this.Output.conflicts}\nBranches: ${this.Output.branches}\nWall Time: ${this.Output.wallTime}`;
+    if(canExecute == 1){
+      this.service.GetUserByToken().subscribe(data => {
+        this.User = data
 
-        content = "data:application/txt, " + encodeURIComponent(content);
-        var x = document.createElement("A");
-        x.setAttribute("href", content);
-        x.setAttribute("download", "plano.txt");
-        document.body.appendChild(x);
-        x.click();
-      });
-    })
+        this.service.PlanearSim(this.User.IdUser, this.SimulacaoSelectedId).subscribe(data => {
+          this.Output = data;
+          var content = `Duração total: ${this.Output.DuracaoTotal}\n\n${this.Output.output}\n\nConflicts: ${this.Output.conflicts}\nBranches: ${this.Output.branches}\nWall Time: ${this.Output.wallTime}`;
+
+          content = "data:application/txt, " + encodeURIComponent(content);
+          var x = document.createElement("A");
+          x.setAttribute("href", content);
+          x.setAttribute("download", "plano.txt");
+          document.body.appendChild(x);
+          x.click();
+        });
+      })
+    }
   }
 
   ExecutaPlanoManual(){
     let canExecute = 1;
+    let tempoPlanoTotal ="";
 
     for(let i = 0; i < this.ConexoesSimulacao.length; i++){
       if(this.ConexoesSimulacao[i].TempoInicial == null){
@@ -98,9 +110,50 @@ export class ShowSimsComponent implements OnInit {
     }
 
     if(canExecute == 1) {
-      console.log(this.ConexoesSimulacao)
+      this.service.PlanearSimManual(this.ConexoesSimulacao).subscribe(data => {
+        this.EstadoPlano = data;
 
-      this.service.PlanearSimManual(this.ConexoesSimulacao).subscribe();
+        if(this.EstadoPlano.status_value == 0){
+          alert(this.EstadoPlano.status_text)
+        }
+        else if(this.EstadoPlano.status_value == 1){
+          tempoPlanoTotal = this.EstadoPlano.status_text;
+
+          var content = `Duracao total: ${this.EstadoPlano.status_text}\n\n`;
+          let check;
+          var solLine = "           ";
+          var solLineJob = "               ";
+
+          for(let i = 0; i < this.Maquinas.length; i++){
+            check = 0;
+
+            for(let j = 0; j < this.ConexoesSimulacao.length; j++){
+
+              if(check == 0 && this.ConexoesSimulacao[j].IdMaq == this.Maquinas[i].IdMaq){
+                content += `Machine ${this.ConexoesSimulacao[j].IdJob}: `
+                check = 1;
+              }
+
+              if(this.ConexoesSimulacao[j].IdMaq == this.Maquinas[i].IdMaq)
+                content += `job_${this.ConexoesSimulacao[j].IdJob}_task_${this.ConexoesSimulacao[i].IdOp}`+solLine
+            }
+            content += "\n"+solLineJob
+
+            for(let j = 0; j < this.ConexoesSimulacao.length; j++){
+              if(this.ConexoesSimulacao[j].IdMaq == this.Maquinas[i].IdMaq)
+                content += `[${this.ConexoesSimulacao[j].TempoInicial}, ${this.ConexoesSimulacao[i].TempoInicial+this.ConexoesSimulacao[i].Duracao}]`+solLine
+            }
+            content += "\n"
+          }
+
+          content = "data:application/txt, " + encodeURIComponent(content);
+          var x = document.createElement("A");
+          x.setAttribute("href", content);
+          x.setAttribute("download", "planomanual.txt");
+          document.body.appendChild(x);
+          x.click();
+        }
+      });
     }
   }
 
