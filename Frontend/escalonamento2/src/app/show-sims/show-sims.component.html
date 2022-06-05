@@ -53,7 +53,7 @@
               <a>Id Operacao: {{conexao.IdOp}}</a>
               <a>Id Maquina: {{conexao.IdMaq}}</a>
               <a>Duracao: {{conexao.Duracao}}</a>
-              <input type ="number" placeholder="Instante Inicial" min="0">
+              <input type ="number" placeholder="Instante Inicial" min="0" [(ngModel)]="conexao.TempoInicial">
             </div>
             <input type="button" value = "Executar" (click)="ExecutaPlanoManual()">
           </div>

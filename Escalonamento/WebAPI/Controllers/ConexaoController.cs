@@ -137,6 +137,25 @@ namespace Escalonamento.Controllers
              return AssignedTask.AlgoritmoEscalonamento(IdUser, IdSim);
         }
 
+        [HttpPost("planearmanual"), Authorize]
+        public IActionResult PlannerManual(List<Conexao> sim)
+        {
+            try
+            {
+                foreach(Conexao conexao in sim)
+                {
+                    
+                }
+
+                return Ok();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
         #endregion
 
         #region POST
@@ -162,6 +181,7 @@ namespace Escalonamento.Controllers
                     conexao.IdMaq = con.IdMaq;
                     conexao.Duracao = con.Duracao;
                     conexao.Estado = true;
+                    conexao.TempoInicial = con.TempoInicial;
 
                     context.Conexao.Add(conexao);
                     context.SaveChanges();
@@ -210,6 +230,7 @@ namespace Escalonamento.Controllers
 
                     conexao.IdMaq = con.IdMaq is null ? conexao.IdMaq : con.IdMaq;
                     conexao.Duracao = con.Duracao is null ? conexao.Duracao : con.Duracao;
+                    conexao.TempoInicial = con.TempoInicial is null ? conexao.TempoInicial : con.TempoInicial;
 
                     context.SaveChanges();
                     return Ok();

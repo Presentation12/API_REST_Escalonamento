@@ -77,10 +77,31 @@ export class ShowSimsComponent implements OnInit {
     })
   }
 
-  planoManual:any=[];
-
   ExecutaPlanoManual(){
-    console.log(this.planoManual)
+    let canExecute = 1;
+
+    for(let i = 0; i < this.ConexoesSimulacao.length; i++){
+      if(this.ConexoesSimulacao[i].TempoInicial == null){
+        alert(`Campo por preencher: linha ${i+1}`)
+        canExecute = 0;
+      }
+
+      if(this.ConexoesSimulacao[i].TempoInicial < 0){
+        alert(`Campo Invalido: linha ${i+1}`)
+        canExecute = 0;
+      }
+
+      if(this.ConexoesSimulacao[i].IdMaq == null){
+        alert(`Maquina indisponivel: linha ${i+1}`)
+        canExecute = 0;
+      }
+    }
+
+    if(canExecute == 1) {
+      console.log(this.ConexoesSimulacao)
+
+      this.service.PlanearSimManual(this.ConexoesSimulacao).subscribe();
+    }
   }
 
   refreshCliente() {

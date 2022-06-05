@@ -14,5 +14,6 @@ namespace Escalonamento.Models
         public int? IdMaq { get; set; }
         public int? Duracao { get; set; }
         public bool? Estado { get; set; }
+        public int? TempoInicial { get; set; }
     }
 }

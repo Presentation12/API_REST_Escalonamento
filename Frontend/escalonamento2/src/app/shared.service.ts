@@ -191,5 +191,11 @@ export class SharedService {
     return this.http.get(this.APIUrl + '/conexao/planear/' + idUser + '/' + idSim, { headers: this.headersAuth });
   }
 
+  PlanearSimManual(conexao:any)
+  {
+    return this.http.post(this.APIUrl + '/conexao/planearmanual', conexao, { headers: this.headersAuth });
+  }
+
   //#endregion
 }
+
