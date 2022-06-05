@@ -45,7 +45,21 @@
             </tbody>
         </table>
 
-        <h2 *ngIf="state == 1">Plano</h2>
+        <h2 *ngIf="state == 1">Plano Manual</h2>
+        <div *ngIf="state == 1">
+          <div style="display:flex;flex-direction:column;text-align:center;align-items:center;gap:15px;">
+            <div *ngFor="let conexao of ConexoesSimulacao" style="display:flex;gap:10px; align-items:center">
+              <a>Id Job: {{conexao.IdJob}}</a>
+              <a>Id Operacao: {{conexao.IdOp}}</a>
+              <a>Id Maquina: {{conexao.IdMaq}}</a>
+              <a>Duracao: {{conexao.Duracao}}</a>
+              <input type ="number" placeholder="Instante Inicial" min="0">
+            </div>
+            <input type="button" value = "Executar" (click)="ExecutaPlanoManual()">
+          </div>
+        </div>
+
+        <h2 *ngIf="state == 1">Plano Automatizado</h2>
         <div *ngIf="state == 1">
           <div style="display:flex;flex-direction:column;text-align:center;align-items:center;gap:15px;">
             <input type="button" value = "Executar" (click)="executaPlano()">

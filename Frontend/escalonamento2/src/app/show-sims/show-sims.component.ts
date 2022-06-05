@@ -20,6 +20,7 @@ export class ShowSimsComponent implements OnInit {
     Duracao: ""
   }
 
+
   //valores a mandar no update de uma cell + SimulacaoSelectedId + User.IdUser
   IdJob: any;
   IdOp: any;
@@ -74,6 +75,12 @@ export class ShowSimsComponent implements OnInit {
         x.click();
       });
     })
+  }
+
+  planoManual:any=[];
+
+  ExecutaPlanoManual(){
+    console.log(this.planoManual)
   }
 
   refreshCliente() {

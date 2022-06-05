@@ -32,10 +32,13 @@ input[type="button"]:hover {
 }
 
 h1,
-h2,
-p {
+h2 {
     color: rgb(255, 196, 0);
     margin-top: 100px;
+}
+
+p{
+  color: rgb(255, 196, 0);
 }
 
 input[type="number"] {
